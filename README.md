@@ -37,7 +37,7 @@ Within every section, entries are listed **chronologically (oldest → newest)**
   </tr>
 </table>
 
-This list is jointly curated by the maintainers above. For paper additions, please open an issue or PR; for scope or organizational questions, feel free to tag any maintainer directly.
+For paper additions, please open an issue or PR; for scope or organizational questions, feel free to tag any maintainer directly.
 
 ---
 
