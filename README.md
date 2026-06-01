@@ -1,2 +1,2 @@
-# awesome-xrd
+# awesome-xrd2crystal
 A curated collection of papers on XRD-based crystal structure identification and analysis.
