@@ -72,7 +72,7 @@ Classification models are typically lighter, require no symmetry equivariance, a
 
 ## Contents
 
-- [Maintainers · 维护者](#maintainers--维护者)
+- [Maintainers](#maintainers)
 - [End-to-End PXRD → Crystal Structure (Generative)](#end-to-end-pxrd--crystal-structure-generative)
 - [Phase Identification from XRD](#phase-identification-from-xrd)
 - [Crystal System / Space Group / Lattice Prediction from XRD](#crystal-system--space-group--lattice-prediction-from-xrd)
