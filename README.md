@@ -21,6 +21,13 @@ Within every section, entries are listed **chronologically (oldest → newest)**
       <sub>@Bin-Cao</sub>
     </td>
     <td align="center">
+      <a href="https://github.com/jiaor17">
+        <img src="https://github.com/jiaor17.png?size=120" width="96" alt="Rui Jiao"/><br/>
+        <sub><b>Rui Jiao</b></sub>
+      </a><br/>
+      <sub>@jiaor17</sub>
+    </td>
+    <td align="center">
       <a href="https://github.com/OPilgrim">
         <img src="https://github.com/OPilgrim.png?size=120" width="96" alt="Yunyue Su"/><br/>
         <sub><b>Yunyue Su</b></sub>
