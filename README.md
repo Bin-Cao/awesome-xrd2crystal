@@ -28,6 +28,20 @@ Within every section, entries are listed **chronologically (oldest → newest)**
       <sub>@jiaor17</sub>
     </td>
     <td align="center">
+      <a href="https://github.com/ZhixunLEE">
+        <img src="https://github.com/ZhixunLEE.png?size=120" width="96" alt="Zhixun Lee"/><br/>
+        <sub><b>Zhixun Lee</b></sub>
+      </a><br/>
+      <sub>@ZhixunLEE</sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/yliukj">
+        <img src="https://github.com/yliukj.png?size=120" width="96" alt="Yang Liu"/><br/>
+        <sub><b>Yang Liu</b></sub>
+      </a><br/>
+      <sub>@yliukj</sub>
+    </td>
+    <td align="center">
       <a href="https://github.com/OPilgrim">
         <img src="https://github.com/OPilgrim.png?size=120" width="96" alt="Yunyue Su"/><br/>
         <sub><b>Yunyue Su</b></sub>
