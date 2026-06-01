@@ -18,7 +18,6 @@ Within every section, entries are listed **chronologically (oldest → newest)**
 - [Crystal System / Space Group / Lattice Prediction from XRD](#crystal-system--space-group--lattice-prediction-from-xrd)
 - [Multi-phase Decomposition & Rietveld Refinement](#multi-phase-decomposition--rietveld-refinement)
 - [Autonomous / In-situ XRD Analysis](#autonomous--in-situ-xrd-analysis)
-- [Foundational Crystal Generative Models (no XRD conditioning)](#foundational-crystal-generative-models-no-xrd-conditioning)
 - [Datasets & Benchmarks](#datasets--benchmarks)
 - [Simulation, Refinement, and Utility Tools](#simulation-refinement-and-utility-tools)
 - [Reviews & Surveys](#reviews--surveys)
@@ -72,14 +71,6 @@ Methods that take a PXRD pattern (optionally + composition / lattice) and output
 - **Paper:** <https://pubs.acs.org/doi/10.1021/jacs.4c10244>
 - **Code:** <https://github.com/ML-PXRD/Crystalyze>
 - **TL;DR:** Pretrained XRD encoder feeding CDVAE; ~42% match rate on experimental and ~67% on simulated patterns; solved previously-unsolved Powder Diffraction File entries.
-
-### 2024 · XQueryer — 1.03 B-parameter transformer identifier
-
-- **Title:** XQueryer: An Intelligent Crystal Structure Identifier for Powder X-ray Diffraction
-- **Authors:** Bin Cao et al. — HKUST(GZ) / HKUST
-- **Venue:** preprint (2024)
-- **Code:** <https://github.com/Bin-Cao/XQueryer> · benchmark: <https://github.com/Bin-Cao/XqueryerBench>
-- **TL;DR:** 1.03 B-parameter model designed to be integrated with diffractometers; ships RRUFF↔MP ID matching utility and a high-fidelity PXRD simulator.
 
 ### 2025 · PXRDnet — SE(3)-equivariant score-based diffusion for nanocrystalline PXRD
 
@@ -233,6 +224,15 @@ Methods that, given a PXRD pattern, predict which known phase(s) it corresponds 
 - **Venue:** *Digital Discovery* (2024); DOI 10.1039/D4DD00001C
 - **Paper:** <https://pubs.rsc.org/en/content/articlehtml/2024/dd/d4dd00001c>
 - **TL;DR:** Tree-ensemble classifier trained on simulated PDFs to identify candidate structures for in-situ / operando experiments; complements direct PXRD methods on the PDF side.
+
+### 2025 · XQueryer — 1.03 B-parameter transformer crystal identifier
+
+- **Title:** XQueryer: an intelligent crystal structure identifier for powder X-ray diffraction
+- **Authors:** Bin Cao, Zinan Zheng, Yang Liu, Longhan Zhang, Lawrence W. Y. Wong, Lu-Tao Weng, Jia Li, Haoxiang Li, Tong-Yi Zhang — HKUST(GZ) / HKUST
+- **Venue:** *National Science Review* 12(12), nwaf421 (2025); DOI 10.1093/nsr/nwaf421
+- **Paper:** <https://doi.org/10.1093/nsr/nwaf421>
+- **Code:** <https://github.com/Bin-Cao/XQueryer> · benchmark: <https://github.com/Bin-Cao/XqueryerBench>
+- **TL;DR:** 1.03 B-parameter transformer trained on ~2 M high-fidelity simulated spectra; integrates with a powder diffractometer for real-time identification and ships RRUFF↔MP ID matching utilities and a PXRD simulator.
 
 ---
 
@@ -398,57 +398,6 @@ Methods that, given a PXRD pattern, predict which known phase(s) it corresponds 
 
 ---
 
-## Foundational Crystal Generative Models (no XRD conditioning)
-
-These models do not consume XRD directly but underpin many XRD-conditional methods listed above (CDVAE, DiffCSP, MatterGen, etc.).
-
-### 2022 · CDVAE — Crystal Diffusion Variational Autoencoder
-
-- **Title:** Crystal Diffusion Variational Autoencoder for Periodic Material Generation
-- **Authors:** Tian Xie, Xiang Fu, Octavian-Eugen Ganea, Regina Barzilay, Tommi Jaakkola — MIT
-- **Venue:** *ICLR* 2022; arXiv:2110.06197
-- **Paper:** <https://arxiv.org/abs/2110.06197>
-- **Code:** <https://github.com/txie-93/cdvae>
-- **TL;DR:** Score-based generation of periodic crystal structures over fractional coordinates / lattice / atom types; backbone of Crystalyze and PXRDnet.
-
-### 2023–2024 · DiffCSP / DiffCSP++ — Joint equivariant diffusion for CSP
-
-- **Title:** Crystal Structure Prediction by Joint Equivariant Diffusion (DiffCSP, NeurIPS 2023); Space Group Constraint for Crystal Generation (DiffCSP++, ICLR 2024)
-- **Authors:** Rui Jiao, Wenbing Huang, Peijia Lin, Jiaqi Han, Pin Chen, Yutong Lu, Yang Liu — Tsinghua / Renmin Univ.
-- **Venue:** *NeurIPS* 2023; *ICLR* 2024
-- **Paper:** <https://arxiv.org/abs/2309.04475> · <https://arxiv.org/abs/2402.03992>
-- **Code:** <https://github.com/jiaor17/DiffCSP> · <https://github.com/jiaor17/DiffCSP-PP>
-- **TL;DR:** Joint diffusion over fractional coordinates and lattice; DiffCSP++ adds explicit space-group symmetry constraints. Backbone of PXRDGen.
-
-### 2024 · CrystalFormer — Space-group informed transformer
-
-- **Title:** Space Group Informed Transformer for Crystalline Materials Generation
-- **Authors:** Zhendong Cao, Xiaoshan Luo, Jian Lv; senior: Lei Wang — Institute of Physics, CAS
-- **Venue:** arXiv:2403.15734 (Mar 2024)
-- **Paper:** <https://arxiv.org/abs/2403.15734>
-- **Code:** <https://github.com/deepmodeling/CrystalFormer>
-- **TL;DR:** Autoregressive transformer over (Wyckoff position, species, fractional coordinate, lattice) tokens with an explicit space-group inductive bias.
-
-### 2024 · CrystaLLM — Decoder-only language model on CIF text
-
-- **Title:** Crystal structure generation with autoregressive large language modeling
-- **Authors:** Luis M. Antunes, Keith T. Butler, Ricardo Grau-Crespo — University of Reading / University College London
-- **Venue:** *Nature Communications* 15, 10570 (2024); arXiv:2307.04340
-- **Paper:** <https://www.nature.com/articles/s41467-024-54639-7> · <https://arxiv.org/abs/2307.04340>
-- **Code:** <https://github.com/lantunes/CrystaLLM>
-- **TL;DR:** GPT-style decoder LM trained on millions of CIFs; supports composition / space-group conditioned generation. Direct precursor to deCIFer and CrystaLLM-π.
-
-### 2025 · MatterGen — Foundation diffusion model for inorganic crystals
-
-- **Title:** A generative model for inorganic materials design
-- **Authors:** Claudio Zeni, Robert Pinsler, Daniel Zügner, et al.; seniors: Tian Xie, Ryota Tomioka — Microsoft Research AI for Science
-- **Venue:** *Nature* 639, 624–632 (2025); arXiv:2312.03687
-- **Paper:** <https://www.nature.com/articles/s41586-025-08628-5> · <https://arxiv.org/abs/2312.03687>
-- **Code:** <https://github.com/microsoft/mattergen>
-- **TL;DR:** Diffusion model over coordinates, lattice and atom types with adapters for composition, symmetry and property conditioning; used as a data source for some PXRD-conditioning experiments.
-
----
-
 ## Datasets & Benchmarks
 
 Listed chronologically. *(Reference databases (RRUFF, COD, Materials Project, ICSD, JARVIS-DFT) are grouped at the end for reference.)*
@@ -523,7 +472,7 @@ Listed chronologically. *(Reference databases (RRUFF, COD, Materials Project, IC
 - **TOPAS-Academic** — Macro-language Rietveld engine. <http://www.topas-academic.net/>
 - **diffpy-cmi / PDFfit2** — Pair distribution function modeling. <https://www.diffpy.org/>
 - **xrdpattern** — Python package shipped with opXRD for unified PXRD I/O and curation. <https://github.com/aimat-lab/xrdpattern>
-- **WPEM** — Whole Powder Pattern Modelling toolbox by the CPICANN authors. <https://github.com/Bin-Cao/WPEM>
+- **pysimxrd** — Domain-specific Python simulator behind SimXRD-4M; models peak broadening, lattice perturbation, instrumental and orientation effects. <https://pypi.org/project/pysimxrd/> · source: <https://github.com/Bin-Cao/SimXRD>
 - **AtomGPT / DiffractGPT inference** — <https://github.com/usnistgov/atomgpt>
 
 ---
