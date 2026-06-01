@@ -272,7 +272,7 @@ Methods that, given a PXRD pattern, predict which known phase(s) it corresponds 
 - **Title:** Crystallographic phase identifier of a convolutional self-attention neural network (CPICANN) on powder diffraction patterns
 - **Authors:** Shouyang Zhang, Bin Cao; senior: Tong-Yi Zhang — HKUST(GZ)
 - **Venue:** *IUCrJ* 11, 634 (2024)
-- **Paper:** <https://journals.iucr.org/m/issues/2024/04/00/lt5076/>
+- **Paper:** <https://journals.iucr.org/m/issues/2024/04/00/fc5077/index.html>
 - **Code:** <https://github.com/WPEM/CPICANN>
 - **Data:** <https://huggingface.co/datasets/caobin/datasetCPICANN>
 - **TL;DR:** Self-attention–augmented CNN performing whole-pattern phase identification across four benchmarks of varying background and noise level.
@@ -291,8 +291,8 @@ Methods that, given a PXRD pattern, predict which known phase(s) it corresponds 
 - **Authors:** Bin Cao, Zinan Zheng, Yang Liu, Longhan Zhang, Lawrence W. Y. Wong, Lu-Tao Weng, Jia Li, Haoxiang Li, Tong-Yi Zhang — HKUST(GZ) / HKUST
 - **Venue:** *National Science Review* 12(12), nwaf421 (2025); DOI 10.1093/nsr/nwaf421
 - **Paper:** <https://doi.org/10.1093/nsr/nwaf421>
-- **Code:** <https://github.com/Bin-Cao/XQueryer> · benchmark: <https://github.com/Bin-Cao/XqueryerBench>
-- **TL;DR:** 1.03 B-parameter transformer trained on ~2 M high-fidelity simulated spectra; integrates with a powder diffractometer for real-time identification and ships RRUFF↔MP ID matching utilities and a PXRD simulator.
+- **Code:** <https://github.com/Bin-Cao/XQueryer> · benchmark: <https://github.com/WPEM/XqueryerBench>
+- **TL;DR:** 1.03 B-parameter transformer trained on ~2 M high-fidelity simulated spectra; integrates with a powder diffractometer for real-time identification and ships RRUFF↔MP ID matching utilities and a PXRD simulator · website: <https://xqueryer.caobin.asia/>.
 
 ---
 
