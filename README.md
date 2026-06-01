@@ -334,10 +334,11 @@ Methods that, given a PXRD pattern, predict which known phase(s) it corresponds 
 ### 2018 · Stanev et al. — Unsupervised NMF phase mapping
 
 - **Title:** Unsupervised phase mapping of X-ray diffraction data by nonnegative matrix factorization integrated with custom clustering
-- **Authors:** Valentin Stanev (UMD/NIST), Velimir V. Vesselinov (LANL), A. Gilad Kusne (NIST/UMD), Graham Antoszewski, Ichiro Takeuchi; senior: Boian S. Alexandrov (LANL)
+- **Authors:** Valentin Stanev (UMD / NIST), Velimir V. Vesselinov (LANL), A. Gilad Kusne (NIST / UMD), Graham Antoszewski, Ichiro Takeuchi; senior: Boian S. Alexandrov (LANL)
 - **Venue:** *npj Computational Materials* 4, 43 (2018); arXiv:1802.07307
 - **Paper:** <https://www.nature.com/articles/s41524-018-0099-2> · <https://arxiv.org/abs/1802.07307>
-- **TL;DR:** Extends NMF with custom clustering and cross-correlation to extract end-member phases from large combinatorial XRD datasets without supervision.
+- **Multi-phase strategy:** *Joint matrix factorization across a library of patterns.*
+- **TL;DR:** Stacks N PXRD patterns from a composition library into a non-negative matrix and decomposes it into K shared end-member basis patterns and per-sample mixture weights via NMF, with custom clustering and cross-correlation to stabilize K and resolve peak shifts. Unsupervised and requires no candidate phase list, but assumes the same K end-members are shared across the library.
 
 ### 2021 · Szymanski et al. — Probabilistic multi-phase decomposition (XRD-AutoAnalyzer)
 
@@ -346,7 +347,8 @@ Methods that, given a PXRD pattern, predict which known phase(s) it corresponds 
 - **Venue:** *Chemistry of Materials* 33, 4204–4215 (2021); arXiv:2103.16664
 - **Paper:** <https://pubs.acs.org/doi/10.1021/acs.chemmater.1c01071> · <https://arxiv.org/abs/2103.16664>
 - **Code:** <https://github.com/njszym/XRD-AutoAnalyzer>
-- **TL;DR:** Ensemble CNN with branching tree-search that iteratively identifies and subtracts phases, accommodating up to 4 components per pattern with quantitative weight-fraction estimates.
+- **Multi-phase strategy:** *Sequential identify-and-subtract with branching tree search.*
+- **TL;DR:** Ensemble CNN trained on a fixed reference set scores the most likely single phase, subtracts its simulated contribution from the pattern, and recurses on the residual; branching keeps several hypothesis paths to mitigate error accumulation. Handles up to ~4 phases per pattern with quantitative weight fractions and per-call uncertainty, but is bound to the reference phase set used at training time.
 
 ### 2022 · BraggNN — Fast Bragg-peak localization with deep learning
 
@@ -355,33 +357,37 @@ Methods that, given a PXRD pattern, predict which known phase(s) it corresponds 
 - **Venue:** *IUCrJ* 9, 104–113 (2022)
 - **Paper:** <https://journals.iucr.org/m/issues/2022/01/00/fs5198/>
 - **Code:** <https://github.com/lzhengchun/BraggNN>
-- **TL;DR:** DNN regression replacing pseudo-Voigt peak fitting in high-energy diffraction microscopy; hundreds of times faster than conventional fitting with comparable or better precision.
-
-### 2025 · RAPID — Rietveld Analysis Pipeline with Intelligent Deep Learning
-
-- **Title:** Automation of Rietveld refinement through machine learning
-- **Authors:** S. J. Mun et al.; collab. Oxford / Diamond / industry
-- **Venue:** *Journal of Applied Crystallography* 59 (2026); preprint via IUCrJ 2025
-- **Paper:** <https://pmc.ncbi.nlm.nih.gov/articles/PMC13060465/>
-- **Code:** <https://github.com/DataForgeSci/RAPID>
-- **TL;DR:** CNN trained on GSAS-II-simulated patterns to initialize and drive Rietveld refinement; validated on CeO₂, Tb₂BaCoO₅ and PbSO₄, with reliability factors comparable to manual refinement.
+- **Multi-phase strategy:** *Per-peak regression (building block, not full decomposition).*
+- **TL;DR:** Regression DNN that replaces pseudo-Voigt peak fitting at the level of individual Bragg spots in high-energy diffraction microscopy (HEDM). Orders of magnitude faster than conventional per-peak fitting with comparable precision; used as a front-end localizer feeding downstream phase / grain analysis rather than a pattern-level multi-phase decomposer.
 
 ### 2025 · Spotlight — Automated global optimization for Rietveld
 
 - **Title:** Spotlight: efficient automated global optimization in Rietveld analysis of diffraction data
-- **Authors:** Chad M. Biwer, Z. Feng, D. Finstad, et al. — LANL
+- **Authors:** C. M. Biwer, Z. Feng, D. Finstad, M. McDonnell, M. Knezevic, M. McKerns, D. J. Savage, S. C. Vogel — LANL (X Computational Physics / Materials Science & Tech.), with UNH, Syracuse, ORNL and the UQ Foundation
 - **Venue:** *Scientific Reports* 15, 8358 (2025)
 - **Paper:** <https://www.nature.com/articles/s41598-025-92452-4>
-- **TL;DR:** Python package on top of MAUD / GSAS-II that performs efficient global optimization across temperature / composition series, where simple phase-DB matching fails.
+- **Multi-phase strategy:** *Known candidate phase set; parallel global optimization across a parametric series.*
+- **TL;DR:** Python wrapper over MAUD / GSAS / GSAS-II that drives Rietveld refinement of multi-phase samples through an ensemble of optimizers running in parallel on HPC, with an iteratively learned surrogate of the refinement response surface. Targets parametric series (temperature, composition, in-situ time) where simple sequential refinement or DB-matching diverges as phase transformations occur; demonstrated on U–Mo, Ti–6Al–4V, Al₂O₃ and PbSO₄.
+
+### 2026 · RAPID — Rietveld Analysis Pipeline with Intelligent Deep Learning
+
+- **Title:** Automation of Rietveld refinement through machine learning
+- **Authors:** Suk Jin Mun (IBS-CINAP / Sungkyunkwan University), Yoonsoo Nam (Rudolf Peierls Centre for Theoretical Physics, University of Oxford); senior: Sungkyun Choi (IBS-CINAP / SKKU / IBS-CVQS)
+- **Venue:** *Journal of Applied Crystallography* 59, 564–577 (2026); accepted Feb 2026
+- **Paper:** <https://journals.iucr.org/j/issues/2026/02/00/yt5169/> · open-access mirror: <https://pmc.ncbi.nlm.nih.gov/articles/PMC13060465/>
+- **Code:** <https://github.com/DataForgeSci/RAPID>
+- **Multi-phase strategy:** *Single-phase only; included as Rietveld-automation baseline.*
+- **TL;DR:** Assumes the crystalline phase is already known and trains one CNN per compound on FullProf-simulated patterns to predict structural and profile parameters (lattice, B_iso, scale, U/V/W, zero shift) in a single forward pass. Validated on CeO₂, Tb₂BaCoO₅, PbSO₄ and monoclinic BaLu₆(Ge₂O₇)₂(Ge₃O₁₀) with R-factors matching manual refinement; the authors note that extension to multi-phase mixtures remains future work.
 
 ### 2026 · XDecomposer — Prior-free set decomposition for multiphase XRD
 
 - **Title:** XDecomposer: Learning Prior-Free Set Decomposition for Multiphase X-ray Diffraction
-- **Authors:** Hanyu Gao, Bin Cao, Yunyue Su, Tong-Yi Zhang, Qiang Liu — HKUST(GZ) / HKUST
+- **Authors:** Hanyu Gao (NLPR, Institute of Automation, CAS (CASIA) / University of Chinese Academy of Sciences), Bin Cao (HKUST(GZ) / Green Dynamics) — co-first; Yunyue Su (CASIA); senior: Tong-Yi Zhang (HKUST(GZ)), Qiang Liu (CASIA)
 - **Venue:** arXiv:2605.05866 (May 2026)
 - **Paper:** <https://arxiv.org/abs/2605.05866>
 - **Code:** <https://github.com/Licht0812/XDecomposer>
-- **TL;DR:** Frames multiphase PXRD analysis as a set-prediction / blind-source-separation problem; a single forward pass jointly recovers an unordered set of component patterns, their mixture proportions, and structural representations — without requiring a candidate phase list or known phase count.
+- **Multi-phase strategy:** *Permutation-invariant set prediction (one-shot blind source separation).*
+- **TL;DR:** Reformulates multiphase PXRD analysis as one-dimensional blind source separation (BSS): a pretrained global bottleneck encodes peak structure, then a fixed-size set of K_max output slots jointly predicts component patterns + mixture proportions in a single forward pass, trained with permutation-invariant separation loss, slot-activity supervision and mixture-consistency regularization. Avoids the error accumulation of sequential identify-and-subtract and does not require a candidate phase list, structural templates, or the number of phases.
 
 ---
 
