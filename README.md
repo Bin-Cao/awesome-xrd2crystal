@@ -1,4 +1,4 @@
-# Awesome XRD → Crystal [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
+# Awesome XRD → Crystal [![Awesome](https://awesome.re/badge.svg)](https://awesome.re) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 > A curated, chronologically organized collection of papers, code, and datasets on **(powder) X-ray diffraction (XRD/PXRD) → crystal structure** — identification, symmetry classification, ab-initio structure determination, generative modeling, multi-phase decomposition, refinement, and related machine-learning topics.
 
@@ -7,7 +7,22 @@ The PXRD → structure problem is an ill-posed inverse problem: many candidate s
 Within every section, entries are listed **chronologically (oldest → newest)** in a standardized format.
 
 > 📢 **Contributions, corrections, and translations are warmly welcomed — 欢迎补充、纠正与翻译！**
-> If a paper is missing, a link is broken, or an author/affiliation is wrong, please [open an issue](https://github.com/Bin-Cao/awesome-xrd2crystal/issues/new) or send a PR. See [Contributing](#contributing). All contributors are credited in the [Contributors](#contributors) section at the bottom.
+> If a paper is missing, a link is broken, or an author/affiliation is wrong, please [open an issue](https://github.com/Bin-Cao/awesome-xrd2crystal/issues/new) or send a PR. See [CONTRIBUTING.md](CONTRIBUTING.md). All contributors are credited in the [Contributors](#contributors) section at the bottom.
+
+---
+
+## Classification vs. Generation — quick guide
+
+Two complementary problem formulations recur throughout this list. Pick the section that matches your task:
+
+| Task | Input | Output | Sections |
+|---|---|---|---|
+| **Phase / structure identification** (classification, retrieval) | PXRD pattern | Index of a known phase, crystal system, or space group | [Phase Identification](#phase-identification-from-xrd) · [Crystal System / Space Group / Lattice](#crystal-system--space-group--lattice-prediction-from-xrd) |
+| **Multi-phase decomposition** | Mixed PXRD pattern | Per-phase weight fractions and component patterns | [Multi-phase Decomposition & Rietveld](#multi-phase-decomposition--rietveld-refinement) |
+| **Ab-initio structure generation** | PXRD pattern (± composition / cell) | Full 3D crystal (atom species + fractional coordinates + lattice / CIF) | [End-to-End PXRD → Crystal Structure (Generative)](#end-to-end-pxrd--crystal-structure-generative) |
+| **Autonomous / in-situ analysis** | Live PXRD stream from beamline / lab | Phase calls, next-measurement policy, synthesis decisions | [Autonomous / In-situ XRD](#autonomous--in-situ-xrd-analysis) |
+
+Classification models are typically lighter, require no symmetry equivariance, and degrade gracefully on out-of-distribution patterns; generative models target atomic-resolution structure but rely on stronger physical priors and are still constrained by training-set coverage.
 
 ---
 
@@ -124,7 +139,7 @@ Methods that take a PXRD pattern (optionally + composition / lattice) and output
 - **Venue:** preprint / open-source release (2025)
 - **Code:** <https://github.com/C-Bone-UCL/CrystaLLM-2.0> · weights: `CrystaLLM-pi_COD-XRD`, `CrystaLLM-pi_Mattergen-XRD` on Hugging Face
 - **Base model:** <https://arxiv.org/abs/2307.04340> · <https://github.com/lantunes/CrystaLLM>
-- **TL;DR:** Adds bandgap, density, photovoltaic efficiency and PXRD conditioning streams to the CrystaLLM CIF autoregressive language model.
+- **TL;DR:** Adds bandgap, density, photovoltaic efficiency and PXRD conditioning streams to the CrystaLLM CIF autoregressive language model. The base model is **CrystaLLM** (Antunes et al., *Nat. Commun.* 15, 10570, 2024) — a GPT-style decoder-only language model trained on millions of CIF files that emits crystal structures as CIF text token by token.
 
 ### 2026 · XRDSol — Equivariant diffusion solver for inorganic PXRD
 
@@ -307,6 +322,7 @@ Methods that, given a PXRD pattern, predict which known phase(s) it corresponds 
 ### 2026 · AlphaDiffract — 1D ConvNeXt for lattice & symmetry determination
 
 - **Title:** AlphaDiffract: Automated Crystallographic Analysis of Powder X-ray Diffraction Data
+- **Authors:** Nina Andrejevic, Ming Du, Hemant Sharma, James P. Horwath, Aileen Luo, Xiangyu Yin, Michael Prince, Brian H. Toby, Mathew J. Cherukara — Argonne National Laboratory
 - **Venue:** arXiv:2603.23367 (Mar 2026)
 - **Paper:** <https://arxiv.org/abs/2603.23367>
 - **TL;DR:** 1D ConvNeXt backbone on 8192-bin PXRD vectors jointly predicts crystal system, space group, and lattice parameters; trained on GSAS-II-simulated patterns from NIST/ICSD structures; intended as a preprocessing stage for automated Rietveld.
@@ -357,6 +373,15 @@ Methods that, given a PXRD pattern, predict which known phase(s) it corresponds 
 - **Venue:** *Scientific Reports* 15, 8358 (2025)
 - **Paper:** <https://www.nature.com/articles/s41598-025-92452-4>
 - **TL;DR:** Python package on top of MAUD / GSAS-II that performs efficient global optimization across temperature / composition series, where simple phase-DB matching fails.
+
+### 2026 · XDecomposer — Prior-free set decomposition for multiphase XRD
+
+- **Title:** XDecomposer: Learning Prior-Free Set Decomposition for Multiphase X-ray Diffraction
+- **Authors:** Hanyu Gao, Bin Cao, Yunyue Su, Tong-Yi Zhang, Qiang Liu — HKUST(GZ) / HKUST
+- **Venue:** arXiv:2605.05866 (May 2026)
+- **Paper:** <https://arxiv.org/abs/2605.05866>
+- **Code:** <https://github.com/Licht0812/XDecomposer>
+- **TL;DR:** Frames multiphase PXRD analysis as a set-prediction / blind-source-separation problem; a single forward pass jointly recovers an unordered set of component patterns, their mixture proportions, and structural representations — without requiring a candidate phase list or known phase count.
 
 ---
 
@@ -453,6 +478,15 @@ Listed chronologically. *(Reference databases (RRUFF, COD, Materials Project, IC
 - **Portal:** <https://xrd.aimat.science/> · <https://zenodo.org/records/15298026>
 - **TL;DR:** ~92 k labeled + unlabeled experimental PXRD patterns aggregated from multiple high-throughput labs, covering many materials classes.
 
+### 2025 · CrystDB / HKUST-CrystDB — Curated crystal databases for XRD / CSP / CPP
+
+- **Title:** CrystDB / HKUST-CrystDB (Hugging Face datasets)
+- **Maintainer:** Bin Cao — HKUST(GZ); companion data to SimXRD-4M and XQueryer.
+- **Data:**
+  - CrystDB — all thermodynamically stable structures from Materials Project (MP-2024.1, up to Jan 2024): <https://huggingface.co/datasets/caobin/CrystDB>
+  - HKUST-CrystDB — 718,725 entries aggregated for generative CSP: <https://huggingface.co/datasets/caobin/HKUST-CrystDB>
+- **TL;DR:** Two ASE-readable crystal databases targeted at XRD-based identification, crystal-property prediction (CPP), and crystal-structure prediction (CSP); each row exposes atomic species, fractional coordinates, lattice, and space group.
+
 ### Reference structure databases (used by virtually every entry above)
 
 - **Materials Project / MP-20 / MP-PXRD** — <https://next-gen.materialsproject.org/> · MP-20: <https://github.com/txie-93/cdvae/tree/main/data/mp_20> · MP-20-PXRD: <https://github.com/gabeguo/cdvae_xrd>
@@ -467,22 +501,31 @@ Listed chronologically. *(Reference databases (RRUFF, COD, Materials Project, IC
 ## Simulation, Refinement, and Utility Tools
 
 - **pymatgen XRDCalculator** — Python simulation of PXRD from CIF. <https://pymatgen.org/pymatgen.analysis.diffraction.html>
-- **GSAS-II** — Open-source Rietveld refinement (used by PXRDGen, RAPID, AlphaDiffract, etc.). <https://subversion.xray.aps.anl.gov/trac/pyGSAS>
+- **GSAS-II** — Open-source Rietveld refinement and structure determination (used by PXRDGen, RAPID, AlphaDiffract, etc.). Home: <https://advancedphotonsource.github.io/GSAS-II-tutorials/> · source: <https://github.com/AdvancedPhotonSource/GSAS-II> · docs: <https://gsas-ii.readthedocs.io/>
 - **FullProf** — Classical Rietveld suite. <https://www.ill.eu/sites/fullprof/>
 - **TOPAS-Academic** — Macro-language Rietveld engine. <http://www.topas-academic.net/>
 - **diffpy-cmi / PDFfit2** — Pair distribution function modeling. <https://www.diffpy.org/>
 - **xrdpattern** — Python package shipped with opXRD for unified PXRD I/O and curation. <https://github.com/aimat-lab/xrdpattern>
 - **pysimxrd** — Domain-specific Python simulator behind SimXRD-4M; models peak broadening, lattice perturbation, instrumental and orientation effects. <https://pypi.org/project/pysimxrd/> · source: <https://github.com/Bin-Cao/SimXRD>
+- **PyWPEM / PyXplore** — Whole Powder-pattern Expectation-Maximization (WPEM) toolkit by Bin Cao et al. for physics-constrained decomposition, quantitative analysis, and AI-assisted Rietveld-style refinement; supports XRD, XPS and EXAFS. PyPI: <https://pypi.org/project/PyXplore/> · source: <https://github.com/Bin-Cao/PyWPEM> · preprint: <https://arxiv.org/abs/2602.16372>
 - **AtomGPT / DiffractGPT inference** — <https://github.com/usnistgov/atomgpt>
 
 ---
 
 ## Reviews & Surveys
 
-- **End-to-End Crystal Structure Prediction from Powder X-Ray Diffraction** — Chinese-language review on themoonlight.io that motivated this repo. <https://www.themoonlight.io/zh/review/end-to-end-crystal-structure-prediction-from-powder-x-ray-diffraction>
-- **Machine learning assisted crystal structure prediction made simple** — *J. Mater. Inf.* (2024). <https://www.oaepublish.com/articles/jmi.2024.18>
-- **A Comprehensive Review of Machine-Learning Approaches for Crystal Structure/Property Prediction** — *Crystals* 15, 925 (2025). <https://www.mdpi.com/2073-4352/15/11/925>
+Reviews directly focused on PXRD-driven analysis and structure determination:
+
+- **X-ray Diffraction Data Analysis by Machine Learning Methods — A Review** — Surakhi et al., *Applied Sciences* 13, 9992 (2023). <https://www.mdpi.com/2076-3417/13/17/9992>
 - **Identifying crystal structures beyond known prototypes from X-ray powder diffraction spectra** — *Phys. Rev. Materials* 8, 103801 (2024). <https://journals.aps.org/prmaterials/abstract/10.1103/PhysRevMaterials.8.103801>
+- **Machine Learning in X-ray Scattering for Materials Discovery and Characterization** — ChemRxiv preprint (Dec 2024). <https://chemrxiv.org/engage/chemrxiv/article-details/67624f34fa469535b9f25aea>
+- **End-to-End Crystal Structure Prediction from Powder X-Ray Diffraction** — Chinese-language review on themoonlight.io that motivated this repo. <https://www.themoonlight.io/zh/review/end-to-end-crystal-structure-prediction-from-powder-x-ray-diffraction>
+
+Broader crystal-CSP / generative reviews (context for the methods above):
+
+- **Machine learning assisted crystal structure prediction made simple** — *J. Mater. Inf.* (2024). <https://www.oaepublish.com/articles/jmi.2024.18>
+- **Generative AI for crystal structures: a review** — *npj Computational Materials* (2025). <https://www.nature.com/articles/s41524-025-01881-2>
+- **A Comprehensive Review of Machine-Learning Approaches for Crystal Structure/Property Prediction** — *Crystals* 15, 925 (2025). <https://www.mdpi.com/2073-4352/15/11/925>
 
 ---
 
@@ -498,33 +541,13 @@ Listed chronologically. *(Reference databases (RRUFF, COD, Materials Project, IC
 
 **Additions, corrections, and translations are warmly welcomed — 欢迎补充、纠正与翻译！**
 
-This list is a community effort. If you notice a missing paper, a wrong link, an incorrect affiliation, an out-of-date venue, or a duplicate entry, please help us fix it. There are three easy ways to contribute:
+There are three easy ways to contribute:
 
-- **Open an issue** — paste the paper title / arXiv id / GitHub link and (if possible) the section it belongs in. We will add it for you.
-- **Open a Pull Request** — directly edit `README.md` following the entry format below.
+- **[Open an issue](https://github.com/Bin-Cao/awesome-xrd2crystal/issues/new)** — paste the paper title, arXiv id or GitHub link and (if possible) the section it belongs in.
+- **Open a Pull Request** — edit `README.md` following the format described in [CONTRIBUTING.md](CONTRIBUTING.md).
 - **Email the maintainer** — for bulk additions (e.g. a whole research direction we missed).
 
-### Guidelines
-
-- Entries within each section are ordered **chronologically** (oldest → newest) by the first public release (arXiv preprint date if available, otherwise journal publication date).
-- One entry per method/paper. If a follow-up paper substantially extends the method, add it as a separate dated entry rather than rewriting the old one.
-- Prefer **open-access** paper links (arXiv, Nature OA, journal HTML) over paywalled DOIs when both exist; include both when useful.
-- For pre-prints, please double-check the arXiv id and author list before submitting.
-- This list aims to be **neutral and descriptive**. Please avoid "first to do X" claims in TL;DRs — describe what the method does, not where it ranks historically.
-
-### Standard entry format
-
-```
-### <Year> · <ShortName> — <one-sentence tagline>
-
-- **Title:** <full paper title>
-- **Authors:** <first author>, …; senior: <senior author> — <primary affiliation(s)>
-- **Venue:** <journal / conference> (<year>); arXiv:<id>
-- **Paper:** <https://...>
-- **Code:** <https://...>
-- **Data:** <https://...>     (omit if none)
-- **TL;DR:** <1–3 sentences, factual and neutral>
-```
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full entry-format template, chronology rules, and link conventions.
 
 ---
 
