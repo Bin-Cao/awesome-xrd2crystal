@@ -9,6 +9,36 @@ Within every section, entries are listed **chronologically (oldest → newest)**
 > 📢 **Contributions, corrections, and translations are warmly welcomed — 欢迎补充、纠正与翻译！**
 > If a paper is missing, a link is broken, or an author/affiliation is wrong, please [open an issue](https://github.com/Bin-Cao/awesome-xrd2crystal/issues/new) or send a PR. See [CONTRIBUTING.md](CONTRIBUTING.md). All contributors are credited in the [Contributors](#contributors) section at the bottom.
 
+## Maintainers 
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/Bin-Cao">
+        <img src="https://github.com/Bin-Cao.png?size=120" width="96" alt="Bin Cao"/><br/>
+        <sub><b>Bin Cao</b></sub>
+      </a><br/>
+      <sub>@Bin-Cao</sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/OPilgrim">
+        <img src="https://github.com/OPilgrim.png?size=120" width="96" alt="Yunyue Su"/><br/>
+        <sub><b>Yunyue Su</b></sub>
+      </a><br/>
+      <sub>@OPilgrim</sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/komusama0930">
+        <img src="https://github.com/komusama0930.png?size=120" width="96" alt="Shuchen Pu"/><br/>
+        <sub><b>Shuchen Pu</b></sub>
+      </a><br/>
+      <sub>@komusama0930</sub>
+    </td>
+  </tr>
+</table>
+
+This list is jointly curated by the maintainers above. For paper additions, please open an issue or PR; for scope or organizational questions, feel free to tag any maintainer directly.
+
 ---
 
 ## Classification vs. Generation — quick guide
@@ -28,6 +58,7 @@ Classification models are typically lighter, require no symmetry equivariance, a
 
 ## Contents
 
+- [Maintainers · 维护者](#maintainers--维护者)
 - [End-to-End PXRD → Crystal Structure (Generative)](#end-to-end-pxrd--crystal-structure-generative)
 - [Phase Identification from XRD](#phase-identification-from-xrd)
 - [Crystal System / Space Group / Lattice Prediction from XRD](#crystal-system--space-group--lattice-prediction-from-xrd)
