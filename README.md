@@ -1,10 +1,13 @@
 # Awesome XRD → Crystal [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 
-> A curated collection of papers, code, and datasets on **(powder) X-ray diffraction (XRD/PXRD) → crystal structure** identification, prediction, generation, refinement, and related machine-learning topics.
+> A curated, chronologically organized collection of papers, code, and datasets on **(powder) X-ray diffraction (XRD/PXRD) → crystal structure** — identification, symmetry classification, ab-initio structure determination, generative modeling, multi-phase decomposition, refinement, and related machine-learning topics.
 
-The PXRD → structure problem is an ill-posed inverse problem: many candidate structures can produce similar 1D patterns, and experimental profiles contain instrumental broadening, finite-size effects, texture/preferred orientation, background, impurity phases, and peak overlap. Recent deep-learning work tackles the problem from multiple angles — direct PXRD-to-CIF generation, diffusion/flow-based coordinate sampling, language-model generation of CIF text, lattice/symmetry classification, retrieval/search-match, and multi-phase decomposition.
+The PXRD → structure problem is an ill-posed inverse problem: many candidate structures can produce similar 1D patterns, and experimental profiles contain instrumental broadening, finite-size effects, texture/preferred orientation, background, impurity phases, and peak overlap. Work in this space spans (1) phase identification and search-match, (2) symmetry / lattice / space-group prediction, (3) multi-phase decomposition and Rietveld automation, (4) autonomous/in-situ analysis, and (5) end-to-end generative ab-initio structure solution.
 
-Contributions are welcome — see [Contributing](#contributing).
+Within every section, entries are listed **chronologically (oldest → newest)** in a standardized format.
+
+> 📢 **Contributions, corrections, and translations are warmly welcomed — 欢迎补充、纠正与翻译！**
+> If a paper is missing, a link is broken, or an author/affiliation is wrong, please [open an issue](https://github.com/Bin-Cao/awesome-xrd2crystal/issues/new) or send a PR. See [Contributing](#contributing). All contributors are credited in the [Contributors](#contributors) section at the bottom.
 
 ---
 
@@ -13,7 +16,6 @@ Contributions are welcome — see [Contributing](#contributing).
 - [End-to-End PXRD → Crystal Structure (Generative)](#end-to-end-pxrd--crystal-structure-generative)
 - [Phase Identification from XRD](#phase-identification-from-xrd)
 - [Crystal System / Space Group / Lattice Prediction from XRD](#crystal-system--space-group--lattice-prediction-from-xrd)
-- [Retrieval / Search-Match](#retrieval--search-match)
 - [Multi-phase Decomposition & Rietveld Refinement](#multi-phase-decomposition--rietveld-refinement)
 - [Autonomous / In-situ XRD Analysis](#autonomous--in-situ-xrd-analysis)
 - [Foundational Crystal Generative Models (no XRD conditioning)](#foundational-crystal-generative-models-no-xrd-conditioning)
@@ -22,299 +24,377 @@ Contributions are welcome — see [Contributing](#contributing).
 - [Reviews & Surveys](#reviews--surveys)
 - [Related Curated Lists](#related-curated-lists)
 - [Contributing](#contributing)
+- [Contributors](#contributors)
+
+### Standard entry format
+
+```
+### YYYY · ShortName — One-sentence tagline
+- **Title:** <full paper title>
+- **Authors:** <first author> (<affiliation>), ..., <senior author> (<affiliation>)
+- **Venue:** <journal vol, pp (year)>; arXiv:<id>
+- **Paper:** <https://...>
+- **Code:** <https://...>     (omit if none)
+- **Data:** <https://...>     (omit if none)
+- **TL;DR:** <1–3 sentences>
+```
 
 ---
 
 ## End-to-End PXRD → Crystal Structure (Generative)
 
-Methods that take a PXRD pattern (optionally + composition / lattice) and output a full 3D crystal structure (atomic positions + lattice, typically as CIF).
+Methods that take a PXRD pattern (optionally + composition / lattice) and output a full 3D crystal structure (atomic positions + lattice, typically as CIF or coordinates).
 
-### XtalNet — Contrastive PXRD-Crystal Pretraining + Conditional Diffusion (2024)
-
-- **Title:** End-to-End Crystal Structure Prediction from Powder X-Ray Diffraction
-- **First author / affiliation:** Qingsi Lai — DP Technology, Beijing (collab. Peking Univ., Xiamen Univ., AI for Science Institute)
-- **Venue:** *Advanced Science* (2025); arXiv:2401.03862
-- **Paper:** <https://arxiv.org/abs/2401.03862> · <https://onlinelibrary.wiley.com/doi/10.1002/advs.202410722>
-- **Code:** <https://github.com/dptech-corp/XtalNet>
-- **Data / artifact:** <https://zenodo.org/records/13629658>
-- **Highlights:** First end-to-end equivariant generative model for PXRD → MOF-scale structures (≤400 atoms/cell). Top-10 match rate 90.2% on hMOF-100, 79% on hMOF-400.
-
-### PXRDnet — SE(3)-Equivariant Score-Based Diffusion (2025)
-
-- **Title:** Ab initio structure solutions from nanocrystalline powder diffraction data via diffusion models
-- **First author / affiliation:** Gabe Guo — Columbia University (collab. Stanford, Hod Lipson lab)
-- **Venue:** *Nature Materials* 24, 1726–1734 (2025); arXiv:2406.10796
-- **Paper:** <https://www.nature.com/articles/s41563-025-02220-y> · <https://arxiv.org/abs/2406.10796>
-- **Code:** <https://github.com/gabeguo/cdvae_xrd>
-- **Highlights:** Score-based generative model conditioned on finite-size-broadened PXRD + formula; works on simulated nanocrystals as small as 10 Å and real experimental patterns across all seven crystal systems; median RMSD ≤0.11 Å on MP-20-PXRD.
-
-### Crystalyze — XRD CNN + CDVAE (2024)
-
-- **Title:** Crystal Structure Determination from Powder Diffraction Patterns with Generative Machine Learning
-- **First author / affiliation:** Eric A. Riesel — MIT (Freedman group); co-led with Tsach Mackey (Yale); senior authors Danna E. Freedman (MIT), Jure Leskovec (Stanford)
-- **Venue:** *Journal of the American Chemical Society* 146, 30340–30348 (2024)
-- **Paper:** <https://pubs.acs.org/doi/10.1021/jacs.4c10244>
-- **Code:** <https://github.com/ML-PXRD/Crystalyze>
-- **Highlights:** Couples XRD representation learning with CDVAE; reported ~42% match rate on experimental and ~67% on simulated patterns; solved previously-unsolved Powder Diffraction File entries.
-
-
-### PXRDGen — Pretrained XRD Encoder + Diffusion/Flow + Auto-Rietveld (2025)
-
-- **Title:** Powder diffraction crystal structure determination using generative models
-- **First authors / affiliation:** Qi Li (Institute of Physics, CAS), Rui Jiao (Tsinghua); senior authors Wenbing Huang (Renmin Univ.), Shifeng Jin (IoP CAS)
-- **Venue:** *Nature Communications* 16, 7428 (2025); arXiv:2409.04727
-- **Paper:** <https://www.nature.com/articles/s41467-025-62708-8> · <https://arxiv.org/abs/2409.04727>
-- **Code / artifact:** <https://codeocean.com/capsule/2196660/> (DOI: 10.24433/CO.6347299.v1)
-- **Highlights:** XRD encoder pretrained by contrastive learning + diffusion/flow-based generator + integrated Rietveld refinement; 82% valid compounds from a single sample on MP-20, 96% within 20 samples.
-
-### deCIFer — Autoregressive Transformer over CIF tokens (2025)
-
-- **Title:** deCIFer: Crystal Structure Prediction from Powder Diffraction Data using Autoregressive Language Models
-- **First author / affiliation:** Frederik Lizak Johansen — University of Copenhagen (Dept. of Computer Science)
-- **Venue:** OpenReview / TMLR 2025; arXiv:2502.02189
-- **Paper:** <https://arxiv.org/abs/2502.02189> · <https://openreview.net/forum?id=LftFQ35l47>
-- **Code:** <https://github.com/FrederikLizakJohansen/deCIFer>
-- **Highlights:** Transformer that directly generates CIF text conditioned on PXRD embeddings; ~94% structure match in author setting; trained on NOMA1 / CHILI-100K-derived data.
-
-### DiffractGPT / AtomGPT — Generative Pretrained Transformer for XRD → Structure (2025)
-
-- **Title:** DiffractGPT: Atomic Structure Determination from X-ray Diffraction Patterns Using a Generative Pretrained Transformer
-- **Author / affiliation:** Kamal Choudhary — NIST, Material Measurement Laboratory (also Johns Hopkins)
-- **Venue:** *Journal of Physical Chemistry Letters* (2025); arXiv:2508.08349
-- **Paper:** <https://pubs.acs.org/doi/10.1021/acs.jpclett.4c03137> · <https://arxiv.org/abs/2508.08349>
-- **Code:** <https://github.com/usnistgov/atomgpt> · <https://github.com/usnistgov/diffractgpt>
-- **Highlights:** Mistral-style LLM fine-tuned on JARVIS-DFT simulated PXRD to emit CIF-like crystal descriptions; lattice MAE ~0.17–0.27 Å for a/b/c (DGPT-formula).
-
-### Uni-3DAR — Unified 3D Autoregressive Generation (2025)
-
-- **Title:** Uni-3DAR: Unified 3D Generation and Understanding via Autoregression on Compressed Spatial Tokens
-- **First author / affiliation:** Shuqi Lu — DP Technology (collab. Peking Univ., AI for Science Institute)
-- **Venue:** arXiv:2503.16278 (2025)
-- **Paper:** <https://arxiv.org/abs/2503.16278> · <https://uni-3dar.github.io/>
-- **Code:** <https://github.com/dptech-corp/Uni-3DAR> · <https://huggingface.co/dptech/Uni-3DAR>
-- **Highlights:** Octree-based hierarchical tokenization + autoregressive 3D modeling; PXRD-conditioned CSP on MP-20: 75.08% match rate, RMSE 0.0276.
-
-### XRDSol — Equivariant GNN Diffusion Solver (2026)
-
-- **Title:** Equivariant diffusion solution for inorganic crystal structure determination from powder X-ray diffraction data
-- **Affiliation:** ai4mat group (Zhejiang Univ. & collaborators)
-- **Venue:** *Nature Communications* (in press, 2026)
-- **Paper:** <https://www.nature.com/articles/s41467-026-70035-9>
-- **Code / data:** <https://github.com/ai4mat-zhu/XRDSol>
-- **Highlights:** Conditions on stoichiometry + unit cell + PXRD; ~82.3% success on MP-20, 81.6% on ICDD-20 experimental benchmark; ~0.6 s per solution on one GPU.
-
-### RealPXRD-Solver — Generative Model for Experimental PXRD with Augmentation (2026)
-
-- **Title:** Experimental Powder X-ray Diffraction Crystal Structure Determination with RealPXRD-Solver
-- **First author / affiliation:** Qi Li — Institute of Physics, CAS (with DP Technology, Tsinghua, Renmin Univ., SJTU, AISI)
-- **Venue:** arXiv:2603.00965 (Mar 2026)
-- **Paper:** <https://arxiv.org/abs/2603.00965>
-- **Code:** <https://github.com/liqi-529/RealPXRD-Solver>
-- **Highlights:** Universal encoder of d-spacing–intensity fingerprints trained on 6,250,238 theoretical structures with experiment-mimicking augmentations; supports lattice-conditioned and lattice-free inference. 98.3% Top-20 on 10k-structure theoretical benchmark; 77.9% / 91.9% Top-1/Top-20 on CNRS, 78.8% / 92.9% on RRUFF; solved 39 previously-unreported PDF entries.
-
-### CrystalNet — Coordinate-Based VAE for Electron Density (2024)
+### 2024 · CrystalNet — Coordinate-based VAE for electron density from PXRD
 
 - **Title:** Towards end-to-end structure determination from X-ray diffraction data using deep learning
-- **First author / affiliation:** Gabe Guo — Columbia University (Hod Lipson lab)
+- **Authors:** Gabe Guo, Judah Goldfeder, Ling Lan, et al.; senior: Hod Lipson (Columbia University)
 - **Venue:** *npj Computational Materials* 10, 209 (2024); arXiv:2312.15136
 - **Paper:** <https://www.nature.com/articles/s41524-024-01401-8> · <https://arxiv.org/abs/2312.15136>
 - **Code:** <https://github.com/gabeguo/deep-crystallography-public>
-- **Highlights:** Conditional implicit neural representation (Cartesian-mapped electron density) from PXRD + composition; up to 93.4% SSIM on cubic test cases, 74.1% average on trigonal.
+- **TL;DR:** Conditional implicit neural representation predicts a Cartesian-mapped electron-density field from PXRD + composition; up to 93.4% SSIM on cubic test cases, 74.1% average on trigonal.
 
-### Hybrid Ab-initio PXRD Solver (2026)
+### 2024 · XtalNet — Contrastive PXRD-crystal pretraining + conditional equivariant diffusion
 
-- **Title:** Ab-initio Crystal Structure Determination from Powder X-Ray Diffraction
-- **First author / affiliation:** Kaixiang Su — UNC Charlotte (with Osman Goni Ridwan, Hongfei Xue; senior: Qiang Zhu)
-- **Venue:** arXiv:2605.24594 (May 2026)
-- **Paper:** <https://arxiv.org/abs/2605.24594>
-- **Highlights:** Hierarchical hybrid framework: (1) discrete selection of space group / unit cell / Wyckoff site combinations, (2) continuous optimization of atomic coordinates. Combines AI-based peak profile analysis, density estimation and energy minimization with physics-informed constraints to overcome limits of purely data-driven solvers.
+- **Title:** End-to-End Crystal Structure Prediction from Powder X-Ray Diffraction
+- **Authors:** Qingsi Lai, Fanjie Xu, Lin Yao, Zhifeng Gao, et al.; senior: Guolin Ke (DP Technology, Beijing) — collab. Peking Univ., Xiamen Univ., AI for Science Institute
+- **Venue:** *Advanced Science* (2025); arXiv:2401.03862 (Jan 2024)
+- **Paper:** <https://arxiv.org/abs/2401.03862> · <https://onlinelibrary.wiley.com/doi/10.1002/advs.202410722>
+- **Code:** <https://github.com/dptech-corp/XtalNet>
+- **Data:** <https://zenodo.org/records/13629658>
+- **TL;DR:** Two-module pipeline — Contrastive PXRD-Crystal Pretraining (CPCP) + Conditional Crystal Structure Generation (CCSG) — that scales PXRD-conditioned CSP up to MOFs with 400 atoms/cell (90.2%/79% Top-10 match on hMOF-100/400).
 
-### XQueryer — 1.03B-Parameter Transformer Identifier (2024)
+### 2024 · Crystalyze — XRD encoder + CDVAE diffusion
+
+- **Title:** Crystal Structure Determination from Powder Diffraction Patterns with Generative Machine Learning
+- **Authors:** Eric A. Riesel (MIT), Tsach Mackey (Yale), et al.; seniors: Danna E. Freedman (MIT), Jure Leskovec (Stanford)
+- **Venue:** *J. Am. Chem. Soc.* 146, 30340–30348 (2024)
+- **Paper:** <https://pubs.acs.org/doi/10.1021/jacs.4c10244>
+- **Code:** <https://github.com/ML-PXRD/Crystalyze>
+- **TL;DR:** Pretrained XRD encoder feeding CDVAE; ~42% match rate on experimental and ~67% on simulated patterns; solved previously-unsolved Powder Diffraction File entries.
+
+### 2024 · XQueryer — 1.03 B-parameter transformer identifier
 
 - **Title:** XQueryer: An Intelligent Crystal Structure Identifier for Powder X-ray Diffraction
-- **First author / affiliation:** Bin Cao — HKUST(GZ) / HKUST
-- **Code:** <https://github.com/Bin-Cao/XQueryer>
-- **Highlights:** 1.03B-parameter model integrated with diffractometers; provides high-fidelity simulation, an RRUFF↔MP ID matching utility, and an associated benchmarking repo (XqueryerBench).
+- **Authors:** Bin Cao et al. — HKUST(GZ) / HKUST
+- **Venue:** preprint (2024)
+- **Code:** <https://github.com/Bin-Cao/XQueryer> · benchmark: <https://github.com/Bin-Cao/XqueryerBench>
+- **TL;DR:** 1.03 B-parameter model designed to be integrated with diffractometers; ships RRUFF↔MP ID matching utility and a high-fidelity PXRD simulator.
 
-### CrystaLLM-π — XRD-Conditioned CIF Language Model (2025)
+### 2025 · PXRDnet — SE(3)-equivariant score-based diffusion for nanocrystalline PXRD
+
+- **Title:** Ab initio structure solutions from nanocrystalline powder diffraction data via diffusion models
+- **Authors:** Gabe Guo (Columbia), Tristan Saidi (Columbia), Maxwell Terban (MPI Solid State Research), Michele Liu (Columbia), Hamed Salimian (Columbia), Simon J. L. Billinge (Columbia/BNL); senior: Hod Lipson (Columbia)
+- **Venue:** *Nature Materials* 24, 1726–1734 (2025); arXiv:2406.10796
+- **Paper:** <https://www.nature.com/articles/s41563-025-02220-y> · <https://arxiv.org/abs/2406.10796>
+- **Code:** <https://github.com/gabeguo/cdvae_xrd>
+- **TL;DR:** Score-based diffusion conditioned on finite-size-broadened PXRD + formula; works on simulated nanocrystals as small as 10 Å and on real experimental patterns spanning all seven crystal systems; median RMSD ≤ 0.11 Å on MP-20-PXRD.
+
+### 2025 · PXRDGen — Contrastive XRD encoder + flow/diffusion + automated Rietveld
+
+- **Title:** Powder diffraction crystal structure determination using generative models
+- **Authors:** Qi Li (IoP, CAS), Rui Jiao (Tsinghua), Liang Wu, Tao Zhu, et al.; seniors: Wenbing Huang (Renmin Univ.), Shifeng Jin (IoP, CAS)
+- **Venue:** *Nature Communications* 16, 7428 (2025); arXiv:2409.04727
+- **Paper:** <https://www.nature.com/articles/s41467-025-62708-8> · <https://arxiv.org/abs/2409.04727>
+- **Code:** <https://codeocean.com/capsule/2196660/> (DOI: 10.24433/CO.6347299.v1)
+- **TL;DR:** Contrastive-pretrained XRD encoder + DiffCSP-style diffusion/flow generator + integrated Rietveld refinement; 82% valid compounds from a single sample on MP-20, 96% within 20.
+
+### 2025 · deCIFer — Autoregressive transformer over CIF tokens conditioned on PXRD
+
+- **Title:** deCIFer: Crystal Structure Prediction from Powder Diffraction Data using Autoregressive Language Models
+- **Authors:** Frederik Lizak Johansen, Ulrik Friis-Jensen, Erik Bjørnager Dam, Kirsten M. Ø. Jensen, Rocío Mercado, Raghavendra Selvan — University of Copenhagen (DIKU & Department of Chemistry)
+- **Venue:** TMLR / OpenReview 2025; arXiv:2502.02189
+- **Paper:** <https://arxiv.org/abs/2502.02189> · <https://openreview.net/forum?id=LftFQ35l47>
+- **Code:** <https://github.com/FrederikLizakJohansen/deCIFer>
+- **TL;DR:** Decoder-only transformer that emits CIF text token-by-token conditioned on PXRD embeddings; ~94% structure match in the author setting on NOMA1/CHILI-100K-derived data.
+
+### 2025 · DiffractGPT / AtomGPT — Generative pretrained transformer for XRD → structure
+
+- **Title:** DiffractGPT: Atomic Structure Determination from X-ray Diffraction Patterns Using a Generative Pretrained Transformer
+- **Authors:** Kamal Choudhary — NIST, Material Measurement Laboratory (also Johns Hopkins University)
+- **Venue:** *J. Phys. Chem. Lett.* (2025); arXiv:2508.08349
+- **Paper:** <https://pubs.acs.org/doi/10.1021/acs.jpclett.4c03137> · <https://arxiv.org/abs/2508.08349>
+- **Code:** <https://github.com/usnistgov/atomgpt> · <https://github.com/usnistgov/diffractgpt>
+- **TL;DR:** Mistral-style LLM fine-tuned on JARVIS-DFT simulated PXRD to emit CIF-like crystal descriptions; lattice MAE ~0.17–0.27 Å for a/b/c (DGPT-formula).
+
+### 2025 · Uni-3DAR — Unified 3D autoregressive generation on compressed spatial tokens
+
+- **Title:** Uni-3DAR: Unified 3D Generation and Understanding via Autoregression on Compressed Spatial Tokens
+- **Authors:** Shuqi Lu, Haowei Lin, Lin Yao, Zhifeng Gao, Xiaohong Ji, Weinan E, Linfeng Zhang, Guolin Ke — DP Technology / Peking Univ. / AISI
+- **Venue:** arXiv:2503.16278 (Mar 2025)
+- **Paper:** <https://arxiv.org/abs/2503.16278> · project: <https://uni-3dar.github.io/>
+- **Code:** <https://github.com/dptech-corp/Uni-3DAR> · weights: <https://huggingface.co/dptech/Uni-3DAR>
+- **TL;DR:** Octree-based hierarchical tokenization + autoregressive 3D modeling; on PXRD-conditioned CSP MP-20 reaches 75.08% match rate, RMSE 0.0276.
+
+### 2025 · CrystaLLM-π — Property- and PXRD-conditioned CIF language model
 
 - **Title:** CrystaLLM-π: Property- and PXRD-Conditioned Generation of Crystal Structures with a CIF Language Model
-- **First author / affiliation:** UCL (C-Bone-UCL group); builds on CrystaLLM (Antunes et al., Univ. of Reading)
-- **Code:** <https://github.com/C-Bone-UCL/CrystaLLM-2.0>
-- **Original CrystaLLM:** <https://arxiv.org/abs/2307.04340> · <https://github.com/lantunes/CrystaLLM>
-- **Highlights:** Extends the autoregressive CIF language model CrystaLLM with conditioning on bandgap, density, photovoltaic efficiency, and XRD patterns (`CrystaLLM-pi_COD-XRD`, `CrystaLLM-pi_Mattergen-XRD` checkpoints on Hugging Face).
+- **Authors:** C-Bone-UCL group (University College London); builds on CrystaLLM (Antunes et al., Univ. of Reading)
+- **Venue:** preprint / open-source release (2025)
+- **Code:** <https://github.com/C-Bone-UCL/CrystaLLM-2.0> · weights: `CrystaLLM-pi_COD-XRD`, `CrystaLLM-pi_Mattergen-XRD` on Hugging Face
+- **Base model:** <https://arxiv.org/abs/2307.04340> · <https://github.com/lantunes/CrystaLLM>
+- **TL;DR:** Adds bandgap, density, photovoltaic efficiency and PXRD conditioning streams to the CrystaLLM CIF autoregressive language model.
 
+### 2026 · XRDSol — Equivariant diffusion solver for inorganic PXRD
+
+- **Title:** Equivariant diffusion solution for inorganic crystal structure determination from powder X-ray diffraction data
+- **Authors:** Dongfang Yu, Zhewen Zhu (Zhejiang Univ. / Westlake Univ.), Fucheng Leng (Univ. College Cork); senior: Yizhou Zhu (Westlake Univ.)
+- **Venue:** *Nature Communications* 17, 3274 (2026)
+- **Paper:** <https://www.nature.com/articles/s41467-026-70035-9>
+- **Code:** <https://github.com/ai4mat-zhu/XRDSol>
+- **TL;DR:** EGNN-based denoising diffusion conditioned on stoichiometry + unit cell + PXRD; ~82.3% success on MP-20, 81.6% on ICDD-20 experimental benchmark; ~0.6 s per solution on one GPU.
+
+### 2026 · RealPXRD-Solver — Flow-matching solver with experimental augmentation
+
+- **Title:** Experimental Powder X-ray Diffraction Crystal Structure Determination with RealPXRD-Solver
+- **Authors:** Qi Li et al. — Institute of Physics, CAS (with DP Technology, Tsinghua, Renmin Univ., SJTU, AISI)
+- **Venue:** arXiv:2603.00965 (Mar 2026)
+- **Paper:** <https://arxiv.org/abs/2603.00965>
+- **Code:** <https://github.com/liqi-529/RealPXRD-Solver>
+- **TL;DR:** Universal encoder of d-spacing–intensity fingerprints trained on 6,250,238 theoretical structures with experiment-mimicking augmentations; lattice-conditioned and lattice-free modes; 77.9%/91.9% Top-1/Top-20 on CNRS, 78.8%/92.9% on RRUFF; solved 39 previously-unreported PDF entries.
+
+### 2026 · Hybrid Ab-initio PXRD Solver — Discrete search + continuous optimization
+
+- **Title:** Ab-initio Crystal Structure Determination from Powder X-Ray Diffraction
+- **Authors:** Kaixiang Su, Osman Goni Ridwan, Hongfei Xue; senior: Qiang Zhu — UNC Charlotte
+- **Venue:** arXiv:2605.24594 (May 2026)
+- **Paper:** <https://arxiv.org/abs/2605.24594>
+- **TL;DR:** Hierarchical pipeline: (1) discrete search over space group / unit cell / Wyckoff combinations, (2) continuous coordinate optimization with AI-based peak profile analysis, density estimation, and physics-informed energy constraints.
 
 ---
 
 ## Phase Identification from XRD
 
-Methods that, given a PXRD pattern, predict which known phase(s) it corresponds to (classification / multi-label / search).
+Methods that, given a PXRD pattern, predict which known phase(s) it corresponds to (classification / multi-label / one-to-one ID).
 
-### CNN Phase ID in Multiphase Inorganic Compounds (Lee et al., 2020)
+### 2017 · Iwasaki et al. — Dissimilarity measures for clustering combinatorial XRD
+
+- **Title:** Comparison of dissimilarity measures for cluster analysis of X-ray diffraction data from combinatorial libraries
+- **Authors:** Yuma Iwasaki (NIMS), A. Gilad Kusne (NIST/UMD), Ichiro Takeuchi (UMD)
+- **Venue:** *npj Computational Materials* 3, 4 (2017)
+- **Paper:** <https://www.nature.com/articles/s41524-017-0006-2>
+- **TL;DR:** Systematic comparison of cosine, Pearson, JSD, NCDTW and other dissimilarity measures for grouping XRD patterns of Fe–Co–Ni composition spreads; foundation for downstream unsupervised phase mapping.
+
+### 2019 · Oviedo et al. — Fast and interpretable XRD classification
+
+- **Title:** Fast and interpretable classification of small X-ray diffraction datasets using data augmentation and deep neural networks
+- **Authors:** Felipe Oviedo (MIT Photovoltaics Research Lab), et al.; senior: Tonio Buonassisi (MIT) — collab. NIST
+- **Venue:** *npj Computational Materials* 5, 60 (2019)
+- **Paper:** <https://www.nature.com/articles/s41524-019-0196-x>
+- **Code:** <https://github.com/PV-Lab/autoXRD>
+- **TL;DR:** Physics-informed augmentation lets 1D a-CNNs train from small experimental XRD sets; introduces CAM-based interpretability for crystal-system / dimensionality / space-group classification of thin films.
+
+### 2020 · Lee et al. — Deep CNN for multiphase inorganic phase ID
 
 - **Title:** A deep-learning technique for phase identification in multiphase inorganic compounds using synthetic XRD powder patterns
-- **First author / affiliation:** Jin-Woong Lee — Sejong University (with Woon Bae Park; senior: Kee-Sun Sohn)
+- **Authors:** Jin-Woong Lee, Woon Bae Park, Jin Hee Lee, Satendra Pal Singh; senior: Kee-Sun Sohn — Sejong University
 - **Venue:** *Nature Communications* 11, 86 (2020)
 - **Paper:** <https://www.nature.com/articles/s41467-019-13749-3>
-- **Highlights:** Trained a deep CNN on ~1.78M simulated PXRD patterns across the Sr-Li-Al-O quaternary; near-perfect phase identification on experimental multi-phase compounds.
+- **TL;DR:** CNN trained on ~1.78 M simulated PXRD patterns across the Sr-Li-Al-O quaternary; near-perfect identification on experimental multi-phase compounds.
 
-### Data-driven XRD Protocol with Phase-Fraction Prediction (Lee et al., 2021)
+### 2020 · Wang et al. — Interpretable CNN for one-to-one MOF XRD ID
+
+- **Title:** Rapid Identification of X-ray Diffraction Patterns Based on Very Limited Data by Interpretable Convolutional Neural Networks
+- **Authors:** Hong Wang, Yunchao Xie, Dawei Li, Heng Deng, Yunxin Zhao, Ming Xin; senior: Jian Lin — University of Missouri
+- **Venue:** *J. Chem. Inf. Model.* 60, 2004–2011 (2020); arXiv:1912.07750
+- **Paper:** <https://pubs.acs.org/doi/10.1021/acs.jcim.0c00020> · <https://arxiv.org/abs/1912.07750>
+- **TL;DR:** CNN trained on theoretical MOF XRD patterns augmented with noise from limited experiments; 96.7% Top-5 identification accuracy with class-activation interpretation.
+
+### 2021 · Lee et al. — Phase ID + quantitative phase-fraction prediction
 
 - **Title:** A data-driven XRD analysis protocol for phase identification and phase-fraction prediction of multiphase inorganic compounds
-- **First author / affiliation:** Jin-Woong Lee — Sejong University (senior: Kee-Sun Sohn)
+- **Authors:** Jin-Woong Lee, Woon Bae Park, Minseuk Kim, Satendra Pal Singh, Myoungho Pyo; senior: Kee-Sun Sohn — Sejong University
 - **Venue:** *Inorganic Chemistry Frontiers* 8, 2492 (2021)
 - **Paper:** <https://pubs.rsc.org/en/content/articlelanding/2021/qi/d0qi01513j>
-- **Highlights:** Extends the CNN protocol from phase identification to quantitative phase-fraction prediction.
+- **TL;DR:** Extends Lee 2020 to the Li-La-Zr-O quaternary; 96.47% test phase-ID accuracy and R² ≈ 0.97 phase-fraction regression on simulated data (91.11% / 0.96 on experimental).
 
-### CPICANN — Convolutional Self-Attention Phase Identifier (2024)
+### 2023 · NeuralXRD — Synthetic + real ML for transition-metal phase ID
+
+- **Title:** Machine Learning-Assisted Close-Set X-ray Diffraction Phase Identification of Transition Metals
+- **Authors:** Maksim Eremeev et al.
+- **Venue:** ICLR 2023 ML4Materials Workshop
+- **Code:** <https://github.com/maxnygma/NeuralXRD>
+- **TL;DR:** Combines synthetic phase generation, peak integration, and post-hoc calibration to identify transition-metal phases from XRD; ships demo notebooks operating on COD-derived patterns.
+
+### 2024 · CPICANN — Convolutional self-attention phase identifier
 
 - **Title:** Crystallographic phase identifier of a convolutional self-attention neural network (CPICANN) on powder diffraction patterns
-- **First author / affiliation:** Shouyang Zhang — HKUST(GZ) (with Bin Cao; senior: Tong-Yi Zhang)
+- **Authors:** Shouyang Zhang, Bin Cao; senior: Tong-Yi Zhang — HKUST(GZ)
 - **Venue:** *IUCrJ* 11, 634 (2024)
 - **Paper:** <https://journals.iucr.org/m/issues/2024/04/00/lt5076/>
 - **Code:** <https://github.com/WPEM/CPICANN>
 - **Data:** <https://huggingface.co/datasets/caobin/datasetCPICANN>
-- **Highlights:** Self-attention augmented CNN; whole-pattern phase identification across four benchmarks (varying background and noise levels).
+- **TL;DR:** Self-attention–augmented CNN performing whole-pattern phase identification across four benchmarks of varying background and noise level.
 
-### Fast & Interpretable XRD Classification via Data Augmentation (Oviedo et al., 2019)
+### 2024 · MLstructureMining — ML structure ID from atomic PDFs
 
-- **Title:** Fast and interpretable classification of small X-ray diffraction datasets using data augmentation and deep neural networks
-- **First author / affiliation:** Felipe Oviedo — MIT Photovoltaics Research Lab (collab. NIST)
-- **Venue:** *npj Computational Materials* 5, 60 (2019)
-- **Paper:** <https://www.nature.com/articles/s41524-019-0196-x>
-- **Code:** <https://github.com/PV-Lab/autoXRD>
-- **Highlights:** Demonstrates physics-informed augmentation for training deep CNNs on small experimental XRD datasets; introduces class-activation visualization for interpretability.
+- **Title:** MLstructureMining: a machine learning tool for structure identification from X-ray pair distribution functions
+- **Authors:** Emil T. S. Kjær, Andy S. Anker, Andrea Kirsch, et al.; seniors: Simon J. L. Billinge (Columbia), Kirsten M. Ø. Jensen (Copenhagen)
+- **Venue:** *Digital Discovery* (2024); DOI 10.1039/D4DD00001C
+- **Paper:** <https://pubs.rsc.org/en/content/articlehtml/2024/dd/d4dd00001c>
+- **TL;DR:** Tree-ensemble classifier trained on simulated PDFs to identify candidate structures for in-situ / operando experiments; complements direct PXRD methods on the PDF side.
 
 ---
 
 ## Crystal System / Space Group / Lattice Prediction from XRD
 
-### Park et al. — CNN for Crystal System / Extinction Group / Space Group (2017)
+### 2017 · Park et al. — CNN for crystal system / extinction group / space group
 
 - **Title:** Classification of crystal structure using a convolutional neural network
-- **First author / affiliation:** Woon Bae Park — Sejong University (senior: Kee-Sun Sohn)
+- **Authors:** Woon Bae Park, Jiyong Chung, Jaeyoung Jung, Keemin Sohn, Satendra Pal Singh, Myoungho Pyo, Namsoo Shin; senior: Kee-Sun Sohn — Sejong University
 - **Venue:** *IUCrJ* 4, 486–494 (2017)
 - **Paper:** <https://journals.iucr.org/m/issues/2017/04/00/fc5018/index.html>
-- **Highlights:** Early CNN study; ~150k synthetic PXRD patterns; 94.99% crystal system, 83.83% extinction group, 81.14% space group accuracy.
+- **TL;DR:** Three CNNs trained on ~150 k synthetic PXRD patterns from ICSD; 94.99% crystal-system, 83.83% extinction-group, 81.14% space-group accuracy.
 
-### Vecsei et al. — Neural Networks for Crystal Symmetries (2019)
+### 2019 · Aguiar et al. — CNN decoding crystallography from electron diffraction
+
+- **Title:** Decoding crystallography from high-resolution electron imaging and diffraction datasets with deep learning
+- **Authors:** Jeffery A. Aguiar (INL/Univ. of Utah), Matthew L. Gong, Raymond Unocic, Tolga Tasdizen, Brian Miller
+- **Venue:** *Science Advances* 5, eaaw1949 (2019)
+- **Paper:** <https://www.science.org/doi/10.1126/sciadv.aaw1949>
+- **TL;DR:** CNN trained on 571,340 diffraction patterns across 7 families / 32 genera / 230 space groups; reduces the candidate space groups to the top 2 with >70–95% confidence; cross-validated on alloys and 2D materials.
+
+### 2019 · Vecsei et al. — Neural network classification of crystal symmetries
 
 - **Title:** Neural network based classification of crystal symmetries from x-ray diffraction patterns
-- **First author / affiliation:** Pascal Marc Vecsei — University of Zürich (senior: Titus Neupert)
-- **Venue:** *Physical Review B* 99, 245120 (2019)
+- **Authors:** Pascal Marc Vecsei, Kenny Choo; senior: Titus Neupert — University of Zürich
+- **Venue:** *Phys. Rev. B* 99, 245120 (2019)
 - **Paper:** <https://journals.aps.org/prb/abstract/10.1103/PhysRevB.99.245120>
-- **Highlights:** Compares CNN vs. dense network; 54% (dense) vs. 42% (CNN) accuracy on experimental RRUFF data.
+- **TL;DR:** Dense vs. CNN comparison on simulated and RRUFF experimental data — 54% (dense) vs. 42% (CNN) space-group accuracy on RRUFF.
 
-### SPGNet / Salgado et al. — Big-Data Symmetry Classification (2023)
-
-- **Title:** Automated classification of big X-ray diffraction data using deep learning models
-- **First author / affiliation:** Jerardo E. Salgado — University of Toronto (senior: Jason Hattrick-Simpers)
-- **Venue:** *npj Computational Materials* 9, 214 (2023)
-- **Paper:** <https://www.nature.com/articles/s41524-023-01164-8>
-- **Highlights:** 7-way crystal system + 230-way space group CNN with augmented synthetic data resembling real experimental noise.
-
-### Schopmans et al. — Synthetic Crystals → ICSD Symmetry Extraction (2023)
-
-- **Title:** Neural networks trained on synthetically generated crystals can extract structural information from ICSD powder X-ray diffractograms
-- **First author / affiliation:** Henrik Schopmans — KIT (AiMat group, senior: Pascal Friederich)
-- **Venue:** *Digital Discovery* 2, 1414 (2023)
-- **Paper:** <https://pubs.rsc.org/en/content/articlelanding/2023/dd/d3dd00071k>
-- **Highlights:** Shows that purely synthetic randomly-generated crystals can train ML models that surpass models trained on ICSD itself for space-group classification on ICSD-derived test data.
-
-### Suzuki et al. — Interpretable ML for Symmetry Prediction (2020)
-
-- **Title:** Symmetry prediction and knowledge discovery from X-ray diffraction patterns using an interpretable machine learning approach
-- **First author / affiliation:** Yuta Suzuki — Toyota Motor Corp. / RIKEN
-- **Venue:** *Scientific Reports* 10, 21790 (2020)
-- **Paper:** <https://www.nature.com/articles/s41598-020-77474-4>
-- **Highlights:** Tree-ensemble (XGBoost) approach with feature attribution; ~90% crystal-system, 88% top-5 space-group accuracy and extraction of human-interpretable rules.
-
-### Liu et al. — CNN Space-Group Prediction from PDF (2019)
+### 2019 · Liu et al. — CNN space-group prediction from atomic PDF
 
 - **Title:** Using a machine learning approach to determine the space group of a structure from the atomic pair distribution function
-- **First author / affiliation:** Chia-Hao (Timothy) Liu — Columbia University (senior: Simon J. L. Billinge)
+- **Authors:** Chia-Hao (Timothy) Liu, Yunzhe Tao, Daniel Hsu, Qiang Du; senior: Simon J. L. Billinge — Columbia University
 - **Venue:** *Acta Crystallographica A* 75, 633–643 (2019)
 - **Paper:** <https://journals.iucr.org/a/issues/2019/04/00/ae5079/>
-- **Highlights:** PDF-based (not direct PXRD) CNN; 91.9% top-6 space-group accuracy; demonstrates utility on experimental PDF inputs.
+- **TL;DR:** PDF-based (not direct PXRD) CNN; 91.9% top-6 space-group accuracy on experimental PDF inputs.
 
----
+### 2020 · Suzuki et al. — Interpretable XGBoost for symmetry prediction
 
-## Retrieval / Search-Match
+- **Title:** Symmetry prediction and knowledge discovery from X-ray diffraction patterns using an interpretable machine learning approach
+- **Authors:** Yuta Suzuki et al. — Toyota Motor Corp. / RIKEN
+- **Venue:** *Scientific Reports* 10, 21790 (2020)
+- **Paper:** <https://www.nature.com/articles/s41598-020-77474-4>
+- **TL;DR:** Tree-ensemble (XGBoost) with feature attribution; ~90% crystal-system, ~88% Top-5 space-group accuracy with extraction of human-interpretable rules.
 
-### Szymanski et al. — Beam-Time Search-Match with Multi-Phase ID (adaptiveXRD, 2023)
+### 2021 · Chitturi et al. — 1D-CNN lattice parameter prediction (DeepLPnet)
 
-- **Title:** Adaptively driven X-ray diffraction guided by machine learning for autonomous phase identification
-- **First author / affiliation:** Nathan J. Szymanski — UC Berkeley / LBNL (Ceder group)
-- **Venue:** *npj Computational Materials* 9, 31 (2023)
-- **Paper:** <https://www.nature.com/articles/s41524-023-00984-y>
-- **Code:** <https://github.com/njszym/Adaptive-XRD>
-- **Highlights:** Ensemble of CNNs predicts phase mixtures and uncertainty; adaptive sampling decides next 2θ ranges to measure, reducing required measurement time.
+- **Title:** Automated prediction of lattice parameters from X-ray powder diffraction patterns
+- **Authors:** Sathya R. Chitturi (Stanford/SLAC), Daniel Ratner, Richard C. Walroth, Vivek Thampy, Evan J. Reed, Mike Dunne, Christopher J. Tassone; senior: Kevin H. Stone — SLAC
+- **Venue:** *J. Appl. Crystallogr.* 54, 1799–1810 (2021)
+- **Paper:** <https://journals.iucr.org/j/issues/2021/06/00/vb5020/>
+- **Code:** <https://github.com/sathya-chitturi/DeepLPnet>
+- **TL;DR:** Per-crystal-system 1D-CNNs regress a/b/c lattice parameters from raw PXRD; ~10% MAPE corresponds to 100–1000× search-space reduction; trained on ICSD + CSD (~1 M structures).
 
-### Wang et al. — Interpretable CNN for One-to-One MOF XRD ID (2020)
+### 2023 · Salgado et al. — Big-data symmetry CNN (SPGNet)
 
-- **Title:** Rapid Identification of X-ray Diffraction Patterns Based on Very Limited Data by Interpretable Convolutional Neural Networks
-- **First author / affiliation:** Hong Wang — University of Missouri (senior: Jian Lin)
-- **Venue:** *Journal of Chemical Information and Modeling* 60, 2004–2011 (2020)
-- **Paper:** <https://pubs.acs.org/doi/10.1021/acs.jcim.0c00020> · arXiv: <https://arxiv.org/abs/1912.07750>
-- **Highlights:** CNN trained on theoretical MOF XRD patterns augmented with noise from limited experiments; 96.7% top-5 identification accuracy with class-activation interpretation.
+- **Title:** Automated classification of big X-ray diffraction data using deep learning models
+- **Authors:** Jerardo E. Salgado, Samuel Lerman, Zhaotong Du, Chenliang Xu; senior: Niaz Abdolrahim, Jason Hattrick-Simpers — University of Toronto / Rochester
+- **Venue:** *npj Computational Materials* 9, 214 (2023)
+- **Paper:** <https://www.nature.com/articles/s41524-023-01164-8>
+- **TL;DR:** 7-way crystal-system + 230-way space-group CNN with augmented synthetic data approximating real experimental noise.
+
+### 2023 · Schopmans et al. — Synthetic crystals → ICSD symmetry extraction
+
+- **Title:** Neural networks trained on synthetically generated crystals can extract structural information from ICSD powder X-ray diffractograms
+- **Authors:** Henrik Schopmans, Patrick Reiser; senior: Pascal Friederich — KIT (AiMat group)
+- **Venue:** *Digital Discovery* 2, 1414 (2023)
+- **Paper:** <https://pubs.rsc.org/en/content/articlelanding/2023/dd/d3dd00071k>
+- **Code:** <https://github.com/aimat-lab/ML4pXRDs>
+- **TL;DR:** Models trained on purely synthetic randomly-generated crystals surpass models trained on ICSD itself for space-group classification on ICSD test patterns.
+
+### 2026 · AlphaDiffract — 1D ConvNeXt for lattice & symmetry determination
+
+- **Title:** AlphaDiffract: Automated Crystallographic Analysis of Powder X-ray Diffraction Data
+- **Venue:** arXiv:2603.23367 (Mar 2026)
+- **Paper:** <https://arxiv.org/abs/2603.23367>
+- **TL;DR:** 1D ConvNeXt backbone on 8192-bin PXRD vectors jointly predicts crystal system, space group, and lattice parameters; trained on GSAS-II-simulated patterns from NIST/ICSD structures; intended as a preprocessing stage for automated Rietveld.
 
 ---
 
 ## Multi-phase Decomposition & Rietveld Refinement
 
-### RAPID — Rietveld Analysis Pipeline with Intelligent Deep Learning (2025)
+### 2018 · Stanev et al. — Unsupervised NMF phase mapping
 
-- **Title:** Automation of Rietveld refinement through machine learning
-- **Venue:** *IUCrJ* (2025)
-- **Paper:** <https://pmc.ncbi.nlm.nih.gov/articles/PMC13060465/>
-- **Highlights:** CNN trained on GSAS-II-simulated patterns to initialize and drive Rietveld refinement; validated on CeO₂, Tb₂BaCoO₅ and PbSO₄.
+- **Title:** Unsupervised phase mapping of X-ray diffraction data by nonnegative matrix factorization integrated with custom clustering
+- **Authors:** Valentin Stanev (UMD/NIST), Velimir V. Vesselinov (LANL), A. Gilad Kusne (NIST/UMD), Graham Antoszewski, Ichiro Takeuchi; senior: Boian S. Alexandrov (LANL)
+- **Venue:** *npj Computational Materials* 4, 43 (2018); arXiv:1802.07307
+- **Paper:** <https://www.nature.com/articles/s41524-018-0099-2> · <https://arxiv.org/abs/1802.07307>
+- **TL;DR:** Extends NMF with custom clustering and cross-correlation to extract end-member phases from large combinatorial XRD datasets without supervision.
 
-### AlphaDiffract — Lattice & Symmetry Determination via 1D ConvNeXt (2026)
-
-- **Title:** AlphaDiffract: A Unified Deep Learning Framework for Lattice and Symmetry Determination from Powder X-ray Diffraction
-- **Venue:** arXiv:2603.23367 (2026)
-- **Paper:** <https://arxiv.org/abs/2603.23367>
-- **Highlights:** 1D ConvNeXt backbone over 8192-bin PXRD vectors; serves as preprocessing for automated Rietveld; trained on GSAS-II-simulated patterns from NIST/ICSD structures.
-
-### Szymanski et al. — Multi-Phase Decomposition via Tree Search (2021)
+### 2021 · Szymanski et al. — Probabilistic multi-phase decomposition (XRD-AutoAnalyzer)
 
 - **Title:** Probabilistic deep learning approach to automate the interpretation of multi-phase diffraction spectra
-- **First author / affiliation:** Nathan J. Szymanski — UC Berkeley / LBNL (Ceder group)
-- **Venue:** *Chemistry of Materials* 33, 4204–4215 (2021)
-- **Paper:** <https://pubs.acs.org/doi/10.1021/acs.chemmater.1c01071>
+- **Authors:** Nathan J. Szymanski, Christopher J. Bartel, Yan Zeng, Qingsong Tu; senior: Gerbrand Ceder — UC Berkeley / LBNL
+- **Venue:** *Chemistry of Materials* 33, 4204–4215 (2021); arXiv:2103.16664
+- **Paper:** <https://pubs.acs.org/doi/10.1021/acs.chemmater.1c01071> · <https://arxiv.org/abs/2103.16664>
 - **Code:** <https://github.com/njszym/XRD-AutoAnalyzer>
-- **Highlights:** Iteratively identifies and subtracts phases, accommodating up to 4 components per pattern with quantitative weight-fraction estimates.
+- **TL;DR:** Ensemble CNN with branching tree-search that iteratively identifies and subtracts phases, accommodating up to 4 components per pattern with quantitative weight-fraction estimates.
 
+### 2022 · BraggNN — Fast Bragg-peak localization with deep learning
+
+- **Title:** *BraggNN*: fast X-ray Bragg peak analysis using deep learning
+- **Authors:** Zhengchun Liu, Hemant Sharma, Jun-Sang Park, Peter Kenesei, Antonino Miceli, Jonathan Almer, Rajkumar Kettimuthu, Ian Foster — Argonne National Laboratory
+- **Venue:** *IUCrJ* 9, 104–113 (2022)
+- **Paper:** <https://journals.iucr.org/m/issues/2022/01/00/fs5198/>
+- **Code:** <https://github.com/lzhengchun/BraggNN>
+- **TL;DR:** DNN regression replacing pseudo-Voigt peak fitting in high-energy diffraction microscopy; hundreds of times faster than conventional fitting with comparable or better precision.
+
+### 2025 · RAPID — Rietveld Analysis Pipeline with Intelligent Deep Learning
+
+- **Title:** Automation of Rietveld refinement through machine learning
+- **Authors:** S. J. Mun et al.; collab. Oxford / Diamond / industry
+- **Venue:** *Journal of Applied Crystallography* 59 (2026); preprint via IUCrJ 2025
+- **Paper:** <https://pmc.ncbi.nlm.nih.gov/articles/PMC13060465/>
+- **Code:** <https://github.com/DataForgeSci/RAPID>
+- **TL;DR:** CNN trained on GSAS-II-simulated patterns to initialize and drive Rietveld refinement; validated on CeO₂, Tb₂BaCoO₅ and PbSO₄, with reliability factors comparable to manual refinement.
+
+### 2025 · Spotlight — Automated global optimization for Rietveld
+
+- **Title:** Spotlight: efficient automated global optimization in Rietveld analysis of diffraction data
+- **Authors:** Chad M. Biwer, Z. Feng, D. Finstad, et al. — LANL
+- **Venue:** *Scientific Reports* 15, 8358 (2025)
+- **Paper:** <https://www.nature.com/articles/s41598-025-92452-4>
+- **TL;DR:** Python package on top of MAUD / GSAS-II that performs efficient global optimization across temperature / composition series, where simple phase-DB matching fails.
 
 ---
 
 ## Autonomous / In-situ XRD Analysis
 
-### XCA — Crystallography Companion Agent (2021)
+### 2021 · XCA — Crystallography Companion Agent
 
 - **Title:** Crystallography companion agent for high-throughput materials discovery
-- **First author / affiliation:** Phillip M. Maffettone — Brookhaven National Laboratory (NSLS-II)
+- **Authors:** Phillip M. Maffettone, Lars Banko, Peng Cui, Yury Lysogorskiy, Marc A. Little, Daniel Olds, Alfred Ludwig, Andrew I. Cooper — Brookhaven National Laboratory (NSLS-II), Ruhr-Universität Bochum, Univ. of Liverpool
 - **Venue:** *Nature Computational Science* 1, 290–297 (2021)
 - **Paper:** <https://www.nature.com/articles/s43588-021-00059-2>
 - **Code:** <https://github.com/maffettone/xca> · examples: <https://github.com/bnl/pub-Maffettone_2020_08>
-- **Highlights:** Pseudo-unsupervised ensemble trained on fully synthetic, physics-informed diffraction; provides real-time, probabilistic phase identification during high-throughput experiments.
+- **TL;DR:** Pseudo-unsupervised CNN ensemble trained on fully synthetic, physics-informed diffraction; provides real-time, probabilistic phase identification during high-throughput beam-time experiments.
 
-### Szymanski et al. — Autonomous Materials Discovery with A-Lab (2023)
+### 2023 · Szymanski et al. — Adaptively driven XRD (Adaptive-XRD)
 
-- **Title:** An autonomous laboratory for the accelerated synthesis of novel materials
-- **First author / affiliation:** Nathan J. Szymanski — UC Berkeley / LBNL (Ceder group)
-- **Venue:** *Nature* 624, 86–91 (2023)
-- **Paper:** <https://www.nature.com/articles/s41586-023-06734-w>
-- **Highlights:** End-to-end autonomous lab where ML-based PXRD analysis closes the loop between synthesis attempts and recipe revision.
+- **Title:** Adaptively driven X-ray diffraction guided by machine learning for autonomous phase identification
+- **Authors:** Nathan J. Szymanski, Christopher J. Bartel, Yan Zeng, et al.; senior: Gerbrand Ceder — UC Berkeley / LBNL
+- **Venue:** *npj Computational Materials* 9, 31 (2023)
+- **Paper:** <https://www.nature.com/articles/s41524-023-00984-y>
+- **Code:** <https://github.com/njszym/Adaptive-XRD>
+- **TL;DR:** Ensemble CNN predicts phase mixtures with uncertainty; an adaptive policy decides the next 2θ ranges to measure, reducing total measurement time on transient or dilute samples.
 
-### Banko et al. — Self-Supervised XRD Classification of Phase Transitions (2023)
+### 2023 · Banko et al. — Self-supervised PXRD classification of phase transitions
 
 - **Title:** Application of self-supervised approaches to the classification of X-ray diffraction spectra during phase transitions
-- **First author / affiliation:** Lars Banko — Ruhr-Universität Bochum (collab. BNL, DESY)
+- **Authors:** Lars Banko, Phillip M. Maffettone, Dennis Naujoks, Daniel Olds, Alfred Ludwig — Ruhr-Universität Bochum, BNL, DESY
 - **Venue:** *Scientific Reports* 13, 9173 (2023)
 - **Paper:** <https://www.nature.com/articles/s41598-023-36456-y>
-- **Highlights:** Applies self-supervised relational reasoning and contrastive learning to 1D PXRD classification of in-situ phase transitions recorded at PETRA III (P02.2 beamline).
+- **TL;DR:** Self-supervised relational reasoning + contrastive learning to classify 1D PXRD spectra of in-situ phase transitions recorded at PETRA III (P02.2).
+
+### 2023 · A-Lab — Autonomous materials laboratory closing the synthesis loop
+
+- **Title:** An autonomous laboratory for the accelerated synthesis of novel materials
+- **Authors:** Nathan J. Szymanski, Bernardus Rendy, Yuxing Fei, et al.; senior: Gerbrand Ceder — UC Berkeley / LBNL
+- **Venue:** *Nature* 624, 86–91 (2023)
+- **Paper:** <https://www.nature.com/articles/s41586-023-06734-w>
+- **TL;DR:** End-to-end autonomous lab in which ML-based PXRD analysis closes the loop between synthesis attempts and recipe revision; reports 41 successful syntheses in 17 days.
 
 ---
 
@@ -322,119 +402,116 @@ Methods that, given a PXRD pattern, predict which known phase(s) it corresponds 
 
 These models do not consume XRD directly but underpin many XRD-conditional methods listed above (CDVAE, DiffCSP, MatterGen, etc.).
 
-### CDVAE — Crystal Diffusion Variational Autoencoder (2022)
+### 2022 · CDVAE — Crystal Diffusion Variational Autoencoder
 
 - **Title:** Crystal Diffusion Variational Autoencoder for Periodic Material Generation
-- **First author / affiliation:** Tian Xie — MIT (with Hannes Stärk, Octavian Ganea); senior: Tommi Jaakkola, Regina Barzilay
-- **Venue:** *ICLR* 2022
+- **Authors:** Tian Xie, Xiang Fu, Octavian-Eugen Ganea, Regina Barzilay, Tommi Jaakkola — MIT
+- **Venue:** *ICLR* 2022; arXiv:2110.06197
 - **Paper:** <https://arxiv.org/abs/2110.06197>
 - **Code:** <https://github.com/txie-93/cdvae>
-- **Highlights:** Score-based generation of periodic crystal structures; backbone of Crystalyze and PXRDnet.
+- **TL;DR:** Score-based generation of periodic crystal structures over fractional coordinates / lattice / atom types; backbone of Crystalyze and PXRDnet.
 
-### DiffCSP / DiffCSP++ — Diffusion-based CSP (2023–2024)
+### 2023–2024 · DiffCSP / DiffCSP++ — Joint equivariant diffusion for CSP
 
-- **Title:** Crystal Structure Prediction by Joint Equivariant Diffusion
-- **First author / affiliation:** Rui Jiao — Tsinghua University
-- **Venue:** *NeurIPS* 2023; ICLR 2024 (DiffCSP++)
+- **Title:** Crystal Structure Prediction by Joint Equivariant Diffusion (DiffCSP, NeurIPS 2023); Space Group Constraint for Crystal Generation (DiffCSP++, ICLR 2024)
+- **Authors:** Rui Jiao, Wenbing Huang, Peijia Lin, Jiaqi Han, Pin Chen, Yutong Lu, Yang Liu — Tsinghua / Renmin Univ.
+- **Venue:** *NeurIPS* 2023; *ICLR* 2024
 - **Paper:** <https://arxiv.org/abs/2309.04475> · <https://arxiv.org/abs/2402.03992>
 - **Code:** <https://github.com/jiaor17/DiffCSP> · <https://github.com/jiaor17/DiffCSP-PP>
-- **Highlights:** Joint diffusion over fractional coordinates and lattice; DiffCSP++ adds symmetry constraints. Backbone of PXRDGen.
+- **TL;DR:** Joint diffusion over fractional coordinates and lattice; DiffCSP++ adds explicit space-group symmetry constraints. Backbone of PXRDGen.
 
-### MatterGen — Foundation Diffusion Model for Inorganic Crystals (2025)
-
-- **Title:** A generative model for inorganic materials design
-- **First author / affiliation:** Claudio Zeni — Microsoft Research AI for Science
-- **Venue:** *Nature* 639, 624–632 (2025)
-- **Paper:** <https://www.nature.com/articles/s41586-025-08628-5> · arXiv: <https://arxiv.org/abs/2312.03687>
-- **Code:** <https://github.com/microsoft/mattergen>
-- **Highlights:** Diffusion model over coordinates, lattice and atom types; supports a wide variety of conditioning adapters (composition, symmetry, properties); used as data source for some PXRD-conditioning experiments.
-
-### CrystalFormer — Space-Group Informed Transformer (2024)
+### 2024 · CrystalFormer — Space-group informed transformer
 
 - **Title:** Space Group Informed Transformer for Crystalline Materials Generation
-- **First author / affiliation:** Zhendong Cao — Institute of Physics, CAS (senior: Lei Wang)
-- **Venue:** arXiv:2403.15734
+- **Authors:** Zhendong Cao, Xiaoshan Luo, Jian Lv; senior: Lei Wang — Institute of Physics, CAS
+- **Venue:** arXiv:2403.15734 (Mar 2024)
 - **Paper:** <https://arxiv.org/abs/2403.15734>
 - **Code:** <https://github.com/deepmodeling/CrystalFormer>
-- **Highlights:** Autoregressive transformer over Wyckoff-position / species / lattice tokens; explicit symmetry inductive bias.
+- **TL;DR:** Autoregressive transformer over (Wyckoff position, species, fractional coordinate, lattice) tokens with an explicit space-group inductive bias.
 
-### CrystaLLM — Decoder-only LM on CIF Text (2024)
+### 2024 · CrystaLLM — Decoder-only language model on CIF text
 
 - **Title:** Crystal structure generation with autoregressive large language modeling
-- **First author / affiliation:** Luis M. Antunes — University of Reading
-- **Venue:** *Nature Communications* 15, 10570 (2024)
-- **Paper:** <https://www.nature.com/articles/s41467-024-54639-7> · arXiv: <https://arxiv.org/abs/2307.04340>
+- **Authors:** Luis M. Antunes, Keith T. Butler, Ricardo Grau-Crespo — University of Reading / University College London
+- **Venue:** *Nature Communications* 15, 10570 (2024); arXiv:2307.04340
+- **Paper:** <https://www.nature.com/articles/s41467-024-54639-7> · <https://arxiv.org/abs/2307.04340>
 - **Code:** <https://github.com/lantunes/CrystaLLM>
-- **Highlights:** GPT-style decoder LM trained on millions of CIFs; supports space-group conditioned generation. Direct precursor to deCIFer and CrystaLLM-π.
+- **TL;DR:** GPT-style decoder LM trained on millions of CIFs; supports composition / space-group conditioned generation. Direct precursor to deCIFer and CrystaLLM-π.
+
+### 2025 · MatterGen — Foundation diffusion model for inorganic crystals
+
+- **Title:** A generative model for inorganic materials design
+- **Authors:** Claudio Zeni, Robert Pinsler, Daniel Zügner, et al.; seniors: Tian Xie, Ryota Tomioka — Microsoft Research AI for Science
+- **Venue:** *Nature* 639, 624–632 (2025); arXiv:2312.03687
+- **Paper:** <https://www.nature.com/articles/s41586-025-08628-5> · <https://arxiv.org/abs/2312.03687>
+- **Code:** <https://github.com/microsoft/mattergen>
+- **TL;DR:** Diffusion model over coordinates, lattice and atom types with adapters for composition, symmetry and property conditioning; used as a data source for some PXRD-conditioning experiments.
 
 ---
 
 ## Datasets & Benchmarks
 
-### opXRD — Open Experimental PXRD Database (2025)
+Listed chronologically. *(Reference databases (RRUFF, COD, Materials Project, ICSD, JARVIS-DFT) are grouped at the end for reference.)*
 
-- **Title:** opXRD: Open Experimental Powder X-Ray Diffraction Database
-- **First author / affiliation:** Daniel Hollarek — KIT (AiMat, senior: Pascal Friederich)
-- **Venue:** *Advanced Intelligent Discovery* 2, e202500044 (2026); arXiv:2503.05577
-- **Paper:** <https://arxiv.org/abs/2503.05577>
-- **Data portal:** <https://xrd.aimat.science/> · <https://zenodo.org/records/15298026>
-- **Highlights:** 92,552 labeled + unlabeled experimental patterns contributed by multiple labs, covering many materials classes.
-
-### SimXRD-4M (ICLR 2025)
-
-- **Title:** SimXRD-4M: Big Simulated X-ray Diffraction Data and Crystal Symmetry Classification Benchmark
-- **First author / affiliation:** Bin Cao — HKUST(GZ)
-- **Venue:** *ICLR* 2025
-- **Paper:** <https://openreview.net/forum?id=mkuB677eMM> · <https://arxiv.org/abs/2406.15469>
-- **Code / data:** <https://github.com/Bin-Cao/SimXRD>
-- **Highlights:** 4,065,346 PXRD patterns from 119,569 distinct structures simulated under varying grain size, orientation, internal stress, inelastic scattering and thermal vibration. Benchmarks 21 sequence models (CNN, RNN, Transformer).
-
-### CHILI-3K / CHILI-100K (2024)
-
-- **Title:** CHILI: Chemically-Informed Large-scale Inorganic Nanomaterials Dataset for Advancing Graph Machine Learning
-- **First author / affiliation:** Ulrik Friis-Jensen — University of Copenhagen
-- **Venue:** *KDD* 2024; arXiv:2402.13221
-- **Paper:** <https://arxiv.org/abs/2402.13221>
-- **Code / data:** <https://github.com/UlrikFriisJensen/CHILI>
-- **Highlights:** Large-scale nanomaterials graph dataset; 11 property tasks (atom, crystal system, space group) and 8 regression tasks including PXRD, ND, SAXS, SANS, xPDF, nPDF.
-
-### SIMPOD (2025)
-
-- **Title:** A new benchmark for machine learning applied to powder X-ray diffraction
-- **First author / affiliation:** Sergio Rincón — Universidad de los Andes (senior: Pablo Arbeláez)
-- **Venue:** *Scientific Data* 12 (2025)
-- **Paper:** <https://www.nature.com/articles/s41597-025-05534-3>
-- **Code / data:** <https://github.com/BCV-Uniandes/SIMPOD>
-- **Highlights:** 467,861 simulated PXRD patterns sourced from the Crystallography Open Database (COD) in both 1D-vector and 2D radial-image format.
-
-### RRUFF (Lafuente et al., 2015)
+### 2015 · RRUFF — Empirical mineral XRD / Raman / IR database
 
 - **Title:** The power of databases: the RRUFF project
+- **Authors:** Barbara Lafuente, Robert T. Downs, Hexiong Yang, Nate Stone — University of Arizona
+- **Venue:** *Highlights in Mineralogical Crystallography*, De Gruyter (2015)
 - **Paper:** <https://www.degruyter.com/document/doi/10.1515/9783110417104-003>
 - **Portal:** <https://rruff.info/>
-- **Highlights:** Empirical XRD / Raman / IR / chemistry database for minerals; widely used as the experimental benchmark for PXRD ML methods.
+- **TL;DR:** Curated experimental XRD / Raman / IR / chemistry database for minerals; the most widely used experimental benchmark for PXRD ML methods.
 
-### Materials Project / MP-20 / MP-PXRD
+### 2023 · ML4pXRDs — Synthetic-crystal training pipeline
 
-- **Materials Project:** <https://next-gen.materialsproject.org/>
-- **MP-20 (CDVAE):** <https://github.com/txie-93/cdvae/tree/main/data/mp_20>
-- **MP-20-PXRD (PXRDnet):** patterns derived in <https://github.com/gabeguo/cdvae_xrd>
-- **Highlights:** De facto training set for most PXRD ↔ structure generative models.
-
-### Crystallography Open Database (COD)
-
-- **Portal:** <http://www.crystallography.net/cod/>
-- **Highlights:** ~500k CIFs (organic / inorganic / minerals); used as a free alternative to ICSD for many ML training sets (e.g. SIMPOD, CrystaLLM-π COD-XRD).
-
-### JARVIS-DFT XRD
-
-- **Portal:** <https://jarvis.nist.gov/jarvisxrd/>
-- **Highlights:** Simulated XRD lookup over JARVIS-DFT structures; used to train DiffractGPT.
-
-### ICSD-derived Synthetic-Crystal Benchmark (Schopmans et al., 2023)
-
+- **Authors:** Schopmans et al. — KIT (AiMat group)
 - **Code:** <https://github.com/aimat-lab/ML4pXRDs>
-- **Highlights:** Pipeline for training symmetry classifiers from synthetically generated random crystals and evaluating against ICSD patterns.
+- **TL;DR:** Reference pipeline for training symmetry classifiers from synthetically generated random crystals and evaluating against ICSD patterns (companion to Schopmans 2023).
+
+### 2024 · CHILI-3K / CHILI-100K — Nanomaterials graph + scattering dataset
+
+- **Title:** CHILI: Chemically-Informed Large-scale Inorganic Nanomaterials Dataset for Advancing Graph Machine Learning
+- **Authors:** Ulrik Friis-Jensen, Frederik L. Johansen, Andy S. Anker, Erik B. Dam, Kirsten M. Ø. Jensen, Raghavendra Selvan — University of Copenhagen
+- **Venue:** *KDD* 2024; arXiv:2402.13221
+- **Paper:** <https://arxiv.org/abs/2402.13221>
+- **Code/Data:** <https://github.com/UlrikFriisJensen/CHILI>
+- **TL;DR:** Nanomaterials graph dataset with 11 classification (atom, crystal system, space group) and 8 regression tasks including PXRD, ND, SAXS, SANS, xPDF, nPDF.
+
+### 2025 · SimXRD-4M — Large simulated PXRD benchmark
+
+- **Title:** SimXRD-4M: Big Simulated X-ray Diffraction Data and Crystal Symmetry Classification Benchmark
+- **Authors:** Bin Cao et al. — HKUST(GZ)
+- **Venue:** *ICLR* 2025; arXiv:2406.15469
+- **Paper:** <https://openreview.net/forum?id=mkuB677eMM> · <https://arxiv.org/abs/2406.15469>
+- **Code/Data:** <https://github.com/Bin-Cao/SimXRD>
+- **TL;DR:** 4,065,346 PXRD patterns from 119,569 distinct structures simulated under varying grain size, orientation, internal stress, inelastic scattering and thermal vibration; benchmarks 21 sequence models.
+
+### 2025 · SIMPOD — COD-based 1D and 2D PXRD benchmark
+
+- **Title:** A new benchmark for machine learning applied to powder X-ray diffraction
+- **Authors:** Sergio Rincón, et al.; senior: Pablo Arbeláez — Universidad de los Andes
+- **Venue:** *Scientific Data* 12 (2025)
+- **Paper:** <https://www.nature.com/articles/s41597-025-05534-3>
+- **Code/Data:** <https://github.com/BCV-Uniandes/SIMPOD>
+- **TL;DR:** 467,861 simulated PXRD patterns sourced from COD in both 1D-vector and 2D radial-image format.
+
+### 2025/2026 · opXRD — Open experimental PXRD database
+
+- **Title:** opXRD: Open Experimental Powder X-Ray Diffraction Database
+- **Authors:** Daniel Hollarek, Henrik Schopmans, Jona Östreicher, Jonas Teufel, et al.; senior: Pascal Friederich — KIT (AiMat group), with 18 contributing labs
+- **Venue:** *Advanced Intelligent Discovery* 2, e202500044 (2026); arXiv:2503.05577
+- **Paper:** <https://arxiv.org/abs/2503.05577>
+- **Portal:** <https://xrd.aimat.science/> · <https://zenodo.org/records/15298026>
+- **TL;DR:** ~92 k labeled + unlabeled experimental PXRD patterns aggregated from multiple high-throughput labs, covering many materials classes.
+
+### Reference structure databases (used by virtually every entry above)
+
+- **Materials Project / MP-20 / MP-PXRD** — <https://next-gen.materialsproject.org/> · MP-20: <https://github.com/txie-93/cdvae/tree/main/data/mp_20> · MP-20-PXRD: <https://github.com/gabeguo/cdvae_xrd>
+- **Crystallography Open Database (COD)** — <http://www.crystallography.net/cod/>  (~500 k CIFs; free alternative to ICSD).
+- **JARVIS-DFT XRD** — <https://jarvis.nist.gov/jarvisxrd/>  (simulated XRD over JARVIS-DFT structures; used by DiffractGPT).
+- **ICSD** — <https://icsd.fiz-karlsruhe.de/> (licensed inorganic structures; common training source for Park 2017, Lee 2020, Schopmans 2023).
+- **CSD** — <https://www.ccdc.cam.ac.uk/structures/> (licensed organic / metal-organic structures; used by DeepLPnet 2021 alongside ICSD).
+- **PDF-4+ / ICDD PDF** — <https://www.icdd.com/> (commercial Powder Diffraction File; experimental benchmark for Crystalyze, XRDSol, RealPXRD-Solver).
 
 ---
 
@@ -468,40 +545,46 @@ These models do not consume XRD directly but underpin many XRD-conditional metho
 
 ---
 
-## Notes on "Who was first?"
+## Contributing
 
-Multiple recent works each claim some form of "first end-to-end PXRD → crystal" status. The claims are not contradictory because they differ in scope:
+**Additions, corrections, and translations are warmly welcomed — 欢迎补充、纠正与翻译！**
 
-| Work | Specific "first" claim |
-| --- | --- |
-| **Park et al. (2017)** | First CNN to classify crystal system / space group from PXRD. |
-| **Lee et al. (2020)** | First deep CNN demonstrated for multiphase inorganic phase ID at scale. |
-| **XCA (2021)** | First autonomous companion agent for real-time PXRD phase ID. |
-| **CrystalNet / Guo et al. (2024)** | First end-to-end neural network producing 3D electron density from PXRD. |
-| **XtalNet (2024)** | First equivariant *generative* model for PXRD-conditioned CSP (≤400 atoms/cell). |
-| **Crystalyze (2024)** | First demonstrated solution of previously-unsolved PDF entries with a generative model. |
-| **PXRDnet (2025)** | First diffusion-based ab-initio solver applied to *experimental nanocrystalline* PXRD across all 7 crystal systems. |
-| **PXRDGen (2025)** | First to integrate generative model + automated Rietveld refinement in one pipeline. |
-| **deCIFer (2025)** | First autoregressive CIF *language model* conditioned on PXRD. |
-| **DiffractGPT (2025)** | First generative *pretrained* transformer adapted to XRD-conditioned structure prediction. |
-| **XRDSol (2026)** | First sub-second equivariant diffusion solver explicitly benchmarked on the ICDD experimental PDF database. |
-| **RealPXRD-Solver (2026)** | First solver trained on a >6M-entry theoretical corpus with experiment-mimicking augmentations, validated on CNRS + RRUFF. |
+This list is a community effort. If you notice a missing paper, a wrong link, an incorrect affiliation, an out-of-date venue, or a duplicate entry, please help us fix it. There are three easy ways to contribute:
+
+- **Open an issue** — paste the paper title / arXiv id / GitHub link and (if possible) the section it belongs in. We will add it for you.
+- **Open a Pull Request** — directly edit `README.md` following the entry format below.
+- **Email the maintainer** — for bulk additions (e.g. a whole research direction we missed).
+
+### Guidelines
+
+- Entries within each section are ordered **chronologically** (oldest → newest) by the first public release (arXiv preprint date if available, otherwise journal publication date).
+- One entry per method/paper. If a follow-up paper substantially extends the method, add it as a separate dated entry rather than rewriting the old one.
+- Prefer **open-access** paper links (arXiv, Nature OA, journal HTML) over paywalled DOIs when both exist; include both when useful.
+- For pre-prints, please double-check the arXiv id and author list before submitting.
+- This list aims to be **neutral and descriptive**. Please avoid "first to do X" claims in TL;DRs — describe what the method does, not where it ranks historically.
+
+### Standard entry format
+
+```
+### <Year> · <ShortName> — <one-sentence tagline>
+
+- **Title:** <full paper title>
+- **Authors:** <first author>, …; senior: <senior author> — <primary affiliation(s)>
+- **Venue:** <journal / conference> (<year>); arXiv:<id>
+- **Paper:** <https://...>
+- **Code:** <https://...>
+- **Data:** <https://...>     (omit if none)
+- **TL;DR:** <1–3 sentences, factual and neutral>
+```
 
 ---
 
-## Contributing
+## Contributors
 
-PRs are welcome. Please follow the existing format:
+Thanks goes to these wonderful people who have contributed papers, corrections, and improvements to this list — 感谢以下贡献者对本仓库的补充、纠正与维护：
 
-```
-### <ShortName> — <One-sentence method tagline> (<year>)
+<a href="https://github.com/Bin-Cao/awesome-xrd2crystal/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Bin-Cao/awesome-xrd2crystal" alt="Contributors" />
+</a>
 
-- **Title:** <full paper title>
-- **First author / affiliation:** <name> — <institution>
-- **Venue:** <journal / conf> (<year>); arXiv:<id>
-- **Paper:** <https://...>
-- **Code:** <https://...>
-- **Highlights:** <1–3 sentences>
-```
-
-Please open an issue first for entries whose claims are still pre-print and not yet peer-reviewed.
+<sub>*Avatars are rendered automatically by [contrib.rocks](https://contrib.rocks) from the GitHub contributor graph.*</sub>
