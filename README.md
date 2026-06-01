@@ -20,7 +20,6 @@ Within every section, entries are listed **chronologically (oldest → newest)**
       </a><br/>
       <sub>@Bin-Cao</sub>
     </td>
-    
     <td align="center">
       <a href="https://github.com/OPilgrim">
         <img src="https://github.com/OPilgrim.png?size=120" width="96" alt="Yunyue Su"/><br/>
@@ -28,7 +27,6 @@ Within every section, entries are listed **chronologically (oldest → newest)**
       </a><br/>
       <sub>@OPilgrim</sub>
     </td>
-    
     <td align="center">
       <a href="https://github.com/komusama0930">
         <img src="https://github.com/komusama0930.png?size=120" width="96" alt="Shuchen Pu"/><br/>
@@ -36,15 +34,13 @@ Within every section, entries are listed **chronologically (oldest → newest)**
       </a><br/>
       <sub>@komusama0930</sub>
     </td>
-
     <td align="center">
       <a href="https://github.com/Licht0812">
         <img src="https://github.com/Licht0812.png?size=120" width="96" alt="Hanyu Gao"/><br/>
         <sub><b>Hanyu Gao</b></sub>
       </a><br/>
       <sub>@Licht0812</sub>
-    </td>
-    
+    </td>    
   </tr>
 </table>
 
