@@ -382,7 +382,7 @@ Methods that, given a PXRD pattern, predict which known phase(s) it corresponds 
 ### 2026 · XDecomposer — Prior-free set decomposition for multiphase XRD
 
 - **Title:** XDecomposer: Learning Prior-Free Set Decomposition for Multiphase X-ray Diffraction
-- **Authors:** Hanyu Gao (NLPR, Institute of Automation, CAS (CASIA) / University of Chinese Academy of Sciences), Bin Cao (HKUST(GZ) / Green Dynamics) — co-first; Yunyue Su (CASIA); senior: Tong-Yi Zhang (HKUST(GZ)), Qiang Liu (CASIA)
+- **Authors:** Hanyu Gao, Bin Cao — co-first; Yunyue Su; Tong-Yi Zhang, Qiang Liu (CASIA, HKUST(GZ))
 - **Venue:** arXiv:2605.05866 (May 2026)
 - **Paper:** <https://arxiv.org/abs/2605.05866>
 - **Code:** <https://github.com/Licht0812/XDecomposer>
