@@ -13,55 +13,57 @@ Within every section, entries are listed **chronologically (oldest → newest)**
 
 <table>
   <tr>
-    <td align="center">
+    <td align="center" width="120">
       <a href="https://github.com/Bin-Cao">
-        <img src="https://github.com/Bin-Cao.png?size=120" width="96" alt="Bin Cao"/><br/>
+        <img src="https://github.com/Bin-Cao.png?size=96" width="72" alt="Bin Cao"/><br/>
         <sub><b>Bin Cao</b></sub>
       </a><br/>
       <sub>@Bin-Cao</sub>
     </td>
-    <td align="center">
+    <td align="center" width="120">
       <a href="https://github.com/jiaor17">
-        <img src="https://github.com/jiaor17.png?size=120" width="96" alt="Rui Jiao"/><br/>
+        <img src="https://github.com/jiaor17.png?size=96" width="72" alt="Rui Jiao"/><br/>
         <sub><b>Rui Jiao</b></sub>
       </a><br/>
       <sub>@jiaor17</sub>
     </td>
-    <td align="center">
+    <td align="center" width="120">
       <a href="https://github.com/ZhixunLEE">
-        <img src="https://github.com/ZhixunLEE.png?size=120" width="96" alt="Zhixun Lee"/><br/>
+        <img src="https://github.com/ZhixunLEE.png?size=96" width="72" alt="Zhixun Lee"/><br/>
         <sub><b>Zhixun Lee</b></sub>
       </a><br/>
       <sub>@ZhixunLEE</sub>
     </td>
-    <td align="center">
+    <td align="center" width="120">
       <a href="https://github.com/yliukj">
-        <img src="https://github.com/yliukj.png?size=120" width="96" alt="Yang Liu"/><br/>
+        <img src="https://github.com/yliukj.png?size=96" width="72" alt="Yang Liu"/><br/>
         <sub><b>Yang Liu</b></sub>
       </a><br/>
       <sub>@yliukj</sub>
     </td>
-    <td align="center">
+  </tr>
+  <tr>
+    <td align="center" width="120">
       <a href="https://github.com/OPilgrim">
-        <img src="https://github.com/OPilgrim.png?size=120" width="96" alt="Yunyue Su"/><br/>
+        <img src="https://github.com/OPilgrim.png?size=96" width="72" alt="Yunyue Su"/><br/>
         <sub><b>Yunyue Su</b></sub>
       </a><br/>
       <sub>@OPilgrim</sub>
     </td>
-    <td align="center">
+    <td align="center" width="120">
       <a href="https://github.com/komusama0930">
-        <img src="https://github.com/komusama0930.png?size=120" width="96" alt="Shuchen Pu"/><br/>
+        <img src="https://github.com/komusama0930.png?size=96" width="72" alt="Shuchen Pu"/><br/>
         <sub><b>Shuchen Pu</b></sub>
       </a><br/>
       <sub>@komusama0930</sub>
     </td>
-    <td align="center">
+    <td align="center" width="120">
       <a href="https://github.com/Licht0812">
-        <img src="https://github.com/Licht0812.png?size=120" width="96" alt="Hanyu Gao"/><br/>
+        <img src="https://github.com/Licht0812.png?size=96" width="72" alt="Hanyu Gao"/><br/>
         <sub><b>Hanyu Gao</b></sub>
       </a><br/>
       <sub>@Licht0812</sub>
-    </td>    
+    </td>
   </tr>
 </table>
 
