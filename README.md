@@ -1,4 +1,4 @@
-# Awesome XRD → Crystal [![Awesome](https://awesome.re/badge.svg)](https://awesome.re) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+# Awesome XRD → Crystal [![Awesome](https://awesome.re/badge.svg)](https://awesome.re) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![Link Check](https://github.com/Bin-Cao/awesome-xrd2crystal/actions/workflows/links.yml/badge.svg)](https://github.com/Bin-Cao/awesome-xrd2crystal/actions/workflows/links.yml)
 
 > A curated, chronologically organized collection of papers, code, and datasets on **(powder) X-ray diffraction (XRD/PXRD) → crystal structure** — identification, symmetry classification, ab-initio structure determination, generative modeling, multi-phase decomposition, refinement, and related machine-learning topics.
 
@@ -63,6 +63,13 @@ Within every section, entries are listed **chronologically (oldest → newest)**
         <sub><b>Hanyu Gao</b></sub>
       </a><br/>
       <sub>@Licht0812</sub>
+    </td>
+    <td align="center" width="120">
+      <a href="https://github.com/RaymondZhurm">
+        <img src="https://github.com/RaymondZhurm.png?size=96" width="72" alt="Ruiming Zhu"/><br/>
+        <sub><b>Ruiming Zhu</b></sub>
+      </a><br/>
+      <sub>@RaymondZhurm</sub>
     </td>
   </tr>
 </table>
@@ -558,7 +565,7 @@ Listed chronologically. *(Reference databases (RRUFF, COD, Materials Project, IC
 
 - **Materials Project / MP-20 / MP-PXRD** — <https://next-gen.materialsproject.org/> · MP-20: <https://github.com/txie-93/cdvae/tree/main/data/mp_20> · MP-20-PXRD: <https://github.com/gabeguo/cdvae_xrd>
 - **Crystallography Open Database (COD)** — <http://www.crystallography.net/cod/>  (~500 k CIFs; free alternative to ICSD).
-- **JARVIS-DFT XRD** — <https://jarvis.nist.gov/jarvisxrd/>  (simulated XRD over JARVIS-DFT structures; used by DiffractGPT).
+- **JARVIS-DFT XRD** — JARVIS-DFT structure hub: <https://jarvis.nist.gov/jarvisdft> · interactive XRD-to-structure app (DiffractGPT backend): <https://jarvis.nist.gov/jxrd>
 - **ICSD** — <https://icsd.fiz-karlsruhe.de/> (licensed inorganic structures; common training source for Park 2017, Lee 2020, Schopmans 2023).
 - **CSD** — <https://www.ccdc.cam.ac.uk/structures/> (licensed organic / metal-organic structures; used by DeepLPnet 2021 alongside ICSD).
 - **PDF-4+ / ICDD PDF** — <https://www.icdd.com/> (commercial Powder Diffraction File; experimental benchmark for Crystalyze, XRDSol, RealPXRD-Solver).
@@ -570,7 +577,7 @@ Listed chronologically. *(Reference databases (RRUFF, COD, Materials Project, IC
 - **pymatgen XRDCalculator** — Python simulation of PXRD from CIF. <https://pymatgen.org/pymatgen.analysis.diffraction.html>
 - **GSAS-II** — Open-source Rietveld refinement and structure determination (used by PXRDGen, RAPID, AlphaDiffract, etc.). Home: <https://advancedphotonsource.github.io/GSAS-II-tutorials/> · source: <https://github.com/AdvancedPhotonSource/GSAS-II> · docs: <https://gsas-ii.readthedocs.io/>
 - **FullProf** — Classical Rietveld suite. <https://www.ill.eu/sites/fullprof/>
-- **TOPAS-Academic** — Macro-language Rietveld engine. <http://www.topas-academic.net/>
+- **TOPAS-Academic** — Macro-language Rietveld engine by Alan Coelho (v8, 2025). <https://topas-academic.com/> · community wiki & tutorials (Durham): <https://topas.webspace.durham.ac.uk/>
 - **diffpy-cmi / PDFfit2** — Pair distribution function modeling. <https://www.diffpy.org/>
 - **xrdpattern** — Python package shipped with opXRD for unified PXRD I/O and curation. <https://github.com/aimat-lab/xrdpattern>
 - **pysimxrd** — Domain-specific Python simulator behind SimXRD-4M; models peak broadening, lattice perturbation, instrumental and orientation effects. <https://pypi.org/project/pysimxrd/> · source: <https://github.com/Bin-Cao/SimXRD>
