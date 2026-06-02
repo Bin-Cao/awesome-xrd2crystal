@@ -655,8 +655,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full entry-format template, chron
 
 Thanks goes to these wonderful people who have contributed papers, corrections, and improvements to this list — 感谢以下贡献者对本仓库的补充、纠正与维护：
 
-<a href="https://github.com/Bin-Cao/awesome-xrd2crystal/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Bin-Cao/awesome-xrd2crystal" alt="Contributors" />
-</a>
+[![Contributors](https://contrib.rocks/image?repo=Bin-Cao/awesome-xrd2crystal)](https://github.com/Bin-Cao/awesome-xrd2crystal/graphs/contributors)
 
 <sub>*Avatars are rendered automatically by [contrib.rocks](https://contrib.rocks) from the GitHub contributor graph.*</sub>
