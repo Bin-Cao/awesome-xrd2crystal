@@ -632,6 +632,7 @@ Broader crystal-CSP / generative reviews (context for the methods above):
 ## Related Curated Lists
 
 - [awesome-materials-informatics](https://github.com/tilde-lab/awesome-materials-informatics) — broad materials-informatics list.
+- [awesome-ai-for-materials-generation](https://github.com/ZhixunLEE/Awesome-AI-for-Materials-Generation) — generative models-deep generative models list.
 - [awesome-self-supervised-learning-for-graphs](https://github.com/LirongWu/awesome-graph-self-supervised-learning) — relevant for crystal-graph encoders.
 - [awesome-generative-models-for-materials](https://github.com/usnistgov/jarvis_leaderboard) (JARVIS Leaderboard) — leaderboard tracking many of the generative models above.
 
