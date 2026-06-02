@@ -170,7 +170,7 @@ Methods that take a PXRD pattern (optionally + composition / lattice) and output
 - **Authors:** Qi Li (IoP, CAS), Rui Jiao (Tsinghua), Liang Wu, Tao Zhu, et al.; seniors: Wenbing Huang (Renmin Univ.), Shifeng Jin (IoP, CAS)
 - **Venue:** *Nature Communications* 16, 7428 (2025); arXiv:2409.04727
 - **Paper:** <https://www.nature.com/articles/s41467-025-62708-8> · <https://arxiv.org/abs/2409.04727>
-- **Code:** <https://codeocean.com/capsule/2196660/> (DOI: 10.24433/CO.6347299.v1)
+- **Code:** <https://codeocean.com/capsule/7727770/tree/v1> (DOI: 10.24433/CO.6347299.v1)
 - **TL;DR:** Contrastive-pretrained XRD encoder + DiffCSP-style diffusion/flow generator + integrated Rietveld refinement; 82% valid compounds from a single sample on MP-20, 96% within 20.
 
 ### 2025 · deCIFer — Autoregressive transformer over CIF tokens conditioned on PXRD
@@ -242,6 +242,8 @@ Methods that take a PXRD pattern (optionally + composition / lattice) and output
 - **Authors:** Kaixiang Su, Osman Goni Ridwan, Hongfei Xue; senior: Qiang Zhu — UNC Charlotte
 - **Venue:** arXiv:2605.24594 (May 2026)
 - **Paper:** <https://arxiv.org/abs/2605.24594>
+- **Code:** <https://github.com/MaterSim/Ab-PXRD-Solver>
+- **Data:** <https://mmi.charlotte.edu/ab_pxrd_solver>
 - **TL;DR:** Hierarchical pipeline: (1) discrete search over space group / unit cell / Wyckoff combinations, (2) continuous coordinate optimization with AI-based peak profile analysis, density estimation, and physics-informed energy constraints.
 
 ---
@@ -296,6 +298,7 @@ Methods that, given a PXRD pattern, predict which known phase(s) it corresponds 
 - **Title:** Machine Learning-Assisted Close-Set X-ray Diffraction Phase Identification of Transition Metals
 - **Authors:** Maksim Eremeev et al.
 - **Venue:** ICLR 2023 ML4Materials Workshop
+- **Paper:** <https://arxiv.org/abs/2305.15410>
 - **Code:** <https://github.com/maxnygma/NeuralXRD>
 - **TL;DR:** Combines synthetic phase generation, peak integration, and post-hoc calibration to identify transition-metal phases from XRD; ships demo notebooks operating on COD-derived patterns.
 
@@ -315,6 +318,7 @@ Methods that, given a PXRD pattern, predict which known phase(s) it corresponds 
 - **Authors:** Emil T. S. Kjær, Andy S. Anker, Andrea Kirsch, et al.; seniors: Simon J. L. Billinge (Columbia), Kirsten M. Ø. Jensen (Copenhagen)
 - **Venue:** *Digital Discovery* (2024); DOI 10.1039/D4DD00001C
 - **Paper:** <https://pubs.rsc.org/en/content/articlehtml/2024/dd/d4dd00001c>
+- **Code:** <https://github.com/EmilSkaaning/MLstructureMining> · <https://github.com/EmilSkaaning/MLstructureMining-workflow>
 - **TL;DR:** Tree-ensemble classifier trained on simulated PDFs to identify candidate structures for in-situ / operando experiments; complements direct PXRD methods on the PDF side.
 
 ### 2025 · XQueryer — 1.03 B-parameter transformer crystal identifier
@@ -344,6 +348,7 @@ Methods that, given a PXRD pattern, predict which known phase(s) it corresponds 
 - **Authors:** Jeffery A. Aguiar (INL/Univ. of Utah), Matthew L. Gong, Raymond Unocic, Tolga Tasdizen, Brian Miller
 - **Venue:** *Science Advances* 5, eaaw1949 (2019)
 - **Paper:** <https://www.science.org/doi/10.1126/sciadv.aaw1949>
+- **Code:** <https://github.com/SCIInstitute/DiffractionClassification>
 - **TL;DR:** CNN trained on 571,340 diffraction patterns across 7 families / 32 genera / 230 space groups; reduces the candidate space groups to the top 2 with >70–95% confidence; cross-validated on alloys and 2D materials.
 
 ### 2019 · Vecsei et al. — Neural network classification of crystal symmetries
@@ -359,7 +364,7 @@ Methods that, given a PXRD pattern, predict which known phase(s) it corresponds 
 - **Title:** Using a machine learning approach to determine the space group of a structure from the atomic pair distribution function
 - **Authors:** Chia-Hao (Timothy) Liu, Yunzhe Tao, Daniel Hsu, Qiang Du; senior: Simon J. L. Billinge — Columbia University
 - **Venue:** *Acta Crystallographica A* 75, 633–643 (2019)
-- **Paper:** <https://journals.iucr.org/a/issues/2019/04/00/ae5079/>
+- **Paper:** <https://journals.iucr.org/paper?S2053273319005606> · <https://arxiv.org/abs/1902.00594>
 - **TL;DR:** PDF-based (not direct PXRD) CNN; 91.9% top-6 space-group accuracy on experimental PDF inputs.
 
 ### 2020 · Suzuki et al. — Interpretable XGBoost for symmetry prediction
@@ -368,6 +373,7 @@ Methods that, given a PXRD pattern, predict which known phase(s) it corresponds 
 - **Authors:** Yuta Suzuki et al. — Toyota Motor Corp. / RIKEN
 - **Venue:** *Scientific Reports* 10, 21790 (2020)
 - **Paper:** <https://www.nature.com/articles/s41598-020-77474-4>
+- **Code:** <https://github.com/quantumbeam/xrd-symmetry-prediction>
 - **TL;DR:** Tree-ensemble (XGBoost) with feature attribution; ~90% crystal-system, ~88% Top-5 space-group accuracy with extraction of human-interpretable rules.
 
 ### 2021 · Chitturi et al. — 1D-CNN lattice parameter prediction (DeepLPnet)
@@ -385,6 +391,7 @@ Methods that, given a PXRD pattern, predict which known phase(s) it corresponds 
 - **Authors:** Jerardo E. Salgado, Samuel Lerman, Zhaotong Du, Chenliang Xu; senior: Niaz Abdolrahim, Jason Hattrick-Simpers — University of Toronto / Rochester
 - **Venue:** *npj Computational Materials* 9, 214 (2023)
 - **Paper:** <https://www.nature.com/articles/s41524-023-01164-8>
+- **Code:** <https://github.com/AGI-init/XRDs>
 - **TL;DR:** 7-way crystal-system + 230-way space-group CNN with augmented synthetic data approximating real experimental noise.
 
 ### 2023 · Schopmans et al. — Synthetic crystals → ICSD symmetry extraction
@@ -451,6 +458,7 @@ Methods that, given a PXRD pattern, predict which known phase(s) it corresponds 
 - **Authors:** C. M. Biwer, Z. Feng, D. Finstad, M. McDonnell, M. Knezevic, M. McKerns, D. J. Savage, S. C. Vogel — LANL (X Computational Physics / Materials Science & Tech.), with UNH, Syracuse, ORNL and the UQ Foundation
 - **Venue:** *Scientific Reports* 15, 8358 (2025)
 - **Paper:** <https://www.nature.com/articles/s41598-025-92452-4>
+- **Code:** <https://github.com/lanl/spotlight>
 - **Multi-phase strategy:** *Known candidate phase set; parallel global optimization across a parametric series.*
 - **TL;DR:** Python wrapper over MAUD / GSAS / GSAS-II that drives Rietveld refinement of multi-phase samples through an ensemble of optimizers running in parallel on HPC, with an iteratively learned surrogate of the refinement response surface. Targets parametric series (temperature, composition, in-situ time) where simple sequential refinement or DB-matching diverges as phase transformations occur; demonstrated on U–Mo, Ti–6Al–4V, Al₂O₃ and PbSO₄.
 
@@ -530,6 +538,7 @@ Listed chronologically. *(Reference databases (RRUFF, COD, Materials Project, IC
 ### 2023 · ML4pXRDs — Synthetic-crystal training pipeline
 
 - **Authors:** Schopmans et al. — KIT (AiMat group)
+- **Paper:** <https://pubs.rsc.org/en/content/articlehtml/2023/dd/d3dd00071k> · <https://arxiv.org/abs/2303.11699>
 - **Code:** <https://github.com/aimat-lab/ML4pXRDs>
 - **TL;DR:** Reference pipeline for training symmetry classifiers from synthetically generated random crystals and evaluating against ICSD patterns (companion to Schopmans 2023).
 
