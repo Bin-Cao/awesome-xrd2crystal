@@ -658,7 +658,7 @@ Thanks goes to these wonderful people who have contributed papers, corrections, 
 
 
 <a href="https://github.com/Bin-Cao/awesome-xrd2crystal/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Bin-Cao/awesome-xrd2crystal" />
+  <img src="https://contrib.rocks/image?repo=Bin-Cao/awesome-xrd2crystal&v=1" />
 </a>
 
 
