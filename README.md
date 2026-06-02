@@ -209,6 +209,15 @@ Methods that take a PXRD pattern (optionally + composition / lattice) and output
 - **Base model:** <https://arxiv.org/abs/2307.04340> · <https://github.com/lantunes/CrystaLLM>
 - **TL;DR:** Adds bandgap, density, photovoltaic efficiency and PXRD conditioning streams to the CrystaLLM CIF autoregressive language model. The base model is **CrystaLLM** (Antunes et al., *Nat. Commun.* 15, 10570, 2024) — a GPT-style decoder-only language model trained on millions of CIF files that emits crystal structures as CIF text token by token.
 
+### 2026 · Xrd2Mof - Stable-Diffusion solver for MOF PXRD
+
+- **Title:** Title: Interpreting X-ray Diffraction Patterns of Metal–Organic Frameworks via Generative Artificial Intelligence
+- **Authors:** Bin Feng, Bingxu Wang, Linpeng Lv, Mingzheng Zhang, Zhefeng Chen, Feng Pan, Shunning Li(Peking University Shenzhen Graduate School)
+- **Venue:** *J. Am. Chem. Soc.* 148(1), 869–878 (2026)
+- **Paper:** <https://pubs.acs.org/doi/10.1021/jacs.5c16416>
+- **Code:** <https://github.com/PKUsam2023/Xrd2Mof>
+- **TL;DR:** Diffusion-based framework for MOF structure determination from PXRD using coarse-grained representations and chemical priors; >93% accuracy in recovering ground-truth MOF structures.
+
 ### 2026 · XRDSol — Equivariant diffusion solver for inorganic PXRD
 
 - **Title:** Equivariant diffusion solution for inorganic crystal structure determination from powder X-ray diffraction data
@@ -387,6 +396,14 @@ Methods that, given a PXRD pattern, predict which known phase(s) it corresponds 
 - **Code:** <https://github.com/aimat-lab/ML4pXRDs>
 - **TL;DR:** Models trained on purely synthetic randomly-generated crystals surpass models trained on ICSD itself for space-group classification on ICSD test patterns.
 
+### 2024 · CrySTINet — Structure-type assignment from PXRD
+- **Title:** Crystal Structure Assignment for Unknown Compounds from X-ray Diffraction Patterns with Deep Learning
+- **Authors:** Litao Chen, Bin Feng, Bingxu Wang, Linpeng Lv, Mingzheng Zhang, Zhefeng Chen, Feng Pan, Shunning Li(Peking University Shenzhen Graduate School)
+- **Venue:** *J. Am. Chem. Soc.* 146(12), 8098–8109 (2024)
+- **Paper:** <https://pubs.acs.org/doi/10.1021/jacs.3c11852>
+- **Code:** <https://github.com/PKUsam2023/CrySTINet>
+- **TL;DR:** RCNet-ensemble framework for assigning unknown inorganic PXRD patterns to 100 crystal structure types; combines neural confidence with global pattern similarity, achieving 80.0% accuracy.
+  
 ### 2026 · AlphaDiffract — 1D ConvNeXt for lattice & symmetry determination
 
 - **Title:** AlphaDiffract: Automated Crystallographic Analysis of Powder X-ray Diffraction Data
