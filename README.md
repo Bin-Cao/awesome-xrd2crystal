@@ -80,6 +80,13 @@ Within every section, entries are listed **chronologically (oldest → newest)**
       </a><br/>
       <sub>@ManlioWu</sub>
     </td>
+    <td align="center" width="120">
+      <a href="https://github.com/0xTong">
+        <img src="https://github.com/0xTong.png?size=96" width="72" alt="Tong Xie"/><br/>
+        <sub><b>Tong Xie</b></sub>
+      </a><br/>
+      <sub>@0xTong</sub>
+    </td>
   </tr>
 </table>
 
