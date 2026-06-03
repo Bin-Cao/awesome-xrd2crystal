@@ -72,6 +72,15 @@ Within every section, entries are listed **chronologically (oldest → newest)**
       <sub>@RaymondZhurm</sub>
     </td>
   </tr>
+  <tr>
+    <td align="center" width="120">
+      <a href="https://github.com/ManlioWu">
+        <img src="https://github.com/ManlioWu.png?size=96" width="72" alt="Liming Wu"/><br/>
+        <sub><b>Liming Wu</b></sub>
+      </a><br/>
+      <sub>@ManlioWu</sub>
+    </td>
+  </tr>
 </table>
 
 For paper additions, please open an issue or PR; for scope or organizational questions, feel free to tag any maintainer directly.
