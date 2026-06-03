@@ -619,7 +619,7 @@ Reviews directly focused on PXRD-driven analysis and structure determination:
 - **X-ray Diffraction Data Analysis by Machine Learning Methods — A Review** — Surakhi et al., *Applied Sciences* 13, 9992 (2023). <https://www.mdpi.com/2076-3417/13/17/9992>
 - **Identifying crystal structures beyond known prototypes from X-ray powder diffraction spectra** — *Phys. Rev. Materials* 8, 103801 (2024). <https://journals.aps.org/prmaterials/abstract/10.1103/PhysRevMaterials.8.103801>
 - **Machine Learning in X-ray Scattering for Materials Discovery and Characterization** — ChemRxiv preprint (Dec 2024). <https://chemrxiv.org/engage/chemrxiv/article-details/67624f34fa469535b9f25aea>
-- **End-to-End Crystal Structure Prediction from Powder X-Ray Diffraction** — Chinese-language review on themoonlight.io that motivated this repo. <https://www.themoonlight.io/zh/review/end-to-end-crystal-structure-prediction-from-powder-x-ray-diffraction>
+
 
 Broader crystal-CSP / generative reviews (context for the methods above):
 
