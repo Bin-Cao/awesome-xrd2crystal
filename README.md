@@ -87,6 +87,13 @@ Within every section, entries are listed **chronologically (oldest → newest)**
       </a><br/>
       <sub>@0xTong</sub>
     </td>
+    <td align="center" width="120">
+      <a href="https://github.com/Tosykie">
+        <img src="https://github.com/Tosykie.png?size=96" width="72" alt="Wei Nong"/><br/>
+        <sub><b>Wei Nong</b></sub>
+      </a><br/>
+      <sub>@Tosykie</sub>
+    </td>
   </tr>
 </table>
 
