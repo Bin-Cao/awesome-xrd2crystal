@@ -72,6 +72,29 @@ Within every section, entries are listed **chronologically (oldest → newest)**
       <sub>@RaymondZhurm</sub>
     </td>
   </tr>
+  <tr>
+    <td align="center" width="120">
+      <a href="https://github.com/ManlioWu">
+        <img src="https://github.com/ManlioWu.png?size=96" width="72" alt="Liming Wu"/><br/>
+        <sub><b>Liming Wu</b></sub>
+      </a><br/>
+      <sub>@ManlioWu</sub>
+    </td>
+    <td align="center" width="120">
+      <a href="https://github.com/0xTong">
+        <img src="https://github.com/0xTong.png?size=96" width="72" alt="Tong Xie"/><br/>
+        <sub><b>Tong Xie</b></sub>
+      </a><br/>
+      <sub>@0xTong</sub>
+    </td>
+    <td align="center" width="120">
+      <a href="https://github.com/Tosykie">
+        <img src="https://github.com/Tosykie.png?size=96" width="72" alt="Wei Nong"/><br/>
+        <sub><b>Wei Nong</b></sub>
+      </a><br/>
+      <sub>@Tosykie</sub>
+    </td>
+  </tr>
 </table>
 
 For paper additions, please open an issue or PR; for scope or organizational questions, feel free to tag any maintainer directly.
@@ -167,7 +190,7 @@ Methods that take a PXRD pattern (optionally + composition / lattice) and output
 ### 2025 · PXRDGen — Contrastive XRD encoder + flow/diffusion + automated Rietveld
 
 - **Title:** Powder diffraction crystal structure determination using generative models
-- **Authors:** Qi Li (IoP, CAS), Rui Jiao (Tsinghua), Liang Wu, Tao Zhu, et al.; seniors: Wenbing Huang (Renmin Univ.), Shifeng Jin (IoP, CAS)
+- **Authors:** Qi Li (IoP, CAS), Rui Jiao (Tsinghua), Liming Wu, Tiannian Zhu, et al.; seniors: Wenbing Huang (Renmin Univ.), Shifeng Jin (IoP, CAS)
 - **Venue:** *Nature Communications* 16, 7428 (2025); arXiv:2409.04727
 - **Paper:** <https://www.nature.com/articles/s41467-025-62708-8> · <https://arxiv.org/abs/2409.04727>
 - **Code:** <https://codeocean.com/capsule/7727770/tree/v1> (DOI: 10.24433/CO.6347299.v1)
