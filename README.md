@@ -1,5 +1,9 @@
 # Awesome XRD → Crystal [![Awesome](https://awesome.re/badge.svg)](https://awesome.re) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+
+<img width="1536" height="1024" alt="Eng" src="https://github.com/user-attachments/assets/986d296b-88a5-4d47-8761-dabe19cfa0b7" />
+
+
 > A curated, chronologically organized collection of papers, code, and datasets on **(powder) X-ray diffraction (XRD/PXRD) → crystal structure** — identification, symmetry classification, ab-initio structure determination, generative modeling, multi-phase decomposition, refinement, and related machine-learning topics.
 
 The PXRD → structure problem is an ill-posed inverse problem: many candidate structures can produce similar 1D patterns, and experimental profiles contain instrumental broadening, finite-size effects, texture/preferred orientation, background, impurity phases, and peak overlap. Work in this space spans (1) phase identification and search-match, (2) symmetry / lattice / space-group prediction, (3) multi-phase decomposition and Rietveld automation, (4) autonomous/in-situ analysis, and (5) end-to-end generative ab-initio structure solution.
