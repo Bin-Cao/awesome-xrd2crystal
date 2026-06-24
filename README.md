@@ -1,7 +1,21 @@
-# Awesome XRD → Crystal [![Awesome](https://awesome.re/badge.svg)](https://awesome.re) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+<div align="center">
 
+# Awesome XRD to Crystal
 
-<img width="1536" height="1024" alt="Eng" src="https://github.com/user-attachments/assets/986d296b-88a5-4d47-8761-dabe19cfa0b7" />
+**A curated knowledge map for PXRD-driven crystal identification, generation, decomposition, and refinement.**
+
+[![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
+[![GitHub stars](https://img.shields.io/github/stars/Bin-Cao/awesome-xrd2crystal?style=flat&logo=github&label=Stars)](https://github.com/Bin-Cao/awesome-xrd2crystal/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/Bin-Cao/awesome-xrd2crystal?style=flat&logo=github&label=Forks)](https://github.com/Bin-Cao/awesome-xrd2crystal/forks)
+[![Issues](https://img.shields.io/github/issues/Bin-Cao/awesome-xrd2crystal?style=flat&logo=github&label=Issues)](https://github.com/Bin-Cao/awesome-xrd2crystal/issues)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+**Language:** **English** · [中文](README.zh-CN.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Deutsch](README.de.md)
+
+<img width="1536" height="1024" alt="Awesome XRD to Crystal" src="https://github.com/user-attachments/assets/986d296b-88a5-4d47-8761-dabe19cfa0b7" />
+
+</div>
 
 
 > A curated, chronologically organized collection of papers, code, and datasets on **(powder) X-ray diffraction (XRD/PXRD) → crystal structure** — identification, symmetry classification, ab-initio structure determination, generative modeling, multi-phase decomposition, refinement, and related machine-learning topics.
