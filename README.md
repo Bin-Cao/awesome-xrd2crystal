@@ -1,58 +1,17 @@
-<div align="center">
+# Awesome XRD → Crystal [![Awesome](https://awesome.re/badge.svg)](https://awesome.re) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-# Awesome XRD to Crystal
 
-**A curated knowledge map for PXRD-driven crystal identification, generation, decomposition, and refinement.**
+<img width="1536" height="1024" alt="Eng" src="https://github.com/user-attachments/assets/986d296b-88a5-4d47-8761-dabe19cfa0b7" />
 
-[![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
-[![GitHub stars](https://img.shields.io/github/stars/Bin-Cao/awesome-xrd2crystal?style=flat&logo=github&label=Stars)](https://github.com/Bin-Cao/awesome-xrd2crystal/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/Bin-Cao/awesome-xrd2crystal?style=flat&logo=github&label=Forks)](https://github.com/Bin-Cao/awesome-xrd2crystal/forks)
-[![Issues](https://img.shields.io/github/issues/Bin-Cao/awesome-xrd2crystal?style=flat&logo=github&label=Issues)](https://github.com/Bin-Cao/awesome-xrd2crystal/issues)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**English** · [中文](README.zh-CN.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Deutsch](README.de.md)
+> A curated, chronologically organized collection of papers, code, and datasets on **(powder) X-ray diffraction (XRD/PXRD) → crystal structure** — identification, symmetry classification, ab-initio structure determination, generative modeling, multi-phase decomposition, refinement, and related machine-learning topics.
 
-</div>
+The PXRD → structure problem is an ill-posed inverse problem: many candidate structures can produce similar 1D patterns, and experimental profiles contain instrumental broadening, finite-size effects, texture/preferred orientation, background, impurity phases, and peak overlap. Work in this space spans (1) phase identification and search-match, (2) symmetry / lattice / space-group prediction, (3) multi-phase decomposition and Rietveld automation, (4) autonomous/in-situ analysis, and (5) end-to-end generative ab-initio structure solution.
 
----
+Within every section, entries are listed **chronologically (oldest → newest)** in a standardized format.
 
-## Overview
-
-This repository is a curated, chronologically organized collection of papers, code, datasets, benchmarks, and tools on **(powder) X-ray diffraction (XRD/PXRD) to crystal structure**: phase identification, symmetry classification, ab-initio structure determination, generative modeling, multi-phase decomposition, Rietveld refinement, autonomous/in-situ analysis, and related machine-learning topics.
-
-The PXRD to structure problem is an ill-posed inverse problem: many candidate structures can produce similar 1D patterns, and experimental profiles contain instrumental broadening, finite-size effects, texture/preferred orientation, background, impurity phases, and peak overlap. Work in this space spans:
-
-| Direction | Typical goal |
-|---|---|
-| Phase identification | Search-match or classify known phases from PXRD patterns |
-| Symmetry and lattice prediction | Predict crystal system, space group, extinction group, or lattice parameters |
-| Multi-phase decomposition | Separate mixed patterns and estimate phase fractions |
-| Rietveld automation | Accelerate refinement, parameter estimation, and global optimization |
-| Generative structure solution | Generate full 3D crystals, atomic coordinates, lattice, or CIF from PXRD |
-| Autonomous/in-situ analysis | Analyze live diffraction streams and close experimental feedback loops |
-
-Within every section, entries are listed **chronologically (oldest to newest)** in a standardized format.
-
-> **Contributions, corrections, and translations are welcome.** If a paper is missing, a link is broken, or an author/affiliation is wrong, please [open an issue](https://github.com/Bin-Cao/awesome-xrd2crystal/issues/new) or send a PR. See [CONTRIBUTING.md](CONTRIBUTING.md). All contributors are credited in the [Contributors](#contributors) section.
-
-## Contents
-
-- [Overview](#overview)
-- [Maintainers](#maintainers)
-- [Classification vs. Generation — quick guide](#classification-vs-generation--quick-guide)
-- [Standard Entry Format](#standard-entry-format)
-- [End-to-End PXRD → Crystal Structure (Generative)](#end-to-end-pxrd--crystal-structure-generative)
-- [Phase Identification from XRD](#phase-identification-from-xrd)
-- [Crystal System / Space Group / Lattice Prediction from XRD](#crystal-system--space-group--lattice-prediction-from-xrd)
-- [Multi-phase Decomposition & Rietveld Refinement](#multi-phase-decomposition--rietveld-refinement)
-- [Autonomous / In-situ XRD Analysis](#autonomous--in-situ-xrd-analysis)
-- [Datasets & Benchmarks](#datasets--benchmarks)
-- [Simulation, Refinement, and Utility Tools](#simulation-refinement-and-utility-tools)
-- [Reviews & Surveys](#reviews--surveys)
-- [Related Curated Lists](#related-curated-lists)
-- [Contributing](#contributing)
-- [Contributors](#contributors)
+> 📢 **Contributions, corrections, and translations are warmly welcomed — 欢迎补充、纠正与翻译！**
+> If a paper is missing, a link is broken, or an author/affiliation is wrong, please [open an issue](https://github.com/Bin-Cao/awesome-xrd2crystal/issues/new) or send a PR. See [CONTRIBUTING.md](CONTRIBUTING.md). All contributors are credited in the [Contributors](#contributors) section at the bottom.
 
 ## Maintainers 
 
@@ -161,7 +120,22 @@ Classification models are typically lighter, require no symmetry equivariance, a
 
 ---
 
-## Standard Entry Format
+## Contents
+
+- [Maintainers](#maintainers)
+- [End-to-End PXRD → Crystal Structure (Generative)](#end-to-end-pxrd--crystal-structure-generative)
+- [Phase Identification from XRD](#phase-identification-from-xrd)
+- [Crystal System / Space Group / Lattice Prediction from XRD](#crystal-system--space-group--lattice-prediction-from-xrd)
+- [Multi-phase Decomposition & Rietveld Refinement](#multi-phase-decomposition--rietveld-refinement)
+- [Autonomous / In-situ XRD Analysis](#autonomous--in-situ-xrd-analysis)
+- [Datasets & Benchmarks](#datasets--benchmarks)
+- [Simulation, Refinement, and Utility Tools](#simulation-refinement-and-utility-tools)
+- [Reviews & Surveys](#reviews--surveys)
+- [Related Curated Lists](#related-curated-lists)
+- [Contributing](#contributing)
+- [Contributors](#contributors)
+
+### Standard entry format
 
 ```
 ### YYYY · ShortName — One-sentence tagline
