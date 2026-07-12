@@ -13,6 +13,10 @@
 
 **Language:** **English** · [中文](README.zh-CN.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Deutsch](README.de.md)
 
+**Interactive view:** [Open the searchable HTML explorer](index.html)
+
+> **Update note:** This repository was systematically updated in **June 2026**. The next systematic update is planned for **June 2027**. Authors are welcome to open an issue or PR to share updates about their own work.
+
 <img width="1536" height="1024" alt="Awesome XRD to Crystal" src="https://github.com/user-attachments/assets/986d296b-88a5-4d47-8761-dabe19cfa0b7" />
 
 </div>

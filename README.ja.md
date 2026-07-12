@@ -13,6 +13,10 @@
 
 **Language:** [English](README.md) · [中文](README.zh-CN.md) · **日本語** · [한국어](README.ko.md) · [Español](README.es.md) · [Deutsch](README.de.md)
 
+**Interactive view:** [検索可能な HTML ページを開く](index.html)
+
+> **更新情報:** このリポジトリは **2026 年 6 月**に体系的に更新されました。次回の体系的な更新は **2027 年 6 月**を予定しています。著者の皆さまによるご自身の研究アップデートの issue / PR も歓迎します。
+
 </div>
 
 ---

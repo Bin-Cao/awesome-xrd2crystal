@@ -1,0 +1,1301 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Awesome XRD to Crystal Explorer</title>
+  <meta name="description" content="A searchable, visual explorer for PXRD-driven crystal identification, generation, decomposition, refinement, datasets, and tools.">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #18202b;
+      --muted: #667085;
+      --line: #d8dee8;
+      --panel: #ffffff;
+      --soft: #f3f6fb;
+      --accent: #0f766e;
+      --accent-2: #9a3412;
+      --accent-3: #1d4ed8;
+      --shadow: 0 18px 50px rgba(24, 32, 43, 0.12);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: #eef2f7;
+      line-height: 1.55;
+    }
+
+    a {
+      color: var(--accent-3);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 76vh;
+      display: grid;
+      align-items: end;
+      overflow: hidden;
+      background: #111827;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(8, 13, 23, 0.86) 0%, rgba(8, 13, 23, 0.58) 48%, rgba(8, 13, 23, 0.18) 100%),
+        url("tops/Eng.png") center / cover no-repeat;
+      transform: scale(1.02);
+    }
+
+    .hero-inner {
+      position: relative;
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 92px 0 54px;
+      color: #fff;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 18px;
+      padding: 7px 10px;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.09);
+      color: rgba(255, 255, 255, 0.88);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      max-width: 800px;
+      margin: 0;
+      font-size: clamp(42px, 7vw, 84px);
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      max-width: 780px;
+      margin: 22px 0 0;
+      color: rgba(255, 255, 255, 0.84);
+      font-size: 19px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 30px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 10px 14px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      background: #ffffff;
+      color: #111827;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .button.secondary {
+      background: rgba(255, 255, 255, 0.10);
+      color: #fff;
+    }
+
+    .update-band {
+      background: #fff7ed;
+      border-block: 1px solid #fed7aa;
+    }
+
+    .update-inner,
+    main {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .update-inner {
+      padding: 16px 0;
+      color: #7c2d12;
+      font-weight: 750;
+    }
+
+    main {
+      padding: 30px 0 56px;
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) 220px 180px;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 18px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: 0 10px 28px rgba(24, 32, 43, 0.08);
+      backdrop-filter: blur(12px);
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      padding: 9px 12px;
+    }
+
+    input:focus,
+    select:focus {
+      outline: 3px solid rgba(15, 118, 110, 0.18);
+      border-color: var(--accent);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 18px 0 22px;
+    }
+
+    .stat {
+      min-height: 88px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+    }
+
+    .stat b {
+      display: block;
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .side {
+      position: sticky;
+      top: 92px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+    }
+
+    .side h2,
+    .results-head h2 {
+      margin: 0 0 12px;
+      font-size: 16px;
+    }
+
+    .chip-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--ink);
+      cursor: pointer;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 750;
+      padding: 7px 10px;
+    }
+
+    .chip.active {
+      border-color: var(--accent);
+      background: #ccfbf1;
+      color: #134e4a;
+    }
+
+    .results-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 0 0 12px;
+    }
+
+    .count {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 750;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      display: grid;
+      gap: 10px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: 0 1px 0 rgba(24, 32, 43, 0.03);
+    }
+
+    .card:hover {
+      border-color: #94a3b8;
+      box-shadow: var(--shadow);
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: var(--soft);
+      color: #334155;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .pill.year {
+      background: #e0f2fe;
+      color: #075985;
+    }
+
+    .card h3 {
+      margin: 0;
+      font-size: 19px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .tagline {
+      margin: -2px 0 0;
+      color: var(--accent-2);
+      font-weight: 800;
+    }
+
+    .tldr {
+      margin: 0;
+      color: #334155;
+    }
+
+    .detail {
+      display: grid;
+      gap: 6px;
+      padding-top: 4px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 2px;
+    }
+
+    .links a {
+      display: inline-flex;
+      min-height: 30px;
+      align-items: center;
+      padding: 5px 9px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--accent-3);
+      font-size: 13px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .empty {
+      padding: 28px;
+      border: 1px dashed #94a3b8;
+      border-radius: var(--radius);
+      background: var(--panel);
+      color: var(--muted);
+    }
+
+    footer {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 0 0 38px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 920px) {
+      .toolbar,
+      .layout,
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .side {
+        position: static;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .hero {
+        min-height: 82vh;
+      }
+
+      .hero-inner,
+      .update-inner,
+      main,
+      footer {
+        width: min(100% - 28px, 1180px);
+      }
+
+      .hero-inner {
+        padding-top: 72px;
+      }
+
+      h1 {
+        font-size: 42px;
+      }
+
+      .subtitle {
+        font-size: 17px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Interactive literature map</div>
+      <h1>Awesome XRD to Crystal</h1>
+      <p class="subtitle">Search PXRD-to-crystal papers, code, datasets, and tools by topic, year, method name, venue, or TL;DR. The full curated content is built into this page for fast browsing and sharing.</p>
+      <div class="hero-actions">
+        <a class="button" href="#explore">Explore entries</a>
+        <a class="button secondary" href="https://github.com/Bin-Cao/awesome-xrd2crystal/issues" target="_blank" rel="noopener">Share updates</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="update-band" aria-label="Update note">
+    <div class="update-inner">
+      2026 年 6 月已系统更新，计划在 2027 年 6 月再次系统更新。欢迎各位作者通过 issue 或 PR 分享自己工作的最新进展。<br>
+      Systematically updated in June 2026. The next systematic update is planned for June 2027. Authors are welcome to open issues or pull requests to share updates about their own work.
+    </div>
+  </section>
+
+  <main id="explore">
+    <section class="toolbar" aria-label="Search and filters">
+      <input id="search" type="search" placeholder="Search title, author, model, venue, keyword..." autocomplete="off">
+      <select id="sectionFilter" aria-label="Filter by section">
+        <option value="all">All sections</option>
+      </select>
+      <select id="yearFilter" aria-label="Filter by year">
+        <option value="all">All years</option>
+      </select>
+    </section>
+
+    <section class="stats" aria-label="Summary">
+      <div class="stat"><b id="statEntries">0</b><span>curated entries</span></div>
+      <div class="stat"><b id="statSections">0</b><span>research areas</span></div>
+      <div class="stat"><b id="statYears">0</b><span>years covered</span></div>
+      <div class="stat"><b id="statCode">0</b><span>entries with code</span></div>
+    </section>
+
+    <section class="layout">
+      <aside class="side">
+        <h2>Quick topics</h2>
+        <div id="chips" class="chip-list"></div>
+      </aside>
+
+      <section>
+        <div class="results-head">
+          <h2>Entries</h2>
+          <div id="resultCount" class="count">Loading entries...</div>
+        </div>
+        <div id="results" class="grid"></div>
+      </section>
+    </section>
+  </main>
+
+  <footer>
+    Curated for fast scanning across PXRD-to-crystal identification, generation, decomposition, refinement, autonomous analysis, datasets, and benchmarks.
+  </footer>
+
+  <script>
+    const DATA = {
+      "sections": [
+            "End-to-End PXRD → Crystal Structure (Generative)",
+            "Phase Identification from XRD",
+            "Crystal System / Space Group / Lattice Prediction from XRD",
+            "Multi-phase Decomposition & Rietveld Refinement",
+            "Autonomous / In-situ XRD Analysis",
+            "Datasets & Benchmarks"
+      ],
+      "entries": [
+            {
+                  "section": "End-to-End PXRD → Crystal Structure (Generative)",
+                  "year": "2024",
+                  "name": "CrystalNet",
+                  "tagline": "Coordinate-based VAE for electron density from PXRD",
+                  "title": "Towards end-to-end structure determination from X-ray diffraction data using deep learning",
+                  "authors": "Gabe Guo, Judah Goldfeder, Ling Lan, et al.; senior: Hod Lipson (Columbia University)",
+                  "venue": "*npj Computational Materials* 10, 209 (2024); arXiv:2312.15136",
+                  "paper": "<https://www.nature.com/articles/s41524-024-01401-8> · <https://arxiv.org/abs/2312.15136>",
+                  "code": "<https://github.com/gabeguo/deep-crystallography-public>",
+                  "data": "",
+                  "tldr": "Conditional implicit neural representation predicts a Cartesian-mapped electron-density field from PXRD + composition; up to 93.4% SSIM on cubic test cases, 74.1% average on trigonal."
+            },
+            {
+                  "section": "End-to-End PXRD → Crystal Structure (Generative)",
+                  "year": "2024",
+                  "name": "XtalNet",
+                  "tagline": "Contrastive PXRD-crystal pretraining + conditional equivariant diffusion",
+                  "title": "End-to-End Crystal Structure Prediction from Powder X-Ray Diffraction",
+                  "authors": "Qingsi Lai, Fanjie Xu, Lin Yao, Zhifeng Gao, et al.; senior: Guolin Ke (DP Technology, Beijing) — collab. Peking Univ., Xiamen Univ., AI for Science Institute",
+                  "venue": "*Advanced Science* (2025); arXiv:2401.03862 (Jan 2024)",
+                  "paper": "<https://arxiv.org/abs/2401.03862> · <https://onlinelibrary.wiley.com/doi/10.1002/advs.202410722>",
+                  "code": "<https://github.com/dptech-corp/XtalNet>",
+                  "data": "<https://zenodo.org/records/13629658>",
+                  "tldr": "Two-module pipeline — Contrastive PXRD-Crystal Pretraining (CPCP) + Conditional Crystal Structure Generation (CCSG) — that scales PXRD-conditioned CSP up to MOFs with 400 atoms/cell (90.2%/79% Top-10 match on hMOF-100/400)."
+            },
+            {
+                  "section": "End-to-End PXRD → Crystal Structure (Generative)",
+                  "year": "2024",
+                  "name": "Crystalyze",
+                  "tagline": "XRD encoder + CDVAE diffusion",
+                  "title": "Crystal Structure Determination from Powder Diffraction Patterns with Generative Machine Learning",
+                  "authors": "Eric A. Riesel (MIT), Tsach Mackey (Yale), et al.; seniors: Danna E. Freedman (MIT), Jure Leskovec (Stanford)",
+                  "venue": "*J. Am. Chem. Soc.* 146, 30340–30348 (2024)",
+                  "paper": "<https://pubs.acs.org/doi/10.1021/jacs.4c10244>",
+                  "code": "<https://github.com/ML-PXRD/Crystalyze>",
+                  "data": "",
+                  "tldr": "Pretrained XRD encoder feeding CDVAE; ~42% match rate on experimental and ~67% on simulated patterns; solved previously-unsolved Powder Diffraction File entries."
+            },
+            {
+                  "section": "End-to-End PXRD → Crystal Structure (Generative)",
+                  "year": "2025",
+                  "name": "PXRDnet",
+                  "tagline": "SE(3)-equivariant score-based diffusion for nanocrystalline PXRD",
+                  "title": "Ab initio structure solutions from nanocrystalline powder diffraction data via diffusion models",
+                  "authors": "Gabe Guo (Columbia), Tristan Saidi (Columbia), Maxwell Terban (MPI Solid State Research), Michele Liu (Columbia), Hamed Salimian (Columbia), Simon J. L. Billinge (Columbia/BNL); senior: Hod Lipson (Columbia)",
+                  "venue": "*Nature Materials* 24, 1726–1734 (2025); arXiv:2406.10796",
+                  "paper": "<https://www.nature.com/articles/s41563-025-02220-y> · <https://arxiv.org/abs/2406.10796>",
+                  "code": "<https://github.com/gabeguo/cdvae_xrd>",
+                  "data": "",
+                  "tldr": "Score-based diffusion conditioned on finite-size-broadened PXRD + formula; works on simulated nanocrystals as small as 10 Å and on real experimental patterns spanning all seven crystal systems; median RMSD ≤ 0.11 Å on MP-20-PXRD."
+            },
+            {
+                  "section": "End-to-End PXRD → Crystal Structure (Generative)",
+                  "year": "2025",
+                  "name": "PXRDGen",
+                  "tagline": "Contrastive XRD encoder + flow/diffusion + automated Rietveld",
+                  "title": "Powder diffraction crystal structure determination using generative models",
+                  "authors": "Qi Li (IoP, CAS), Rui Jiao (Tsinghua), Liming Wu, Tiannian Zhu, et al.; seniors: Wenbing Huang (Renmin Univ.), Shifeng Jin (IoP, CAS)",
+                  "venue": "*Nature Communications* 16, 7428 (2025); arXiv:2409.04727",
+                  "paper": "<https://www.nature.com/articles/s41467-025-62708-8> · <https://arxiv.org/abs/2409.04727>",
+                  "code": "<https://codeocean.com/capsule/7727770/tree/v1> (DOI: 10.24433/CO.6347299.v1)",
+                  "data": "",
+                  "tldr": "Contrastive-pretrained XRD encoder + DiffCSP-style diffusion/flow generator + integrated Rietveld refinement; 82% valid compounds from a single sample on MP-20, 96% within 20."
+            },
+            {
+                  "section": "End-to-End PXRD → Crystal Structure (Generative)",
+                  "year": "2025",
+                  "name": "deCIFer",
+                  "tagline": "Autoregressive transformer over CIF tokens conditioned on PXRD",
+                  "title": "deCIFer: Crystal Structure Prediction from Powder Diffraction Data using Autoregressive Language Models",
+                  "authors": "Frederik Lizak Johansen, Ulrik Friis-Jensen, Erik Bjørnager Dam, Kirsten M. Ø. Jensen, Rocío Mercado, Raghavendra Selvan — University of Copenhagen (DIKU & Department of Chemistry)",
+                  "venue": "TMLR / OpenReview 2025; arXiv:2502.02189",
+                  "paper": "<https://arxiv.org/abs/2502.02189> · <https://openreview.net/forum?id=LftFQ35l47>",
+                  "code": "<https://github.com/FrederikLizakJohansen/deCIFer>",
+                  "data": "",
+                  "tldr": "Decoder-only transformer that emits CIF text token-by-token conditioned on PXRD embeddings; ~94% structure match in the author setting on NOMA1/CHILI-100K-derived data."
+            },
+            {
+                  "section": "End-to-End PXRD → Crystal Structure (Generative)",
+                  "year": "2025",
+                  "name": "DiffractGPT / AtomGPT",
+                  "tagline": "Generative pretrained transformer for XRD → structure",
+                  "title": "DiffractGPT: Atomic Structure Determination from X-ray Diffraction Patterns Using a Generative Pretrained Transformer",
+                  "authors": "Kamal Choudhary — NIST, Material Measurement Laboratory (also Johns Hopkins University)",
+                  "venue": "*J. Phys. Chem. Lett.* (2025); arXiv:2508.08349",
+                  "paper": "<https://pubs.acs.org/doi/10.1021/acs.jpclett.4c03137> · <https://arxiv.org/abs/2508.08349>",
+                  "code": "<https://github.com/usnistgov/atomgpt> · <https://github.com/usnistgov/diffractgpt>",
+                  "data": "",
+                  "tldr": "Mistral-style LLM fine-tuned on JARVIS-DFT simulated PXRD to emit CIF-like crystal descriptions; lattice MAE ~0.17–0.27 Å for a/b/c (DGPT-formula)."
+            },
+            {
+                  "section": "End-to-End PXRD → Crystal Structure (Generative)",
+                  "year": "2025",
+                  "name": "Uni-3DAR",
+                  "tagline": "Unified 3D autoregressive generation on compressed spatial tokens",
+                  "title": "Uni-3DAR: Unified 3D Generation and Understanding via Autoregression on Compressed Spatial Tokens",
+                  "authors": "Shuqi Lu, Haowei Lin, Lin Yao, Zhifeng Gao, Xiaohong Ji, Weinan E, Linfeng Zhang, Guolin Ke — DP Technology / Peking Univ. / AISI",
+                  "venue": "arXiv:2503.16278 (Mar 2025)",
+                  "paper": "<https://arxiv.org/abs/2503.16278> · project: <https://uni-3dar.github.io/>",
+                  "code": "<https://github.com/dptech-corp/Uni-3DAR> · weights: <https://huggingface.co/dptech/Uni-3DAR>",
+                  "data": "",
+                  "tldr": "Octree-based hierarchical tokenization + autoregressive 3D modeling; on PXRD-conditioned CSP MP-20 reaches 75.08% match rate, RMSE 0.0276."
+            },
+            {
+                  "section": "End-to-End PXRD → Crystal Structure (Generative)",
+                  "year": "2025",
+                  "name": "CrystaLLM-π",
+                  "tagline": "Property- and PXRD-conditioned CIF language model",
+                  "title": "CrystaLLM-π: Property- and PXRD-Conditioned Generation of Crystal Structures with a CIF Language Model",
+                  "authors": "C-Bone-UCL group (University College London); builds on CrystaLLM (Antunes et al., Univ. of Reading)",
+                  "venue": "preprint / open-source release (2025)",
+                  "paper": "",
+                  "code": "<https://github.com/C-Bone-UCL/CrystaLLM-2.0> · weights: `CrystaLLM-pi_COD-XRD`, `CrystaLLM-pi_Mattergen-XRD` on Hugging Face",
+                  "data": "",
+                  "tldr": "Adds bandgap, density, photovoltaic efficiency and PXRD conditioning streams to the CrystaLLM CIF autoregressive language model. The base model is **CrystaLLM** (Antunes et al., *Nat. Commun.* 15, 10570, 2024) — a GPT-style decoder-only language model trained on millions of CIF files that emits crystal structures as CIF text token by token."
+            },
+            {
+                  "section": "End-to-End PXRD → Crystal Structure (Generative)",
+                  "year": "2026",
+                  "name": "Xrd2Mof - Stable-Diffusion solver for MOF PXRD",
+                  "tagline": "",
+                  "title": "Title: Interpreting X-ray Diffraction Patterns of Metal–Organic Frameworks via Generative Artificial Intelligence",
+                  "authors": "Bin Feng, Bingxu Wang, Linpeng Lv, Mingzheng Zhang, Zhefeng Chen, Feng Pan, Shunning Li(Peking University Shenzhen Graduate School)",
+                  "venue": "*J. Am. Chem. Soc.* 148(1), 869–878 (2026)",
+                  "paper": "<https://pubs.acs.org/doi/10.1021/jacs.5c16416>",
+                  "code": "<https://github.com/PKUsam2023/Xrd2Mof>",
+                  "data": "",
+                  "tldr": "Diffusion-based framework for MOF structure determination from PXRD using coarse-grained representations and chemical priors; >93% accuracy in recovering ground-truth MOF structures."
+            },
+            {
+                  "section": "End-to-End PXRD → Crystal Structure (Generative)",
+                  "year": "2026",
+                  "name": "XRDSol",
+                  "tagline": "Equivariant diffusion solver for inorganic PXRD",
+                  "title": "Equivariant diffusion solution for inorganic crystal structure determination from powder X-ray diffraction data",
+                  "authors": "Dongfang Yu, Zhewen Zhu (Zhejiang Univ. / Westlake Univ.), Fucheng Leng (Univ. College Cork); senior: Yizhou Zhu (Westlake Univ.)",
+                  "venue": "*Nature Communications* 17, 3274 (2026)",
+                  "paper": "<https://www.nature.com/articles/s41467-026-70035-9>",
+                  "code": "<https://github.com/ai4mat-zhu/XRDSol>",
+                  "data": "",
+                  "tldr": "EGNN-based denoising diffusion conditioned on stoichiometry + unit cell + PXRD; ~82.3% success on MP-20, 81.6% on ICDD-20 experimental benchmark; ~0.6 s per solution on one GPU."
+            },
+            {
+                  "section": "End-to-End PXRD → Crystal Structure (Generative)",
+                  "year": "2026",
+                  "name": "RealPXRD-Solver",
+                  "tagline": "Flow-matching solver with experimental augmentation",
+                  "title": "Experimental Powder X-ray Diffraction Crystal Structure Determination with RealPXRD-Solver",
+                  "authors": "Qi Li et al. — Institute of Physics, CAS (with DP Technology, Tsinghua, Renmin Univ., SJTU, AISI)",
+                  "venue": "arXiv:2603.00965 (Mar 2026)",
+                  "paper": "<https://arxiv.org/abs/2603.00965>",
+                  "code": "<https://github.com/liqi-529/RealPXRD-Solver>",
+                  "data": "",
+                  "tldr": "Universal encoder of d-spacing–intensity fingerprints trained on 6,250,238 theoretical structures with experiment-mimicking augmentations; lattice-conditioned and lattice-free modes; 77.9%/91.9% Top-1/Top-20 on CNRS, 78.8%/92.9% on RRUFF; solved 39 previously-unreported PDF entries."
+            },
+            {
+                  "section": "End-to-End PXRD → Crystal Structure (Generative)",
+                  "year": "2026",
+                  "name": "Hybrid Ab-initio PXRD Solver",
+                  "tagline": "Discrete search + continuous optimization",
+                  "title": "Ab-initio Crystal Structure Determination from Powder X-Ray Diffraction",
+                  "authors": "Kaixiang Su, Osman Goni Ridwan, Hongfei Xue; senior: Qiang Zhu — UNC Charlotte",
+                  "venue": "arXiv:2605.24594 (May 2026)",
+                  "paper": "<https://arxiv.org/abs/2605.24594>",
+                  "code": "<https://github.com/MaterSim/Ab-PXRD-Solver>",
+                  "data": "<https://mmi.charlotte.edu/ab_pxrd_solver>",
+                  "tldr": "Hierarchical pipeline: (1) discrete search over space group / unit cell / Wyckoff combinations, (2) continuous coordinate optimization with AI-based peak profile analysis, density estimation, and physics-informed energy constraints."
+            },
+            {
+                  "section": "Phase Identification from XRD",
+                  "year": "2017",
+                  "name": "Iwasaki et al.",
+                  "tagline": "Dissimilarity measures for clustering combinatorial XRD",
+                  "title": "Comparison of dissimilarity measures for cluster analysis of X-ray diffraction data from combinatorial libraries",
+                  "authors": "Yuma Iwasaki (NIMS), A. Gilad Kusne (NIST/UMD), Ichiro Takeuchi (UMD)",
+                  "venue": "*npj Computational Materials* 3, 4 (2017)",
+                  "paper": "<https://www.nature.com/articles/s41524-017-0006-2>",
+                  "code": "",
+                  "data": "",
+                  "tldr": "Systematic comparison of cosine, Pearson, JSD, NCDTW and other dissimilarity measures for grouping XRD patterns of Fe–Co–Ni composition spreads; foundation for downstream unsupervised phase mapping."
+            },
+            {
+                  "section": "Phase Identification from XRD",
+                  "year": "2019",
+                  "name": "Oviedo et al.",
+                  "tagline": "Fast and interpretable XRD classification",
+                  "title": "Fast and interpretable classification of small X-ray diffraction datasets using data augmentation and deep neural networks",
+                  "authors": "Felipe Oviedo (MIT Photovoltaics Research Lab), et al.; senior: Tonio Buonassisi (MIT) — collab. NIST",
+                  "venue": "*npj Computational Materials* 5, 60 (2019)",
+                  "paper": "<https://www.nature.com/articles/s41524-019-0196-x>",
+                  "code": "<https://github.com/PV-Lab/autoXRD>",
+                  "data": "",
+                  "tldr": "Physics-informed augmentation lets 1D a-CNNs train from small experimental XRD sets; introduces CAM-based interpretability for crystal-system / dimensionality / space-group classification of thin films."
+            },
+            {
+                  "section": "Phase Identification from XRD",
+                  "year": "2020",
+                  "name": "Lee et al.",
+                  "tagline": "Deep CNN for multiphase inorganic phase ID",
+                  "title": "A deep-learning technique for phase identification in multiphase inorganic compounds using synthetic XRD powder patterns",
+                  "authors": "Jin-Woong Lee, Woon Bae Park, Jin Hee Lee, Satendra Pal Singh; senior: Kee-Sun Sohn — Sejong University",
+                  "venue": "*Nature Communications* 11, 86 (2020)",
+                  "paper": "<https://www.nature.com/articles/s41467-019-13749-3>",
+                  "code": "",
+                  "data": "",
+                  "tldr": "CNN trained on ~1.78 M simulated PXRD patterns across the Sr-Li-Al-O quaternary; near-perfect identification on experimental multi-phase compounds."
+            },
+            {
+                  "section": "Phase Identification from XRD",
+                  "year": "2020",
+                  "name": "Wang et al.",
+                  "tagline": "Interpretable CNN for one-to-one MOF XRD ID",
+                  "title": "Rapid Identification of X-ray Diffraction Patterns Based on Very Limited Data by Interpretable Convolutional Neural Networks",
+                  "authors": "Hong Wang, Yunchao Xie, Dawei Li, Heng Deng, Yunxin Zhao, Ming Xin; senior: Jian Lin — University of Missouri",
+                  "venue": "*J. Chem. Inf. Model.* 60, 2004–2011 (2020); arXiv:1912.07750",
+                  "paper": "<https://pubs.acs.org/doi/10.1021/acs.jcim.0c00020> · <https://arxiv.org/abs/1912.07750>",
+                  "code": "",
+                  "data": "",
+                  "tldr": "CNN trained on theoretical MOF XRD patterns augmented with noise from limited experiments; 96.7% Top-5 identification accuracy with class-activation interpretation."
+            },
+            {
+                  "section": "Phase Identification from XRD",
+                  "year": "2021",
+                  "name": "Lee et al.",
+                  "tagline": "Phase ID + quantitative phase-fraction prediction",
+                  "title": "A data-driven XRD analysis protocol for phase identification and phase-fraction prediction of multiphase inorganic compounds",
+                  "authors": "Jin-Woong Lee, Woon Bae Park, Minseuk Kim, Satendra Pal Singh, Myoungho Pyo; senior: Kee-Sun Sohn — Sejong University",
+                  "venue": "*Inorganic Chemistry Frontiers* 8, 2492 (2021)",
+                  "paper": "<https://pubs.rsc.org/en/content/articlelanding/2021/qi/d0qi01513j>",
+                  "code": "",
+                  "data": "",
+                  "tldr": "Extends Lee 2020 to the Li-La-Zr-O quaternary; 96.47% test phase-ID accuracy and R² ≈ 0.97 phase-fraction regression on simulated data (91.11% / 0.96 on experimental)."
+            },
+            {
+                  "section": "Phase Identification from XRD",
+                  "year": "2023",
+                  "name": "NeuralXRD",
+                  "tagline": "Synthetic + real ML for transition-metal phase ID",
+                  "title": "Machine Learning-Assisted Close-Set X-ray Diffraction Phase Identification of Transition Metals",
+                  "authors": "Maksim Eremeev et al.",
+                  "venue": "ICLR 2023 ML4Materials Workshop",
+                  "paper": "<https://arxiv.org/abs/2305.15410>",
+                  "code": "<https://github.com/maxnygma/NeuralXRD>",
+                  "data": "",
+                  "tldr": "Combines synthetic phase generation, peak integration, and post-hoc calibration to identify transition-metal phases from XRD; ships demo notebooks operating on COD-derived patterns."
+            },
+            {
+                  "section": "Phase Identification from XRD",
+                  "year": "2024",
+                  "name": "CPICANN",
+                  "tagline": "Convolutional self-attention phase identifier",
+                  "title": "Crystallographic phase identifier of a convolutional self-attention neural network (CPICANN) on powder diffraction patterns",
+                  "authors": "Shouyang Zhang, Bin Cao; senior: Tong-Yi Zhang — HKUST(GZ)",
+                  "venue": "*IUCrJ* 11, 634 (2024)",
+                  "paper": "<https://journals.iucr.org/m/issues/2024/04/00/fc5077/index.html>",
+                  "code": "<https://github.com/WPEM/CPICANN>",
+                  "data": "<https://huggingface.co/datasets/caobin/datasetCPICANN>",
+                  "tldr": "Self-attention–augmented CNN performing whole-pattern phase identification across four benchmarks of varying background and noise level."
+            },
+            {
+                  "section": "Phase Identification from XRD",
+                  "year": "2024",
+                  "name": "MLstructureMining",
+                  "tagline": "ML structure ID from atomic PDFs",
+                  "title": "MLstructureMining: a machine learning tool for structure identification from X-ray pair distribution functions",
+                  "authors": "Emil T. S. Kjær, Andy S. Anker, Andrea Kirsch, et al.; seniors: Simon J. L. Billinge (Columbia), Kirsten M. Ø. Jensen (Copenhagen)",
+                  "venue": "*Digital Discovery* (2024); DOI 10.1039/D4DD00001C",
+                  "paper": "<https://pubs.rsc.org/en/content/articlehtml/2024/dd/d4dd00001c>",
+                  "code": "<https://github.com/EmilSkaaning/MLstructureMining> · <https://github.com/EmilSkaaning/MLstructureMining-workflow>",
+                  "data": "",
+                  "tldr": "Tree-ensemble classifier trained on simulated PDFs to identify candidate structures for in-situ / operando experiments; complements direct PXRD methods on the PDF side."
+            },
+            {
+                  "section": "Phase Identification from XRD",
+                  "year": "2025",
+                  "name": "XQueryer",
+                  "tagline": "1.03 B-parameter transformer crystal identifier",
+                  "title": "XQueryer: an intelligent crystal structure identifier for powder X-ray diffraction",
+                  "authors": "Bin Cao, Zinan Zheng, Yang Liu, Longhan Zhang, Lawrence W. Y. Wong, Lu-Tao Weng, Jia Li, Haoxiang Li, Tong-Yi Zhang — HKUST(GZ) / HKUST",
+                  "venue": "*National Science Review* 12(12), nwaf421 (2025); DOI 10.1093/nsr/nwaf421",
+                  "paper": "<https://doi.org/10.1093/nsr/nwaf421>",
+                  "code": "<https://github.com/Bin-Cao/XQueryer> · benchmark: <https://github.com/WPEM/XqueryerBench>",
+                  "data": "",
+                  "tldr": "1.03 B-parameter transformer trained on ~2 M high-fidelity simulated spectra; integrates with a powder diffractometer for real-time identification and ships RRUFF↔MP ID matching utilities and a PXRD simulator · website: <https://xqueryer.caobin.asia/>."
+            },
+            {
+                  "section": "Crystal System / Space Group / Lattice Prediction from XRD",
+                  "year": "2017",
+                  "name": "Park et al.",
+                  "tagline": "CNN for crystal system / extinction group / space group",
+                  "title": "Classification of crystal structure using a convolutional neural network",
+                  "authors": "Woon Bae Park, Jiyong Chung, Jaeyoung Jung, Keemin Sohn, Satendra Pal Singh, Myoungho Pyo, Namsoo Shin; senior: Kee-Sun Sohn — Sejong University",
+                  "venue": "*IUCrJ* 4, 486–494 (2017)",
+                  "paper": "<https://journals.iucr.org/m/issues/2017/04/00/fc5018/index.html>",
+                  "code": "",
+                  "data": "",
+                  "tldr": "Three CNNs trained on ~150 k synthetic PXRD patterns from ICSD; 94.99% crystal-system, 83.83% extinction-group, 81.14% space-group accuracy."
+            },
+            {
+                  "section": "Crystal System / Space Group / Lattice Prediction from XRD",
+                  "year": "2019",
+                  "name": "Aguiar et al.",
+                  "tagline": "CNN decoding crystallography from electron diffraction",
+                  "title": "Decoding crystallography from high-resolution electron imaging and diffraction datasets with deep learning",
+                  "authors": "Jeffery A. Aguiar (INL/Univ. of Utah), Matthew L. Gong, Raymond Unocic, Tolga Tasdizen, Brian Miller",
+                  "venue": "*Science Advances* 5, eaaw1949 (2019)",
+                  "paper": "<https://www.science.org/doi/10.1126/sciadv.aaw1949>",
+                  "code": "<https://github.com/SCIInstitute/DiffractionClassification>",
+                  "data": "",
+                  "tldr": "CNN trained on 571,340 diffraction patterns across 7 families / 32 genera / 230 space groups; reduces the candidate space groups to the top 2 with >70–95% confidence; cross-validated on alloys and 2D materials."
+            },
+            {
+                  "section": "Crystal System / Space Group / Lattice Prediction from XRD",
+                  "year": "2019",
+                  "name": "Vecsei et al.",
+                  "tagline": "Neural network classification of crystal symmetries",
+                  "title": "Neural network based classification of crystal symmetries from x-ray diffraction patterns",
+                  "authors": "Pascal Marc Vecsei, Kenny Choo; senior: Titus Neupert — University of Zürich",
+                  "venue": "*Phys. Rev. B* 99, 245120 (2019)",
+                  "paper": "<https://journals.aps.org/prb/abstract/10.1103/PhysRevB.99.245120>",
+                  "code": "",
+                  "data": "",
+                  "tldr": "Dense vs. CNN comparison on simulated and RRUFF experimental data — 54% (dense) vs. 42% (CNN) space-group accuracy on RRUFF."
+            },
+            {
+                  "section": "Crystal System / Space Group / Lattice Prediction from XRD",
+                  "year": "2019",
+                  "name": "Liu et al.",
+                  "tagline": "CNN space-group prediction from atomic PDF",
+                  "title": "Using a machine learning approach to determine the space group of a structure from the atomic pair distribution function",
+                  "authors": "Chia-Hao (Timothy) Liu, Yunzhe Tao, Daniel Hsu, Qiang Du; senior: Simon J. L. Billinge — Columbia University",
+                  "venue": "*Acta Crystallographica A* 75, 633–643 (2019)",
+                  "paper": "<https://journals.iucr.org/paper?S2053273319005606> · <https://arxiv.org/abs/1902.00594>",
+                  "code": "",
+                  "data": "",
+                  "tldr": "PDF-based (not direct PXRD) CNN; 91.9% top-6 space-group accuracy on experimental PDF inputs."
+            },
+            {
+                  "section": "Crystal System / Space Group / Lattice Prediction from XRD",
+                  "year": "2020",
+                  "name": "Suzuki et al.",
+                  "tagline": "Interpretable XGBoost for symmetry prediction",
+                  "title": "Symmetry prediction and knowledge discovery from X-ray diffraction patterns using an interpretable machine learning approach",
+                  "authors": "Yuta Suzuki et al. — Toyota Motor Corp. / RIKEN",
+                  "venue": "*Scientific Reports* 10, 21790 (2020)",
+                  "paper": "<https://www.nature.com/articles/s41598-020-77474-4>",
+                  "code": "<https://github.com/quantumbeam/xrd-symmetry-prediction>",
+                  "data": "",
+                  "tldr": "Tree-ensemble (XGBoost) with feature attribution; ~90% crystal-system, ~88% Top-5 space-group accuracy with extraction of human-interpretable rules."
+            },
+            {
+                  "section": "Crystal System / Space Group / Lattice Prediction from XRD",
+                  "year": "2021",
+                  "name": "Chitturi et al.",
+                  "tagline": "1D-CNN lattice parameter prediction (DeepLPnet)",
+                  "title": "Automated prediction of lattice parameters from X-ray powder diffraction patterns",
+                  "authors": "Sathya R. Chitturi (Stanford/SLAC), Daniel Ratner, Richard C. Walroth, Vivek Thampy, Evan J. Reed, Mike Dunne, Christopher J. Tassone; senior: Kevin H. Stone — SLAC",
+                  "venue": "*J. Appl. Crystallogr.* 54, 1799–1810 (2021)",
+                  "paper": "<https://journals.iucr.org/j/issues/2021/06/00/vb5020/>",
+                  "code": "<https://github.com/sathya-chitturi/DeepLPnet>",
+                  "data": "",
+                  "tldr": "Per-crystal-system 1D-CNNs regress a/b/c lattice parameters from raw PXRD; ~10% MAPE corresponds to 100–1000× search-space reduction; trained on ICSD + CSD (~1 M structures)."
+            },
+            {
+                  "section": "Crystal System / Space Group / Lattice Prediction from XRD",
+                  "year": "2023",
+                  "name": "Salgado et al.",
+                  "tagline": "Big-data symmetry CNN (SPGNet)",
+                  "title": "Automated classification of big X-ray diffraction data using deep learning models",
+                  "authors": "Jerardo E. Salgado, Samuel Lerman, Zhaotong Du, Chenliang Xu; senior: Niaz Abdolrahim, Jason Hattrick-Simpers — University of Toronto / Rochester",
+                  "venue": "*npj Computational Materials* 9, 214 (2023)",
+                  "paper": "<https://www.nature.com/articles/s41524-023-01164-8>",
+                  "code": "<https://github.com/AGI-init/XRDs>",
+                  "data": "",
+                  "tldr": "7-way crystal-system + 230-way space-group CNN with augmented synthetic data approximating real experimental noise."
+            },
+            {
+                  "section": "Crystal System / Space Group / Lattice Prediction from XRD",
+                  "year": "2023",
+                  "name": "Schopmans et al.",
+                  "tagline": "Synthetic crystals → ICSD symmetry extraction",
+                  "title": "Neural networks trained on synthetically generated crystals can extract structural information from ICSD powder X-ray diffractograms",
+                  "authors": "Henrik Schopmans, Patrick Reiser; senior: Pascal Friederich — KIT (AiMat group)",
+                  "venue": "*Digital Discovery* 2, 1414 (2023)",
+                  "paper": "<https://pubs.rsc.org/en/content/articlelanding/2023/dd/d3dd00071k>",
+                  "code": "<https://github.com/aimat-lab/ML4pXRDs>",
+                  "data": "",
+                  "tldr": "Models trained on purely synthetic randomly-generated crystals surpass models trained on ICSD itself for space-group classification on ICSD test patterns."
+            },
+            {
+                  "section": "Crystal System / Space Group / Lattice Prediction from XRD",
+                  "year": "2024",
+                  "name": "CrySTINet",
+                  "tagline": "Structure-type assignment from PXRD",
+                  "title": "Crystal Structure Assignment for Unknown Compounds from X-ray Diffraction Patterns with Deep Learning",
+                  "authors": "Litao Chen, Bin Feng, Bingxu Wang, Linpeng Lv, Mingzheng Zhang, Zhefeng Chen, Feng Pan, Shunning Li(Peking University Shenzhen Graduate School)",
+                  "venue": "*J. Am. Chem. Soc.* 146(12), 8098–8109 (2024)",
+                  "paper": "<https://pubs.acs.org/doi/10.1021/jacs.3c11852>",
+                  "code": "<https://github.com/PKUsam2023/CrySTINet>",
+                  "data": "",
+                  "tldr": "RCNet-ensemble framework for assigning unknown inorganic PXRD patterns to 100 crystal structure types; combines neural confidence with global pattern similarity, achieving 80.0% accuracy."
+            },
+            {
+                  "section": "Crystal System / Space Group / Lattice Prediction from XRD",
+                  "year": "2026",
+                  "name": "AlphaDiffract",
+                  "tagline": "1D ConvNeXt for lattice & symmetry determination",
+                  "title": "AlphaDiffract: Automated Crystallographic Analysis of Powder X-ray Diffraction Data",
+                  "authors": "Nina Andrejevic, Ming Du, Hemant Sharma, James P. Horwath, Aileen Luo, Xiangyu Yin, Michael Prince, Brian H. Toby, Mathew J. Cherukara — Argonne National Laboratory",
+                  "venue": "arXiv:2603.23367 (Mar 2026)",
+                  "paper": "<https://arxiv.org/abs/2603.23367>",
+                  "code": "",
+                  "data": "",
+                  "tldr": "1D ConvNeXt backbone on 8192-bin PXRD vectors jointly predicts crystal system, space group, and lattice parameters; trained on GSAS-II-simulated patterns from NIST/ICSD structures; intended as a preprocessing stage for automated Rietveld."
+            },
+            {
+                  "section": "Multi-phase Decomposition & Rietveld Refinement",
+                  "year": "2018",
+                  "name": "Stanev et al.",
+                  "tagline": "Unsupervised NMF phase mapping",
+                  "title": "Unsupervised phase mapping of X-ray diffraction data by nonnegative matrix factorization integrated with custom clustering",
+                  "authors": "Valentin Stanev (UMD / NIST), Velimir V. Vesselinov (LANL), A. Gilad Kusne (NIST / UMD), Graham Antoszewski, Ichiro Takeuchi; senior: Boian S. Alexandrov (LANL)",
+                  "venue": "*npj Computational Materials* 4, 43 (2018); arXiv:1802.07307",
+                  "paper": "<https://www.nature.com/articles/s41524-018-0099-2> · <https://arxiv.org/abs/1802.07307>",
+                  "code": "",
+                  "data": "",
+                  "tldr": "Stacks N PXRD patterns from a composition library into a non-negative matrix and decomposes it into K shared end-member basis patterns and per-sample mixture weights via NMF, with custom clustering and cross-correlation to stabilize K and resolve peak shifts. Unsupervised and requires no candidate phase list, but assumes the same K end-members are shared across the library."
+            },
+            {
+                  "section": "Multi-phase Decomposition & Rietveld Refinement",
+                  "year": "2021",
+                  "name": "Szymanski et al.",
+                  "tagline": "Probabilistic multi-phase decomposition (XRD-AutoAnalyzer)",
+                  "title": "Probabilistic deep learning approach to automate the interpretation of multi-phase diffraction spectra",
+                  "authors": "Nathan J. Szymanski, Christopher J. Bartel, Yan Zeng, Qingsong Tu; senior: Gerbrand Ceder — UC Berkeley / LBNL",
+                  "venue": "*Chemistry of Materials* 33, 4204–4215 (2021); arXiv:2103.16664",
+                  "paper": "<https://pubs.acs.org/doi/10.1021/acs.chemmater.1c01071> · <https://arxiv.org/abs/2103.16664>",
+                  "code": "<https://github.com/njszym/XRD-AutoAnalyzer>",
+                  "data": "",
+                  "tldr": "Ensemble CNN trained on a fixed reference set scores the most likely single phase, subtracts its simulated contribution from the pattern, and recurses on the residual; branching keeps several hypothesis paths to mitigate error accumulation. Handles up to ~4 phases per pattern with quantitative weight fractions and per-call uncertainty, but is bound to the reference phase set used at training time."
+            },
+            {
+                  "section": "Multi-phase Decomposition & Rietveld Refinement",
+                  "year": "2022",
+                  "name": "BraggNN",
+                  "tagline": "Fast Bragg-peak localization with deep learning",
+                  "title": "*BraggNN*: fast X-ray Bragg peak analysis using deep learning",
+                  "authors": "Zhengchun Liu, Hemant Sharma, Jun-Sang Park, Peter Kenesei, Antonino Miceli, Jonathan Almer, Rajkumar Kettimuthu, Ian Foster — Argonne National Laboratory",
+                  "venue": "*IUCrJ* 9, 104–113 (2022)",
+                  "paper": "<https://journals.iucr.org/m/issues/2022/01/00/fs5198/>",
+                  "code": "<https://github.com/lzhengchun/BraggNN>",
+                  "data": "",
+                  "tldr": "Regression DNN that replaces pseudo-Voigt peak fitting at the level of individual Bragg spots in high-energy diffraction microscopy (HEDM). Orders of magnitude faster than conventional per-peak fitting with comparable precision; used as a front-end localizer feeding downstream phase / grain analysis rather than a pattern-level multi-phase decomposer."
+            },
+            {
+                  "section": "Multi-phase Decomposition & Rietveld Refinement",
+                  "year": "2025",
+                  "name": "Spotlight",
+                  "tagline": "Automated global optimization for Rietveld",
+                  "title": "Spotlight: efficient automated global optimization in Rietveld analysis of diffraction data",
+                  "authors": "C. M. Biwer, Z. Feng, D. Finstad, M. McDonnell, M. Knezevic, M. McKerns, D. J. Savage, S. C. Vogel — LANL (X Computational Physics / Materials Science & Tech.), with UNH, Syracuse, ORNL and the UQ Foundation",
+                  "venue": "*Scientific Reports* 15, 8358 (2025)",
+                  "paper": "<https://www.nature.com/articles/s41598-025-92452-4>",
+                  "code": "<https://github.com/lanl/spotlight>",
+                  "data": "",
+                  "tldr": "Python wrapper over MAUD / GSAS / GSAS-II that drives Rietveld refinement of multi-phase samples through an ensemble of optimizers running in parallel on HPC, with an iteratively learned surrogate of the refinement response surface. Targets parametric series (temperature, composition, in-situ time) where simple sequential refinement or DB-matching diverges as phase transformations occur; demonstrated on U–Mo, Ti–6Al–4V, Al₂O₃ and PbSO₄."
+            },
+            {
+                  "section": "Multi-phase Decomposition & Rietveld Refinement",
+                  "year": "2026",
+                  "name": "RAPID",
+                  "tagline": "Rietveld Analysis Pipeline with Intelligent Deep Learning",
+                  "title": "Automation of Rietveld refinement through machine learning",
+                  "authors": "Suk Jin Mun (IBS-CINAP / Sungkyunkwan University), Yoonsoo Nam (Rudolf Peierls Centre for Theoretical Physics, University of Oxford); senior: Sungkyun Choi (IBS-CINAP / SKKU / IBS-CVQS)",
+                  "venue": "*Journal of Applied Crystallography* 59, 564–577 (2026); accepted Feb 2026",
+                  "paper": "<https://journals.iucr.org/j/issues/2026/02/00/yt5169/> · open-access mirror: <https://pmc.ncbi.nlm.nih.gov/articles/PMC13060465/>",
+                  "code": "<https://github.com/DataForgeSci/RAPID>",
+                  "data": "",
+                  "tldr": "Assumes the crystalline phase is already known and trains one CNN per compound on FullProf-simulated patterns to predict structural and profile parameters (lattice, B_iso, scale, U/V/W, zero shift) in a single forward pass. Validated on CeO₂, Tb₂BaCoO₅, PbSO₄ and monoclinic BaLu₆(Ge₂O₇)₂(Ge₃O₁₀) with R-factors matching manual refinement; the authors note that extension to multi-phase mixtures remains future work."
+            },
+            {
+                  "section": "Multi-phase Decomposition & Rietveld Refinement",
+                  "year": "2026",
+                  "name": "XDecomposer",
+                  "tagline": "Prior-free set decomposition for multiphase XRD",
+                  "title": "XDecomposer: Learning Prior-Free Set Decomposition for Multiphase X-ray Diffraction",
+                  "authors": "Hanyu Gao, Bin Cao — co-first; Yunyue Su; Tong-Yi Zhang, Qiang Liu (CASIA, HKUST(GZ))",
+                  "venue": "arXiv:2605.05866 (May 2026)",
+                  "paper": "<https://arxiv.org/abs/2605.05866>",
+                  "code": "<https://github.com/Licht0812/XDecomposer>",
+                  "data": "",
+                  "tldr": "Reformulates multiphase PXRD analysis as one-dimensional blind source separation (BSS): a pretrained global bottleneck encodes peak structure, then a fixed-size set of K_max output slots jointly predicts component patterns + mixture proportions in a single forward pass, trained with permutation-invariant separation loss, slot-activity supervision and mixture-consistency regularization. Avoids the error accumulation of sequential identify-and-subtract and does not require a candidate phase list, structural templates, or the number of phases."
+            },
+            {
+                  "section": "Autonomous / In-situ XRD Analysis",
+                  "year": "2021",
+                  "name": "XCA",
+                  "tagline": "Crystallography Companion Agent",
+                  "title": "Crystallography companion agent for high-throughput materials discovery",
+                  "authors": "Phillip M. Maffettone, Lars Banko, Peng Cui, Yury Lysogorskiy, Marc A. Little, Daniel Olds, Alfred Ludwig, Andrew I. Cooper — Brookhaven National Laboratory (NSLS-II), Ruhr-Universität Bochum, Univ. of Liverpool",
+                  "venue": "*Nature Computational Science* 1, 290–297 (2021)",
+                  "paper": "<https://www.nature.com/articles/s43588-021-00059-2>",
+                  "code": "<https://github.com/maffettone/xca> · examples: <https://github.com/bnl/pub-Maffettone_2020_08>",
+                  "data": "",
+                  "tldr": "Pseudo-unsupervised CNN ensemble trained on fully synthetic, physics-informed diffraction; provides real-time, probabilistic phase identification during high-throughput beam-time experiments."
+            },
+            {
+                  "section": "Autonomous / In-situ XRD Analysis",
+                  "year": "2023",
+                  "name": "Szymanski et al.",
+                  "tagline": "Adaptively driven XRD (Adaptive-XRD)",
+                  "title": "Adaptively driven X-ray diffraction guided by machine learning for autonomous phase identification",
+                  "authors": "Nathan J. Szymanski, Christopher J. Bartel, Yan Zeng, et al.; senior: Gerbrand Ceder — UC Berkeley / LBNL",
+                  "venue": "*npj Computational Materials* 9, 31 (2023)",
+                  "paper": "<https://www.nature.com/articles/s41524-023-00984-y>",
+                  "code": "<https://github.com/njszym/Adaptive-XRD>",
+                  "data": "",
+                  "tldr": "Ensemble CNN predicts phase mixtures with uncertainty; an adaptive policy decides the next 2θ ranges to measure, reducing total measurement time on transient or dilute samples."
+            },
+            {
+                  "section": "Autonomous / In-situ XRD Analysis",
+                  "year": "2023",
+                  "name": "Banko et al.",
+                  "tagline": "Self-supervised PXRD classification of phase transitions",
+                  "title": "Application of self-supervised approaches to the classification of X-ray diffraction spectra during phase transitions",
+                  "authors": "Lars Banko, Phillip M. Maffettone, Dennis Naujoks, Daniel Olds, Alfred Ludwig — Ruhr-Universität Bochum, BNL, DESY",
+                  "venue": "*Scientific Reports* 13, 9173 (2023)",
+                  "paper": "<https://www.nature.com/articles/s41598-023-36456-y>",
+                  "code": "",
+                  "data": "",
+                  "tldr": "Self-supervised relational reasoning + contrastive learning to classify 1D PXRD spectra of in-situ phase transitions recorded at PETRA III (P02.2)."
+            },
+            {
+                  "section": "Autonomous / In-situ XRD Analysis",
+                  "year": "2023",
+                  "name": "A-Lab",
+                  "tagline": "Autonomous materials laboratory closing the synthesis loop",
+                  "title": "An autonomous laboratory for the accelerated synthesis of novel materials",
+                  "authors": "Nathan J. Szymanski, Bernardus Rendy, Yuxing Fei, et al.; senior: Gerbrand Ceder — UC Berkeley / LBNL",
+                  "venue": "*Nature* 624, 86–91 (2023)",
+                  "paper": "<https://www.nature.com/articles/s41586-023-06734-w>",
+                  "code": "",
+                  "data": "",
+                  "tldr": "End-to-end autonomous lab in which ML-based PXRD analysis closes the loop between synthesis attempts and recipe revision; reports 41 successful syntheses in 17 days."
+            },
+            {
+                  "section": "Datasets & Benchmarks",
+                  "year": "2015",
+                  "name": "RRUFF",
+                  "tagline": "Empirical mineral XRD / Raman / IR database",
+                  "title": "The power of databases: the RRUFF project",
+                  "authors": "Barbara Lafuente, Robert T. Downs, Hexiong Yang, Nate Stone — University of Arizona",
+                  "venue": "*Highlights in Mineralogical Crystallography*, De Gruyter (2015)",
+                  "paper": "<https://www.degruyter.com/document/doi/10.1515/9783110417104-003>",
+                  "code": "",
+                  "data": "",
+                  "tldr": "Curated experimental XRD / Raman / IR / chemistry database for minerals; the most widely used experimental benchmark for PXRD ML methods."
+            },
+            {
+                  "section": "Datasets & Benchmarks",
+                  "year": "2023",
+                  "name": "ML4pXRDs",
+                  "tagline": "Synthetic-crystal training pipeline",
+                  "title": "",
+                  "authors": "Schopmans et al. — KIT (AiMat group)",
+                  "venue": "",
+                  "paper": "<https://pubs.rsc.org/en/content/articlehtml/2023/dd/d3dd00071k> · <https://arxiv.org/abs/2303.11699>",
+                  "code": "<https://github.com/aimat-lab/ML4pXRDs>",
+                  "data": "",
+                  "tldr": "Reference pipeline for training symmetry classifiers from synthetically generated random crystals and evaluating against ICSD patterns (companion to Schopmans 2023)."
+            },
+            {
+                  "section": "Datasets & Benchmarks",
+                  "year": "2024",
+                  "name": "CHILI-3K / CHILI-100K",
+                  "tagline": "Nanomaterials graph + scattering dataset",
+                  "title": "CHILI: Chemically-Informed Large-scale Inorganic Nanomaterials Dataset for Advancing Graph Machine Learning",
+                  "authors": "Ulrik Friis-Jensen, Frederik L. Johansen, Andy S. Anker, Erik B. Dam, Kirsten M. Ø. Jensen, Raghavendra Selvan — University of Copenhagen",
+                  "venue": "*KDD* 2024; arXiv:2402.13221",
+                  "paper": "<https://arxiv.org/abs/2402.13221>",
+                  "code": "",
+                  "data": "",
+                  "tldr": "Nanomaterials graph dataset with 11 classification (atom, crystal system, space group) and 8 regression tasks including PXRD, ND, SAXS, SANS, xPDF, nPDF."
+            },
+            {
+                  "section": "Datasets & Benchmarks",
+                  "year": "2025",
+                  "name": "SimXRD-4M",
+                  "tagline": "Large simulated PXRD benchmark",
+                  "title": "SimXRD-4M: Big Simulated X-ray Diffraction Data and Crystal Symmetry Classification Benchmark",
+                  "authors": "Bin Cao et al. — HKUST(GZ)",
+                  "venue": "*ICLR* 2025; arXiv:2406.15469",
+                  "paper": "<https://openreview.net/forum?id=mkuB677eMM> · <https://arxiv.org/abs/2406.15469>",
+                  "code": "",
+                  "data": "",
+                  "tldr": "4,065,346 PXRD patterns from 119,569 distinct structures simulated under varying grain size, orientation, internal stress, inelastic scattering and thermal vibration; benchmarks 21 sequence models."
+            },
+            {
+                  "section": "Datasets & Benchmarks",
+                  "year": "2025",
+                  "name": "SIMPOD",
+                  "tagline": "COD-based 1D and 2D PXRD benchmark",
+                  "title": "A new benchmark for machine learning applied to powder X-ray diffraction",
+                  "authors": "Sergio Rincón, et al.; senior: Pablo Arbeláez — Universidad de los Andes",
+                  "venue": "*Scientific Data* 12 (2025)",
+                  "paper": "<https://www.nature.com/articles/s41597-025-05534-3>",
+                  "code": "",
+                  "data": "",
+                  "tldr": "467,861 simulated PXRD patterns sourced from COD in both 1D-vector and 2D radial-image format."
+            },
+            {
+                  "section": "Datasets & Benchmarks",
+                  "year": "2025/2026",
+                  "name": "opXRD",
+                  "tagline": "Open experimental PXRD database",
+                  "title": "opXRD: Open Experimental Powder X-Ray Diffraction Database",
+                  "authors": "Daniel Hollarek, Henrik Schopmans, Jona Östreicher, Jonas Teufel, et al.; senior: Pascal Friederich — KIT (AiMat group), with 18 contributing labs",
+                  "venue": "*Advanced Intelligent Discovery* 2, e202500044 (2026); arXiv:2503.05577",
+                  "paper": "<https://arxiv.org/abs/2503.05577>",
+                  "code": "",
+                  "data": "",
+                  "tldr": "~92 k labeled + unlabeled experimental PXRD patterns aggregated from multiple high-throughput labs, covering many materials classes."
+            },
+            {
+                  "section": "Datasets & Benchmarks",
+                  "year": "2025",
+                  "name": "CrystDB / HKUST-CrystDB",
+                  "tagline": "Curated crystal databases for XRD / CSP / CPP",
+                  "title": "CrystDB / HKUST-CrystDB (Hugging Face datasets)",
+                  "authors": "",
+                  "venue": "",
+                  "paper": "",
+                  "code": "",
+                  "data": "",
+                  "tldr": "Two ASE-readable crystal databases targeted at XRD-based identification, crystal-property prediction (CPP), and crystal-structure prediction (CSP); each row exposes atomic species, fractional coordinates, lattice, and space group."
+            }
+      ]
+};
+
+    const state = {
+      entries: DATA.entries,
+      sections: DATA.sections,
+      query: "",
+      section: "all",
+      year: "all"
+    };
+
+    const els = {
+      search: document.querySelector("#search"),
+      sectionFilter: document.querySelector("#sectionFilter"),
+      yearFilter: document.querySelector("#yearFilter"),
+      chips: document.querySelector("#chips"),
+      results: document.querySelector("#results"),
+      resultCount: document.querySelector("#resultCount"),
+      statEntries: document.querySelector("#statEntries"),
+      statSections: document.querySelector("#statSections"),
+      statYears: document.querySelector("#statYears"),
+      statCode: document.querySelector("#statCode")
+    };
+
+    function escapeHtml(value) {
+      return String(value || "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#39;"
+      }[char]));
+    }
+
+    function inlineMarkdown(value) {
+      const escaped = escapeHtml(value || "");
+      return escaped
+        .replace(/`([^`]+)`/g, "<code>$1</code>")
+        .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+        .replace(/\*([^*]+)\*/g, "<em>$1</em>")
+        .replace(/&lt;(https?:\/\/[^&]+)&gt;/g, (_, url) => `<a href="${url}" target="_blank" rel="noopener">${url.replace(/^https?:\/\//, "")}</a>`);
+    }
+
+    function option(label, value) {
+      const node = document.createElement("option");
+      node.value = value;
+      node.textContent = label;
+      return node;
+    }
+
+    function initControls() {
+      state.sections.forEach(section => {
+        els.sectionFilter.appendChild(option(section, section));
+      });
+
+      const years = [...new Set(state.entries.flatMap(entry => entry.year.match(/\d{4}/g) || [entry.year]))].sort((a, b) => b.localeCompare(a));
+      years.forEach(year => els.yearFilter.appendChild(option(year, year)));
+
+      els.chips.innerHTML = "";
+      ["all", ...state.sections].forEach(section => {
+        const button = document.createElement("button");
+        button.className = "chip" + (section === "all" ? " active" : "");
+        button.type = "button";
+        button.dataset.section = section;
+        button.textContent = section === "all" ? "All" : section.replace(" from XRD", "").replace("PXRD → Crystal Structure ", "PXRD → Structure ");
+        button.addEventListener("click", () => {
+          state.section = section;
+          els.sectionFilter.value = section;
+          document.querySelectorAll(".chip").forEach(chip => chip.classList.toggle("active", chip.dataset.section === section));
+          render();
+        });
+        els.chips.appendChild(button);
+      });
+
+      els.search.addEventListener("input", event => {
+        state.query = event.target.value.trim().toLowerCase();
+        render();
+      });
+
+      els.sectionFilter.addEventListener("change", event => {
+        state.section = event.target.value;
+        document.querySelectorAll(".chip").forEach(chip => chip.classList.toggle("active", chip.dataset.section === state.section));
+        render();
+      });
+
+      els.yearFilter.addEventListener("change", event => {
+        state.year = event.target.value;
+        render();
+      });
+    }
+
+    function entryText(entry) {
+      return [
+        entry.section,
+        entry.year,
+        entry.name,
+        entry.tagline,
+        entry.title,
+        entry.authors,
+        entry.venue,
+        entry.paper,
+        entry.code,
+        entry.data,
+        entry.tldr
+      ].join(" ").toLowerCase();
+    }
+
+    function filteredEntries() {
+      return state.entries.filter(entry => {
+        const matchesQuery = !state.query || entryText(entry).includes(state.query);
+        const matchesSection = state.section === "all" || entry.section === state.section;
+        const matchesYear = state.year === "all" || entry.year.includes(state.year);
+        return matchesQuery && matchesSection && matchesYear;
+      });
+    }
+
+    function links(entry) {
+      const items = [];
+      const addLinks = (label, text) => {
+        const urls = [...(text || "").matchAll(/https?:\/\/[^\s>)]+/g)].map(match => match[0]);
+        urls.forEach((url, index) => items.push(`<a href="${url}" target="_blank" rel="noopener">${label}${urls.length > 1 ? ` ${index + 1}` : ""}</a>`));
+      };
+
+      addLinks("Paper", entry.paper);
+      addLinks("Code", entry.code);
+      addLinks("Data", entry.data);
+      return items.join("");
+    }
+
+    function render() {
+      const entries = filteredEntries();
+      els.resultCount.textContent = `${entries.length} of ${state.entries.length} entries`;
+
+      if (!entries.length) {
+        els.results.className = "";
+        els.results.innerHTML = `<div class="empty">No entries match the current search and filters.</div>`;
+        return;
+      }
+
+      els.results.className = "grid";
+      els.results.innerHTML = entries.map(entry => `
+        <article class="card">
+          <div class="meta">
+            <span class="pill year">${escapeHtml(entry.year)}</span>
+            <span class="pill">${escapeHtml(entry.section)}</span>
+          </div>
+          <h3>${escapeHtml(entry.name)}</h3>
+          ${entry.tagline ? `<p class="tagline">${escapeHtml(entry.tagline)}</p>` : ""}
+          ${entry.tldr ? `<p class="tldr">${inlineMarkdown(entry.tldr)}</p>` : ""}
+          <div class="detail">
+            ${entry.title ? `<div><strong>Title:</strong> ${inlineMarkdown(entry.title)}</div>` : ""}
+            ${entry.venue ? `<div><strong>Venue:</strong> ${inlineMarkdown(entry.venue)}</div>` : ""}
+            ${entry.authors ? `<div><strong>Authors:</strong> ${inlineMarkdown(entry.authors)}</div>` : ""}
+          </div>
+          <div class="links">${links(entry)}</div>
+        </article>
+      `).join("");
+    }
+
+    function renderStats() {
+      const years = new Set(state.entries.flatMap(entry => entry.year.match(/\d{4}/g) || [entry.year]));
+      els.statEntries.textContent = state.entries.length;
+      els.statSections.textContent = state.sections.length;
+      els.statYears.textContent = years.size;
+      els.statCode.textContent = state.entries.filter(entry => entry.code).length;
+    }
+
+    initControls();
+    renderStats();
+    render();
+  </script>
+</body>
+</html>
