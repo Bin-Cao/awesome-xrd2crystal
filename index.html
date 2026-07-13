@@ -26,6 +26,8 @@
       box-sizing: border-box;
     }
 
+    html { scroll-behavior: smooth; }
+
     body {
       margin: 0;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -74,6 +76,63 @@
       background-size: 58px 58px;
       mask-image: linear-gradient(90deg, #000 0%, transparent 74%);
     }
+
+    .site-nav {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2;
+      width: 100%;
+      border-bottom: 1px solid rgba(220, 244, 255, 0.14);
+    }
+
+    .site-nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: min(1180px, calc(100% - 40px));
+      min-height: 72px;
+      margin: 0 auto;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 28px;
+      height: 28px;
+      place-items: center;
+      border: 1px solid rgba(164, 255, 241, 0.55);
+      border-radius: 8px;
+      background: rgba(115, 241, 219, 0.12);
+      color: #bdfff5;
+      font-size: 15px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      color: rgba(239, 249, 255, 0.8);
+      font-size: 13px;
+      font-weight: 650;
+      text-decoration: none;
+    }
+
+    .nav-links a:hover { color: #c9fff6; }
 
     .hero-inner {
       position: relative;
@@ -148,6 +207,13 @@
       color: #fff;
     }
 
+    .button .arrow {
+      margin-left: 8px;
+      transition: transform 180ms ease;
+    }
+
+    .button:hover .arrow { transform: translateX(3px); }
+
     .update-band {
       background: linear-gradient(90deg, #e8fffb, #f8fffe);
       border-block: 1px solid #c8eee9;
@@ -186,6 +252,41 @@
       box-shadow: 0 10px 28px rgba(24, 32, 43, 0.08);
       backdrop-filter: blur(12px);
     }
+
+    .field {
+      position: relative;
+    }
+
+    .field label {
+      position: absolute;
+      top: 5px;
+      left: 13px;
+      z-index: 1;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.07em;
+      pointer-events: none;
+      text-transform: uppercase;
+    }
+
+    .field input,
+    .field select {
+      padding: 17px 12px 5px;
+    }
+
+    .search-field::after {
+      content: "⌕";
+      position: absolute;
+      top: 9px;
+      right: 13px;
+      color: var(--accent-dark);
+      font-size: 22px;
+      font-weight: 400;
+      pointer-events: none;
+    }
+
+    .search-field input { padding-right: 42px; }
 
     input,
     select {
@@ -273,6 +374,13 @@
       font-size: 16px;
     }
 
+    .side-copy {
+      margin: -4px 0 14px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
     .chip-list {
       display: flex;
       flex-wrap: wrap;
@@ -298,6 +406,11 @@
       background: #d9f9f4;
       color: #075d55;
       box-shadow: 0 4px 10px rgba(15, 150, 136, 0.12);
+    }
+
+    .chip:hover:not(.active) {
+      border-color: #b6c9dc;
+      background: #fff;
     }
 
     .results-head {
@@ -385,7 +498,6 @@
 
     .detail {
       display: grid;
-      gap: 6px;
       gap: 7px;
       padding-top: 12px;
       border-top: 1px solid var(--line);
@@ -412,6 +524,14 @@
       color: var(--accent-dark);
       font-size: 12px;
       font-weight: 750;
+      text-decoration: none;
+      transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+    }
+
+    .links a:hover {
+      border-color: #8accc3;
+      background: #eafff9;
+      transform: translateY(-1px);
       text-decoration: none;
     }
 
@@ -445,6 +565,10 @@
       .grid {
         grid-template-columns: 1fr;
       }
+
+      .site-nav-inner {
+        min-height: 62px;
+      }
     }
 
     @media (max-width: 560px) {
@@ -463,6 +587,16 @@
         padding-top: 72px;
       }
 
+      .nav-links a:not(.nav-github) {
+        display: none;
+      }
+
+      .site-nav-inner {
+        width: min(100% - 28px, 1180px);
+      }
+
+      .brand { font-size: 13px; }
+
       h1 {
         font-size: 42px;
       }
@@ -474,13 +608,22 @@
   </style>
 </head>
 <body>
-  <header class="hero">
+  <header class="hero" id="top">
+    <nav class="site-nav" aria-label="Primary navigation">
+      <div class="site-nav-inner">
+        <a class="brand" href="#top" aria-label="Awesome XRD to Crystal home"><span class="brand-mark">✦</span>Awesome XRD to Crystal</a>
+        <div class="nav-links">
+          <a href="#explore">Explore</a>
+          <a href="https://github.com/Bin-Cao/awesome-xrd2crystal" target="_blank" rel="noopener" class="nav-github">GitHub ↗</a>
+        </div>
+      </div>
+    </nav>
     <div class="hero-inner">
       <div class="eyebrow">Interactive literature map</div>
       <h1>Awesome XRD to Crystal</h1>
       <p class="subtitle">Search PXRD-to-crystal papers, code, datasets, and tools by topic, year, method name, venue, or TL;DR. The full curated content is built into this page for fast browsing and sharing.</p>
       <div class="hero-actions">
-        <a class="button" href="#explore">Explore entries</a>
+        <a class="button" href="#explore">Explore entries <span class="arrow">→</span></a>
         <a class="button secondary" href="https://github.com/Bin-Cao/awesome-xrd2crystal/issues" target="_blank" rel="noopener">Share updates</a>
       </div>
     </div>
@@ -495,13 +638,22 @@
 
   <main id="explore">
     <section class="toolbar" aria-label="Search and filters">
-      <input id="search" type="search" placeholder="Search title, author, model, venue, keyword..." autocomplete="off">
-      <select id="sectionFilter" aria-label="Filter by section">
-        <option value="all">All sections</option>
-      </select>
-      <select id="yearFilter" aria-label="Filter by year">
-        <option value="all">All years</option>
-      </select>
+      <div class="field search-field">
+        <label for="search">Search library</label>
+        <input id="search" type="search" placeholder="Title, author, model, venue, keyword..." autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="sectionFilter">Research area</label>
+        <select id="sectionFilter" aria-label="Filter by section">
+          <option value="all">All sections</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="yearFilter">Publication year</label>
+        <select id="yearFilter" aria-label="Filter by year">
+          <option value="all">All years</option>
+        </select>
+      </div>
     </section>
 
     <section class="stats" aria-label="Summary">
@@ -514,6 +666,7 @@
     <section class="layout">
       <aside class="side">
         <h2>Quick topics</h2>
+        <p class="side-copy">Choose a focus area to narrow the literature map.</p>
         <div id="chips" class="chip-list"></div>
       </aside>
 
