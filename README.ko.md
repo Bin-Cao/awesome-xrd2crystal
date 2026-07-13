@@ -13,7 +13,11 @@
 
 **Language:** [English](README.md) · [中文](README.zh-CN.md) · [日本語](README.ja.md) · **한국어** · [Español](README.es.md) · [Deutsch](README.de.md)
 
-**Interactive view:** [검색 가능한 HTML 페이지 열기](index.html)
+> [!TIP]
+> ## ✨ 인터랙티브 문헌 지도 둘러보기
+> **[검색 가능한 XRD-to-Crystal Explorer 열기 →](https://bin-cao.github.io/awesome-xrd2crystal/)**
+>
+> 이 사이트는 이 저장소의 [`index.html`](index.html) 인터랙티브 버전입니다. 전체 항목을 검색하고 연구 분야 또는 연도로 필터링할 수 있습니다.
 
 > **업데이트 안내:** 이 저장소는 **2026년 6월**에 체계적으로 업데이트되었습니다. 다음 체계적 업데이트는 **2027년 6월**로 예정되어 있습니다. 저자 여러분이 자신의 연구 업데이트를 issue 또는 PR로 공유하는 것을 환영합니다.
 

@@ -13,7 +13,11 @@
 
 **Language:** [English](README.md) · **中文** · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Deutsch](README.de.md)
 
-**交互版：** [打开可搜索 HTML 页面](index.html)
+> [!TIP]
+> ## ✨ 在线交互式文献地图
+> **[打开可搜索的 XRD-to-Crystal Explorer →](https://bin-cao.github.io/awesome-xrd2crystal/)**
+>
+> 此在线页面即为本仓库 [`index.html`](index.html) 的交互式版本，可搜索全部条目，并按研究方向或年份筛选。
 
 > **更新说明：** 本仓库已于 **2026 年 6 月**完成系统更新，计划在 **2027 年 6 月**再次进行系统更新。也欢迎各位作者通过 issue 或 PR 分享自己工作的最新进展。
 

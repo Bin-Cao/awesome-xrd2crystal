@@ -13,7 +13,11 @@
 
 **Language:** [English](README.md) · [中文](README.zh-CN.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · **Deutsch**
 
-**Interactive view:** [Durchsuchbaren HTML-Explorer öffnen](index.html)
+> [!TIP]
+> ## ✨ Interaktive Literaturkarte erkunden
+> **[Durchsuchbaren XRD-to-Crystal Explorer öffnen →](https://bin-cao.github.io/awesome-xrd2crystal/)**
+>
+> Diese Website ist die interaktive Version von [`index.html`](index.html) in diesem Repository: Durchsuchen Sie alle Einträge und filtern Sie nach Forschungsbereich oder Jahr.
 
 > **Update-Hinweis:** Dieses Repository wurde im **Juni 2026** systematisch aktualisiert. Die nächste systematische Aktualisierung ist für **Juni 2027** geplant. Autorinnen und Autoren sind eingeladen, Updates zu ihrer eigenen Arbeit per Issue oder PR beizutragen.
 

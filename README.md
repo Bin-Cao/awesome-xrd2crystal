@@ -13,7 +13,11 @@
 
 **Language:** **English** · [中文](README.zh-CN.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Deutsch](README.de.md)
 
-**Interactive view:** [Open the searchable HTML explorer](index.html)
+> [!TIP]
+> ## ✨ Explore the interactive literature map
+> **[Open the searchable XRD-to-Crystal Explorer →](https://bin-cao.github.io/awesome-xrd2crystal/)**
+>
+> This live site is the interactive version of this repository's [`index.html`](index.html): search the complete collection and filter entries by research area or year.
 
 > **Update note:** This repository was systematically updated in **June 2026**. The next systematic update is planned for **June 2027**. Authors are welcome to open an issue or PR to share updates about their own work.
 
