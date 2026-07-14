@@ -450,6 +450,17 @@
       box-shadow: var(--shadow);
     }
 
+    .card.featured {
+      border: 2px solid #d66b3d;
+      background: linear-gradient(135deg, #fffdf8 0%, #fff 58%, #f2fffc 100%);
+      box-shadow: 0 10px 26px rgba(214, 107, 61, 0.14);
+    }
+
+    .card.featured:hover {
+      border-color: #b6512c;
+      box-shadow: 0 16px 34px rgba(214, 107, 61, 0.22);
+    }
+
     .meta {
       display: flex;
       flex-wrap: wrap;
@@ -472,6 +483,11 @@
     .pill.year {
       background: #e2f8f5;
       color: #08766d;
+    }
+
+    .pill.featured {
+      background: #d66b3d;
+      color: #fff;
     }
 
     .card h3 {
@@ -972,6 +988,7 @@
                   "section": "Phase Identification from XRD",
                   "year": "2025",
                   "name": "XQueryer",
+                  "featured": true,
                   "tagline": "1.03 B-parameter transformer crystal identifier",
                   "title": "XQueryer: an intelligent crystal structure identifier for powder X-ray diffraction",
                   "authors": "Bin Cao, Zinan Zheng, Yang Liu, Longhan Zhang, Lawrence W. Y. Wong, Lu-Tao Weng, Jia Li, Haoxiang Li, Tong-Yi Zhang — HKUST(GZ) / HKUST",
@@ -1180,6 +1197,7 @@
                   "section": "Multi-phase Decomposition & Rietveld Refinement",
                   "year": "2026",
                   "name": "XDecomposer",
+                  "featured": true,
                   "tagline": "Prior-free set decomposition for multiphase XRD",
                   "title": "XDecomposer: Learning Prior-Free Set Decomposition for Multiphase X-ray Diffraction",
                   "authors": "Hanyu Gao, Bin Cao — co-first; Yunyue Su; Tong-Yi Zhang, Qiang Liu (CASIA, HKUST(GZ))",
@@ -1284,6 +1302,7 @@
                   "section": "Datasets & Benchmarks",
                   "year": "2025",
                   "name": "SimXRD-4M",
+                  "featured": true,
                   "tagline": "Large simulated PXRD benchmark",
                   "title": "SimXRD-4M: Big Simulated X-ray Diffraction Data and Crystal Symmetry Classification Benchmark",
                   "authors": "Bin Cao et al. — HKUST(GZ)",
@@ -1323,6 +1342,7 @@
                   "section": "Datasets & Benchmarks",
                   "year": "2025",
                   "name": "CrystDB / HKUST-CrystDB",
+                  "featured": true,
                   "tagline": "Curated crystal databases for XRD / CSP / CPP",
                   "title": "CrystDB / HKUST-CrystDB (Hugging Face datasets)",
                   "authors": "",
@@ -1473,9 +1493,10 @@
 
       els.results.className = "grid";
       els.results.innerHTML = entries.map(entry => `
-        <article class="card">
+        <article class="card${entry.featured ? " featured" : ""}">
           <div class="meta">
             <span class="pill year">${escapeHtml(entry.year)}</span>
+            ${entry.featured ? `<span class="pill featured">Featured</span>` : ""}
             <span class="pill">${escapeHtml(entry.section)}</span>
           </div>
           <h3>${escapeHtml(entry.name)}</h3>
